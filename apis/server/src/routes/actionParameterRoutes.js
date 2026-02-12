@@ -22,6 +22,7 @@ router.post('/import', actionParameterController.import);
 
 // CRUD операции
 router.get('/action/:actionId', actionParameterController.getByAction);
+router.get('/', actionParameterController.getAll);
 router.get('/:id', actionParameterController.getById);
 router.post('/', validate(parameterValidator.validate), actionParameterController.create);
 router.put('/:id', validate(parameterValidator.validate, true), actionParameterController.update);

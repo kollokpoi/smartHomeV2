@@ -1,25 +1,27 @@
 // helpers/validators/parameterValidator.js
 class ParameterValidator {
-  static validate(data) {
+  static validate(data, isUpdate = false) {
     const errors = [];
 
-    // ID действия
-    if (!data.actionId) {
+    // ID действия - только для создания
+    if (!isUpdate && !data.actionId) {
       errors.push({ field: 'actionId', message: 'ID действия обязателен' });
     }
 
-    // Местоположение
-    const validLocations = ['body', 'query', 'path', 'headers'];
-    if (!data.location) {
+    // Местоположение - только для создания
+    if (!isUpdate && !data.location) {
       errors.push({ field: 'location', message: 'Местоположение параметра обязательно' });
-    } else if (!validLocations.includes(data.location)) {
-      errors.push({ field: 'location', message: 'Местоположение должно быть body, query, path или headers' });
+    } else if (data.location !== undefined) {
+      const validLocations = ['body', 'query', 'path', 'headers'];
+      if (!validLocations.includes(data.location)) {
+        errors.push({ field: 'location', message: 'Местоположение должно быть body, query, path или headers' });
+      }
     }
 
-    // Ключ
-    if (!data.key) {
+    // Ключ - только для создания
+    if (!isUpdate && !data.key) {
       errors.push({ field: 'key', message: 'Ключ параметра обязателен' });
-    } else {
+    } else if (data.key !== undefined) {
       const keyRegex = /^[a-zA-Z_][a-zA-Z0-9_\-]*$/;
       if (!keyRegex.test(data.key)) {
         errors.push({ field: 'key', message: 'Ключ может содержать только буквы, цифры, дефис и подчеркивание' });
@@ -30,13 +32,15 @@ class ParameterValidator {
     }
 
     // Тип данных
-    const validTypes = ['string', 'number', 'boolean', 'json', 'array'];
-    if (data.type && !validTypes.includes(data.type)) {
-      errors.push({ field: 'type', message: 'Тип должен быть string, number, boolean, json или array' });
+    if (data.type !== undefined) {
+      const validTypes = ['string', 'number', 'boolean', 'json', 'array'];
+      if (!validTypes.includes(data.type)) {
+        errors.push({ field: 'type', message: 'Тип должен быть string, number, boolean, json или array' });
+      }
     }
 
     // Content-Type (только для body)
-    if (data.contentType) {
+    if (data.contentType !== undefined) {
       const validContentTypes = ['json', 'formdata', 'x-www-form-urlencoded', 'plain'];
       if (!validContentTypes.includes(data.contentType)) {
         errors.push({ field: 'contentType', message: 'Content-Type должен быть json, formdata, x-www-form-urlencoded или plain' });
@@ -98,6 +102,11 @@ class ParameterValidator {
       if (data.sortOrder < 0) {
         errors.push({ field: 'sortOrder', message: 'Порядок сортировки не может быть отрицательным' });
       }
+    }
+
+    // Активность
+    if (data.isActive !== undefined && typeof data.isActive !== 'boolean') {
+      errors.push({ field: 'isActive', message: 'Поле isActive должно быть true или false' });
     }
 
     return errors;

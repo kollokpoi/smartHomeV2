@@ -117,7 +117,7 @@ class ActionParameterController {
     const transaction = await ActionParameter.sequelize.transaction();
     
     try {
-      const errors = await parameterValidator.validate(req.body);
+      const errors = parameterValidator.validate(req.body);
       if (errors.length > 0) {
         return res.status(400).json({
           success: false,
@@ -175,7 +175,7 @@ class ActionParameterController {
       // Валидируем каждый параметр
       const errors = [];
       for (const param of parameters) {
-        const paramErrors = await parameterValidator.validate({
+        const paramErrors = parameterValidator.validate({
           ...param,
           actionId
         });
@@ -306,11 +306,6 @@ class ActionParameterController {
           message: 'Параметр не найден'
         });
       }
-
-      const errors = await parameterValidator.validate(
-        { ...req.body, actionId: parameter.actionId }, 
-        true
-      );
       
       if (errors.length > 0) {
         await transaction.rollback();
