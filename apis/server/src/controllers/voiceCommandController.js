@@ -1,5 +1,4 @@
-// controllers/voiceCommandController.js
-const { VoiceCommand, Action } = require('../models');
+const { VoiceCommand, Action, Device } = require('../models'); // 👈 ДОБАВИЛ Device!
 const { voiceCommandValidator } = require('../helpers/validators');
 const actionController = require('./actionController');
 const PaginationHelper = require('../helpers/paginationHelper');
@@ -32,41 +31,34 @@ class VoiceCommandController {
 
       const where = {};
 
-      // Фильтр по действию
       if (actionId) {
         where.action_id = actionId;
       }
 
-      // Фильтр по языку
       if (language) {
         where.language = language;
       }
 
-      // Фильтр по активности
       if (isActive !== undefined) {
         where.is_active = isActive === 'true';
       }
 
-      // Фильтр по приоритету
       if (minPriority !== undefined || maxPriority !== undefined) {
         where.priority = {};
         if (minPriority !== undefined) where.priority[Op.gte] = parseInt(minPriority);
         if (maxPriority !== undefined) where.priority[Op.lte] = parseInt(maxPriority);
       }
 
-      // Фильтр по количеству использований
       if (minUsageCount !== undefined) {
         where.usage_count = { [Op.gte]: parseInt(minUsageCount) };
       }
 
-      // Фильтр по дате последнего использования
       if (lastUsedFrom || lastUsedTo) {
         where.last_used = {};
         if (lastUsedFrom) where.last_used[Op.gte] = new Date(lastUsedFrom);
         if (lastUsedTo) where.last_used[Op.lte] = new Date(lastUsedTo);
       }
 
-      // Поиск по тексту команды
       if (search) {
         where.command = { [Op.like]: `%${search.toLowerCase()}%` };
       }
@@ -76,31 +68,22 @@ class VoiceCommandController {
           model: Action,
           as: 'action',
           attributes: ['id', 'name', 'path', 'method'],
-          include: deviceId ? [
-            {
+          ...(deviceId && {
+            include: [{
               model: Device,
               as: 'device',
-              where: deviceId ? { id: deviceId } : {},
+              where: { id: deviceId },
               attributes: ['id', 'name', 'ip']
-            }
-          ] : []
+            }]
+          })
         }
       ];
 
-      // Фильтр по устройству
-      if (deviceId && !include[0].include) {
-        include[0].include = [{
-          model: Device,
-          as: 'device',
-          where: { id: deviceId },
-          attributes: ['id', 'name', 'ip']
-        }];
-      }
-
       const allowedSortFields = [
-        'command', 'language', 'priority', 'usageCount', 
+        'command', 'language', 'priority', 'usageCount',
         'lastUsed', 'createdAt', 'sortOrder'
       ];
+
       const order = PaginationHelper.getSortingParams(sortBy, sortOrder, allowedSortFields);
 
       const { count, rows } = await VoiceCommand.findAndCountAll({
@@ -121,12 +104,14 @@ class VoiceCommandController {
       next(error);
     }
   }
-
   async getByAction(req, res, next) {
     try {
       const commands = await VoiceCommand.findAll({
-        where: { actionId: req.params.actionId },
-        order: [['priority', 'DESC'], ['command', 'ASC']]
+        where: { action_id: req.params.actionId }, 
+        order: [
+          ['priority', 'DESC'],
+          ['command', 'ASC']
+        ]
       });
 
       res.json({
@@ -138,83 +123,44 @@ class VoiceCommandController {
     }
   }
 
- async process(req, res, next) {
+  async getById(req, res, next) {
     try {
-      const { command, language = 'ru-RU' } = req.body;
-
-      if (!command) {
-        return res.status(400).json({
-          success: false,
-          message: 'Команда не передана'
-        });
-      }
-
-      // 1. Находим голосовую команду по тексту
-      const voiceCommand = await VoiceCommand.findOne({
-        where: {
-          command: command.toLowerCase().trim(),
-          language,
-          is_active: true
-        },
+      const command = await VoiceCommand.findByPk(req.params.id, {
         include: [{
           model: Action,
           as: 'action',
-          required: true
+          include: [{
+            model: Device,
+            as: 'device'
+          }]
         }]
       });
 
-      if (!voiceCommand) {
+      if (!command) {
         return res.status(404).json({
           success: false,
           message: 'Команда не найдена'
         });
       }
 
-      // 2. Регистрируем использование голосовой команды
-      await voiceCommand.registerUse();
-
-      // 3. Перенаправляем на execute контроллера action
-      // Создаем mock req/res для вызова actionController.execute
-      const mockReq = {
-        params: { id: voiceCommand.actionId },
-        body: {},
-        query: {}
-      };
-
-      const mockRes = {
-        json: (data) => data,
-        status: (code) => ({
-          json: (data) => ({ ...data, statusCode: code })
-        })
-      };
-
-      // 4. Выполняем действие
-      const actionController = require('./actionController');
-      const result = await actionController.execute(mockReq, mockRes, (err) => { throw err; });
-
-      // 5. Возвращаем результат
       res.json({
         success: true,
-        data: {
-          voice_command: {
-            id: voiceCommand.id,
-            command: voiceCommand.command
-          },
-          action_result: result
-        }
+        data: command
       });
-
     } catch (error) {
       next(error);
     }
   }
 
-  // Создание голосовой команды (привязка текста к Action)
   async create(req, res, next) {
     try {
+      const errors = voiceCommandValidator.validate(req.body, false);
+      if (errors.length > 0) {
+        return res.status(400).json({ success: false, errors });
+      }
+
       const { actionId, command, language = 'ru-RU', priority = 0 } = req.body;
 
-      // Проверяем существование действия
       const action = await Action.findByPk(actionId);
       if (!action) {
         return res.status(404).json({
@@ -223,7 +169,6 @@ class VoiceCommandController {
         });
       }
 
-      // Проверяем уникальность команды
       const existing = await VoiceCommand.findOne({
         where: {
           command: command.toLowerCase().trim(),
@@ -244,25 +189,107 @@ class VoiceCommandController {
         language,
         priority,
         isActive: true,
-        usageCount: 0,
-        parameters: {} // Больше не храним параметры здесь!
+        usageCount: 0
       });
 
       res.status(201).json({
         success: true,
         data: voiceCommand
       });
-
     } catch (error) {
       next(error);
     }
   }
 
-  // Обновление команды
+  async bulkCreate(req, res, next) {
+    const transaction = await VoiceCommand.sequelize.transaction();
+
+    try {
+      const { actionId, commands } = req.body;
+
+      if (!Array.isArray(commands)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Команды должны быть массивом'
+        });
+      }
+
+      const action = await Action.findByPk(actionId);
+      if (!action) {
+        await transaction.rollback();
+        return res.status(404).json({
+          success: false,
+          message: 'Действие не найдено'
+        });
+      }
+
+      const errors = [];
+      for (const cmd of commands) {
+        const cmdErrors = voiceCommandValidator.validate({
+          ...cmd,
+          actionId
+        }, false);
+
+        if (cmdErrors.length > 0) {
+          errors.push(...cmdErrors.map(e => ({
+            ...e,
+            commandText: cmd.command
+          })));
+        }
+      }
+
+      if (errors.length > 0) {
+        await transaction.rollback();
+        return res.status(400).json({ success: false, errors });
+      }
+
+      // Проверяем уникальность команд
+      for (const cmd of commands) {
+        const existing = await VoiceCommand.findOne({
+          where: {
+            command: cmd.command.toLowerCase().trim(),
+            language: cmd.language || 'ru-RU'
+          }
+        });
+
+        if (existing) {
+          await transaction.rollback();
+          return res.status(409).json({
+            success: false,
+            message: `Команда "${cmd.command}" уже существует`
+          });
+        }
+      }
+
+      const createdCommands = await VoiceCommand.bulkCreate(
+        commands.map(cmd => ({
+          actionId,
+          command: cmd.command.toLowerCase().trim(),
+          language: cmd.language || 'ru-RU',
+          priority: cmd.priority || 0,
+          isActive: cmd.isActive ?? true,
+          usageCount: 0
+        })),
+        { transaction }
+      );
+
+      await transaction.commit();
+
+      res.status(201).json({
+        success: true,
+        data: createdCommands,
+        count: createdCommands.length
+      });
+    } catch (error) {
+      await transaction.rollback();
+      next(error);
+    }
+  }
+
   async update(req, res, next) {
     try {
       const command = await VoiceCommand.findByPk(req.params.id);
-      
+
       if (!command) {
         return res.status(404).json({
           success: false,
@@ -270,13 +297,27 @@ class VoiceCommandController {
         });
       }
 
-      const errors = await voiceCommandValidator.validate(
-        { ...req.body, id: command.id, actionId: command.actionId }, 
-        true
-      );
-      
+      // 👈 ВАЛИДАЦИЯ С isUpdate = true!
+      const errors = voiceCommandValidator.validate(req.body, true);
       if (errors.length > 0) {
         return res.status(400).json({ success: false, errors });
+      }
+
+      // Проверяем уникальность команды если меняется текст
+      if (req.body.command && req.body.command.toLowerCase().trim() !== command.command) {
+        const existing = await VoiceCommand.findOne({
+          where: {
+            command: req.body.command.toLowerCase().trim(),
+            language: req.body.language || command.language
+          }
+        });
+
+        if (existing) {
+          return res.status(409).json({
+            success: false,
+            message: 'Такая команда уже существует'
+          });
+        }
       }
 
       await command.update(req.body);
@@ -290,11 +331,10 @@ class VoiceCommandController {
     }
   }
 
-  // Удаление команды
   async delete(req, res, next) {
     try {
       const command = await VoiceCommand.findByPk(req.params.id);
-      
+
       if (!command) {
         return res.status(404).json({
           success: false,
@@ -313,7 +353,120 @@ class VoiceCommandController {
     }
   }
 
-  // Получение статистики команд
+  async bulkDelete(req, res, next) {
+    const transaction = await VoiceCommand.sequelize.transaction();
+
+    try {
+      const { ids } = req.body;
+
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Массив ID команд обязателен'
+        });
+      }
+
+      const deleted = await VoiceCommand.destroy({
+        where: {
+          id: { [Op.in]: ids }
+        },
+        transaction
+      });
+
+      await transaction.commit();
+
+      res.json({
+        success: true,
+        message: `Удалено команд: ${deleted}`,
+        count: deleted
+      });
+    } catch (error) {
+      await transaction.rollback();
+      next(error);
+    }
+  }
+
+  async process(req, res, next) {
+    try {
+      const errors = voiceCommandValidator.validateProcess(req.body);
+      if (errors.length > 0) {
+        return res.status(400).json({ success: false, errors });
+      }
+
+      const { command, language = 'ru-RU' } = req.body;
+
+      const voiceCommand = await VoiceCommand.findOne({
+        where: {
+          command: command.toLowerCase().trim(),
+          language,
+          is_active: true
+        },
+        include: [{
+          model: Action,
+          as: 'action',
+          required: true
+        }]
+      });
+
+      if (!voiceCommand) {
+        return res.status(404).json({
+          success: false,
+          message: 'Команда не найдена'
+        });
+      }
+
+      await voiceCommand.registerUse();
+
+      let executeResult = null;
+
+      const mockReq = {
+        params: { id: voiceCommand.actionId },
+        body: {},
+        query: {}
+      };
+
+      const mockRes = {
+        json: (data) => {
+          executeResult = data;
+          return data;
+        },
+        status: (code) => ({
+          json: (data) => {
+            executeResult = { ...data, statusCode: code };
+            return executeResult;
+          }
+        })
+      };
+
+      // Выполняем действие
+      await actionController.execute(mockReq, mockRes, (err) => { throw err; });
+
+      // Возвращаем ОБЪЕДИНЕННЫЙ ответ
+      res.json({
+        success: true,
+        data: {
+          voice_command: {
+            id: voiceCommand.id,
+            command: voiceCommand.command,
+            language: voiceCommand.language,
+            priority: voiceCommand.priority
+          },
+          action: {
+            id: executeResult?.data?.action?.id || voiceCommand.actionId,
+            name: executeResult?.data?.action?.name,
+            method: executeResult?.data?.request?.method,
+            url: executeResult?.data?.request?.url
+          },
+          device: executeResult?.data?.device,
+          request: executeResult?.data?.request,
+          response: executeResult?.data?.response
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getStats(req, res, next) {
     try {
       const total = await VoiceCommand.count();

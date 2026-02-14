@@ -1,6 +1,4 @@
 // models/VoiceCommand.js
-const VoiceCommandValidator = require("../helpers/validators/voiceCommandValidator");
-
 module.exports = (sequelize, DataTypes) => {
   const VoiceCommand = sequelize.define(
     "VoiceCommand",
@@ -20,15 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       command: {
-        type: DataTypes.STRING(100), 
+        type: DataTypes.STRING(100),
         allowNull: false,
-        validate: {
-          notNull: { msg: "Текст команды обязателен" },
-          len: {
-            args: [2, 500],
-            msg: "Команда должна быть от 2 до 500 символов",
-          },
-        },
         set(value) {
           this.setDataValue("command", value.toLowerCase().trim());
         },
@@ -36,32 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       language: {
         type: DataTypes.STRING(10),
         defaultValue: "ru-RU",
-        validate: {
-          isValidLanguage(value) {
-            if (!VoiceCommandValidator.isValidLanguage(value)) {
-              throw new Error("Неподдерживаемый язык");
-            }
-          },
-        },
-      },
-      parameters: {
-        type: DataTypes.JSON,
-        defaultValue: {},
-        get() {
-          const rawValue = this.getDataValue("parameters");
-          return rawValue ? JSON.parse(rawValue) : {};
-        },
-        set(value) {
-          this.setDataValue("parameters", JSON.stringify(value || {}));
-        },
       },
       priority: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
-        validate: {
-          min: { args: [0], msg: "Приоритет должен быть от 0 до 100" },
-          max: { args: [100], msg: "Приоритет должен быть от 0 до 100" },
-        },
       },
       isActive: {
         type: DataTypes.BOOLEAN,
@@ -81,9 +50,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         field: "sort_order",
         defaultValue: 0,
-        validate: {
-          isInt: { msg: "Порядок сортировки должен быть целым числом" },
-        },
       },
     },
     {
@@ -91,7 +57,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       underscored: true,
 
-      // 👉 ИНДЕКСЫ ТЕПЕРЬ РАБОТАЮТ - command это STRING, не TEXT!
       indexes: [
         {
           fields: ["command"],
@@ -107,7 +72,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       ],
 
-      // 👉 ХУКИ - ТВОИ РОДНЫЕ!
       hooks: {
         beforeValidate: async (command) => {
           if (command.command) {
@@ -120,7 +84,6 @@ module.exports = (sequelize, DataTypes) => {
           );
         },
       },
-
 
       scopes: {
         active: {
@@ -150,7 +113,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  // 👉 МЕТОДЫ ЭКЗЕМПЛЯРА
   VoiceCommand.prototype.registerUse = async function () {
     this.usageCount = (this.usageCount || 0) + 1;
     this.lastUsed = new Date();

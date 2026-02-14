@@ -1,14 +1,16 @@
 class VoiceCommandValidator {
-  static validate(data) {
+  static validate(data, isUpdate = false) {
     const errors = [];
 
-    if (!data.actionId) {
+    // ID действия - только для создания
+    if (!isUpdate && !data.actionId) {
       errors.push({ field: "actionId", message: "ID действия обязателен" });
     }
 
-    if (!data.command) {
+    // Команда
+    if (!isUpdate && !data.command) {
       errors.push({ field: "command", message: "Текст команды обязателен" });
-    } else {
+    } else if (data.command !== undefined) {
       if (data.command.length < 2) {
         errors.push({
           field: "command",
@@ -23,10 +25,14 @@ class VoiceCommandValidator {
       }
     }
 
-    if (data.language && !VoiceCommandValidator.isValidLanguage(data.language)) {
-      errors.push({ field: 'language', message: 'Язык должен быть ru-RU, en-US, uk-UA, tr-TR или kk-KZ' });
+    // Язык
+    if (data.language !== undefined) {
+      if (!VoiceCommandValidator.isValidLanguage(data.language)) {
+        errors.push({ field: 'language', message: 'Язык должен быть ru-RU, en-US, uk-UA, tr-TR или kk-KZ' });
+      }
     }
     
+    // Приоритет
     if (data.priority !== undefined) {
       if (!Number.isInteger(data.priority)) {
         errors.push({
@@ -72,17 +78,12 @@ class VoiceCommandValidator {
       }
     }
 
-    // Параметры (deprecated, но проверяем формат)
+    // Параметры - УБИРАЕМ НАХУЙ! они deprecated
     if (data.parameters !== undefined) {
-      if (
-        typeof data.parameters !== "object" ||
-        Array.isArray(data.parameters)
-      ) {
-        errors.push({
-          field: "parameters",
-          message: "Параметры должны быть объектом",
-        });
-      }
+      errors.push({
+        field: "parameters",
+        message: "Параметры больше не поддерживаются, используйте ActionParameter",
+      });
     }
 
     return errors;
@@ -102,10 +103,7 @@ class VoiceCommandValidator {
       errors.push({ field: "command", message: "Команда должна быть строкой" });
     }
 
-    if (
-      data.language &&
-      !VoiceCommandValidator.isValidLanguage(data.language)
-    ) {
+    if (data.language && !VoiceCommandValidator.isValidLanguage(data.language)) {
       errors.push({ field: "language", message: "Неподдерживаемый язык" });
     }
 

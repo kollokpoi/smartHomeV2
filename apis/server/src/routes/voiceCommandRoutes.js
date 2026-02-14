@@ -6,10 +6,15 @@ const { validate } = require('../middlewares/validate');
 const { voiceCommandValidator } = require('../helpers/validators');
 
 router.get('/stats', voiceCommandController.getStats);
+router.get('/', voiceCommandController.getAll);
 router.get('/action/:actionId', voiceCommandController.getByAction);
 router.post('/', validate(voiceCommandValidator.validate), voiceCommandController.create);
+
+router.post('/bulk', voiceCommandController.bulkCreate);
+router.delete('/bulk', voiceCommandController.bulkDelete);
+
 router.post('/process', voiceCommandController.process);
 router.put('/:id', validate(voiceCommandValidator.validate, true), voiceCommandController.update);
-router.delete('/:id', voiceCommandController.delete);
+router.post('/', validate(voiceCommandValidator.validate), voiceCommandController.create);
 
 module.exports = router;
