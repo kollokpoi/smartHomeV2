@@ -6,7 +6,7 @@
         <div class="flex flex-col h-full">
           <div class="shrink-0 p-6 border-b border-gray-200">
             <router-link to="/">
-              <span class="text-xl font-bold text-gray-900">AdminPanel</span>
+              <span class="text-xl font-bold text-foreground-dark">AdminPanel</span>
             </router-link>
           </div>
 

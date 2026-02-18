@@ -1,6 +1,4 @@
 // models/Action.js
-const ActionValidator = require("../helpers/validators/actionValidator");
-
 module.exports = (sequelize, DataTypes) => {
   const Action = sequelize.define(
     "Action",
