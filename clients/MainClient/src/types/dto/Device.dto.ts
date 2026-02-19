@@ -1,5 +1,3 @@
-// types/Device.ts
-// types/Device.ts
 import type { Action, BaseAttributes, Metadata } from '.';
 import type { ActionAttributes } from '.';
 
@@ -10,13 +8,12 @@ export interface DeviceAttributes extends BaseAttributes {
   name: string;
   handlerPath?: string | null;
   description?: string | null;
-  metadata?: Record<string, any>;
+  metadata?: Metadata;
   status?: DeviceStatus;
   sortOrder?: number;
   isActive?: boolean;
   lastSeen?: Date | null;
   
-  // Relations
   actions?: ActionAttributes[];
 }
 
@@ -34,7 +31,6 @@ export class Device {
   createdAt: Date;
   updatedAt: Date;
   
-  // Relations
   actions?: Action[];
 
   constructor(data: DeviceAttributes) {

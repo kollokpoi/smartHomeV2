@@ -1,7 +1,6 @@
-import type { ApiResponse } from '@/types/api'
+import { type ApiResponse } from '@/types/api'
 import { apiService } from './api.service'
 import type { AxiosRequestConfig } from 'axios'
-
 
 export abstract class BaseService {
   protected async get<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
