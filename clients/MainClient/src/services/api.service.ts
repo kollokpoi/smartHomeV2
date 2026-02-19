@@ -6,7 +6,7 @@ import router from '@/router'
 
 import type { ApiErrorResponse, ApiResponse } from '@/types/api'
 
-const API_BASE_URL = 'http://192.168.0.30:3001/api'
+const API_BASE_URL = 'http://127.0.0.1:3000/api'
 
 export class ApiService {
   private axiosInstance: AxiosInstance

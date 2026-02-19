@@ -4,7 +4,7 @@ import { useThemeStore } from './stores/themeStore'
 
 const themeStore = useThemeStore()
 
-onMounted(() => {
+onMounted(async () => {
   themeStore.initTheme()
 })
 </script>

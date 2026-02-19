@@ -10,6 +10,4 @@ export interface BaseFilters {
     isActive?: boolean | string;
 }
 
-export interface PaginatedRequest<TFilters = Record<string, any>> extends PaginationParams {
-    filters?: TFilters;
-}
+export type PaginatedRequest<TFilters = Record<string, any>> = PaginationParams & TFilters
