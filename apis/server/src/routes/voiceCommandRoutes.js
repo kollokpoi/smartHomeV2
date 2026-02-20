@@ -1,7 +1,7 @@
 // routes/voiceCommandRoutes.js
 const express = require('express');
 const router = express.Router();
-const voiceCommandController = require('../controllers/voiceCommandController');
+const {voiceCommandController} = require('../controllers');
 const { validate } = require('../middlewares/validate');
 const { voiceCommandValidator } = require('../helpers/validators');
 

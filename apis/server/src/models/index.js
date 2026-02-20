@@ -22,6 +22,7 @@ const Device = require('./Device')(sequelize, DataTypes);
 const Action = require('./Action')(sequelize, DataTypes);
 const ActionParameter = require('./ActionParameter')(sequelize, DataTypes);
 const VoiceCommand = require('./VoiceCommand')(sequelize, DataTypes);
+const User = require('./User')(sequelize, DataTypes);
 
 // Связи
 Device.hasMany(Action, { 
@@ -62,5 +63,6 @@ module.exports = {
   Device,
   Action,
   ActionParameter,
-  VoiceCommand
+  VoiceCommand,
+  User
 };

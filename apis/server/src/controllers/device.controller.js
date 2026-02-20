@@ -1,4 +1,4 @@
-const { Device, Action, ActionParameter, VoiceCommand } = require("../models");
+const { Device, Action, ActionParameter, VoiceCommand, sequelize } = require("../models");
 const { deviceValidator } = require("../helpers/validators");
 const PaginationHelper = require('../helpers/paginationHelper');
 const { Op } = require('sequelize');
@@ -60,12 +60,10 @@ class DeviceController {
 
       // Поиск по тексту
       if (search) {
-        where[Op.or] = [
-          { name: { [Op.like]: `%${search}%` } },
-          { ip: { [Op.like]: `%${search}%` } },
-          { description: { [Op.like]: `%${search}%` } },
-          { handler_path: { [Op.like]: `%${search}%` } },
-        ];
+        const searchFields = [
+          'name','ip','description','handler_path'
+        ]
+        where[Op.or] = PaginationHelper.createSearchCondition(search,searchFields,Op);
       }
 
       // Разрешенные поля для сортировки

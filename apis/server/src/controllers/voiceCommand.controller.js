@@ -1,6 +1,6 @@
 const { VoiceCommand, Action, Device } = require('../models'); // 👈 ДОБАВИЛ Device!
 const { voiceCommandValidator } = require('../helpers/validators');
-const actionController = require('./actionController');
+const {actionController} = require('./action.controller');
 const PaginationHelper = require('../helpers/paginationHelper');
 const { Op } = require('sequelize');
 

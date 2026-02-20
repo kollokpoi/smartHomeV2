@@ -41,12 +41,12 @@ class PaginationHelper {
   /**
    * Создает where условие для поиска по тексту
    */
-  static createSearchCondition(search, fields, sequelize) {
+  static createSearchCondition(search, fields, Op) {
     if (!search) return {};
     
     return {
-      [sequelize.Op.or]: fields.map(field => ({
-        [field]: { [sequelize.Op.like]: `%${search}%` }
+      [Op.or]: fields.map(field => ({
+        [field]: { [Op.like]: `%${search}%` }
       }))
     };
   }

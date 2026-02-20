@@ -1,7 +1,7 @@
 // routes/actionParameterRoutes.js
 const express = require('express');
 const router = express.Router();
-const actionParameterController = require('../controllers/actionParameterController');
+const {actionParameterController} = require('../controllers');
 const { validate } = require('../middlewares/validate');
 const { parameterValidator } = require('../helpers/validators');
 

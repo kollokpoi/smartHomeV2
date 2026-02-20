@@ -10,7 +10,7 @@ class DeviceService extends BaseService {
         config?: AxiosRequestConfig
     ): Promise<ApiPaginationResponse<Device[]>> {
         const response = await this.get<DeviceAttributes[]>(
-            '/devicawdes/', 
+            '/devices/', 
             {
                 ...config,
                 params
