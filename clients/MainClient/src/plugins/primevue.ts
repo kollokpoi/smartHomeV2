@@ -2,8 +2,10 @@ import PrimeVue from "primevue/config";
 import MyPreset from "./primeVuePreset";
 
 import Button from "primevue/button";
-import Menu from "primevue/menu";
 import Toast from "primevue/toast";
+import DataTable from "primevue/datatable"
+import Column from "primevue/column";
+import ConfirmDialog from "primevue/confirmdialog"
 
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
@@ -26,7 +28,9 @@ export default {
     app.use(ConfirmationService);
 
     app.component("Button", Button);
-    app.component("Menu", Menu);
     app.component("Toast", Toast);
+    app.component("DataTable",DataTable)
+    app.component("Column",Column)
+    app.component("ConfirmDialog",ConfirmDialog)
   },
 };

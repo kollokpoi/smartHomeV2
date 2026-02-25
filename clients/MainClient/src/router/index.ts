@@ -4,20 +4,20 @@ import type { RouteRecordRaw } from "vue-router";
 import Layout from "@/layouts/AppLayout.vue";
 
 const DeviceList = () => import("@/views/device/List.vue");
-const DeviceDetail = () => import("@/views/device/List.vue");
-const DeviceCreate = () => import("@/views/device/List.vue");
+const DeviceDetail = () => import("@/views/device/Detail.vue");
+const DeviceCreate = () => import("@/views/device/Create.vue");
 
 const ActionList = () => import("@/views/action/List.vue");
-const ActionDetail = () => import("@/views/action/List.vue");
-const ActionCreate = () => import("@/views/action/List.vue");
+const ActionDetail = () => import("@/views/action/Detail.vue");
+const ActionCreate = () => import("@/views/action/Create.vue");
 
 const ActionParameterList = () => import("@/views/actionParameter/List.vue");
-const ActionParameterDetail = () => import("@/views/actionParameter/List.vue");
-const ActionParameterCreate = () => import("@/views/actionParameter/List.vue");
+const ActionParameterDetail = () => import("@/views/actionParameter/Detail.vue");
+const ActionParameterCreate = () => import("@/views/actionParameter/Create.vue");
 
 const VoiceCommandList = () => import("@/views/voiceCommand/List.vue");
-const VoiceCommandDetail = () => import("@/views/voiceCommand/List.vue");
-const VoiceCommandCreate = () => import("@/views/voiceCommand/List.vue");
+const VoiceCommandDetail = () => import("@/views/voiceCommand/Detail.vue");
+const VoiceCommandCreate = () => import("@/views/voiceCommand/Create.vue");
 
 const Home = () => import("@/views/Home.vue");
 
@@ -89,11 +89,11 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: "",
-        name: "ActionList",
-        component: ActionList,
+        path: "create",
+        name: "ActionCreate",
+        component: ActionCreate,
         meta: {
-          title: "Список действий",
+          title: "Создание действий",
           requiresAuth: false,
         },
       },
@@ -107,11 +107,11 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "create",
-        name: "ActionCreate",
-        component: ActionCreate,
+        path: "",
+        name: "ActionList",
+        component: ActionList,
         meta: {
-          title: "Создание действий",
+          title: "Список действий",
           requiresAuth: false,
         },
       },
@@ -125,11 +125,11 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: "",
-        name: "ActionParameterList",
-        component: ActionParameterList,
+        path: "create",
+        name: "ActionParameterCreate",
+        component: ActionParameterCreate,
         meta: {
-          title: "Список параметров",
+          title: "Создание параметров",
           requiresAuth: false,
         },
       },
@@ -143,14 +143,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "create",
-        name: "ActionParameterCreate",
-        component: ActionParameterCreate,
+        path: "",
+        name: "ActionParameterList",
+        component: ActionParameterList,
         meta: {
-          title: "Создание параметров",
+          title: "Список параметров",
           requiresAuth: false,
         },
       },
+
     ],
   },
   {

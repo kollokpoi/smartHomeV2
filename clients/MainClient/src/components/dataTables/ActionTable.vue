@@ -1,0 +1,148 @@
+<template>
+    <DataTable 
+        :value="actions" 
+        :loading="loading" 
+        :row-class="rowClass" 
+        @row-click="onRowClick" 
+        striped-rows 
+        @row-contextmenu="onRowContextMenu"
+        :contextMenu="true"
+    >
+        <Column header="Название" field="name" sortable>
+            <template #body="{ data }">
+                <p class="font-bold">{{ data.name }}</p>
+            </template>
+        </Column>
+        <Column header="Устройство" field="device.name" sortable>
+            <template #body="{ data }">
+                <p class="font-bold">{{ data.device.name }}</p>
+            </template>
+        </Column>
+        <Column header="Путь">
+            <template #body="{ data }">
+                <p>{{ getAdress(data) }}</p>
+            </template>
+        </Column>
+        <Column header="Описание" field="description">
+            <template #body="{ data }">
+                <p>{{ truncateString(data.description, 50) }}</p>
+            </template>
+        </Column>
+        <Column header="Последний вызов" field="lastCall" sortable>
+            <template #body="{ data }">
+                <p>{{ formatDate(data.lastCall) }}</p>
+            </template>
+        </Column>
+        <Column header="Количество вызовов" field="callCount" sortable>
+            <template #body="{ data }">
+                <p class="text-center">{{ data.callCount }}</p>
+            </template>
+        </Column>
+        <Column header="Действия">
+            <template #body="{ data }">
+                <div class="relative">
+                    <Button icon="pi pi-ellipsis-h" text @click.stop="showMenu($event, data)" aria-haspopup="true" />
+                </div>
+            </template>
+        </Column>
+    </DataTable>
+    
+    <ContextMenu ref="contextMenuRef" :model="menuItems" />
+    <ConfirmDialog :draggable="true" />
+</template>
+
+<script setup lang="ts">
+import { formatDate } from '@/helpers/formatDate';
+import { truncateString } from '@/helpers/truncateString';
+import { Action } from '@/types/dto';
+import { ContextMenu, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+interface Props {
+    actions: Action[]
+    loading: boolean
+}
+interface Emits {
+    (e: 'deleted'): void
+}
+
+const props = defineProps<Props>()
+const emits = defineEmits<Emits>()
+const contextMenuRef = ref<InstanceType<typeof ContextMenu> | null>(null)
+const toast = useToast()
+const confirm = useConfirm()
+const router = useRouter();
+
+const selectedAction = ref<Action | null>(null);
+
+const rowClass = () => {
+    const classes = ['cursor-pointer']
+    return classes.join(' ')
+}
+
+// ПРАВЫЙ КЛИК - открываем контекстное меню
+const onRowContextMenu = (event: DataTableRowContextMenuEvent) => {
+    contextMenuRef.value?.show(event.originalEvent)
+    selectedAction.value = event.data
+}
+
+// ЛЕВЫЙ КЛИК - переход
+const onRowClick = (event: DataTableRowClickEvent<Action>) => {
+    const data = event.data;
+    viewAction(data)
+}
+
+const getAdress = (data: Action): string => {
+    return `${data.method} ${data.path}:${data.port}`
+}
+
+const viewAction = function (action: Action) {
+    router.push(`/action/${action.id}`)
+}
+
+// Меню для контекстного меню
+const menuItems = computed(() => {
+    if (!selectedAction.value) return []
+
+    const action = selectedAction.value
+
+    return [
+        {
+            label: 'Просмотреть',
+            icon: 'pi pi-eye',
+            command: () => viewAction(action)
+        },
+        {
+            label: 'Редактировать',
+            icon: 'pi pi-pencil',
+            command: () => router.push(`/action/${action.id}/edit`)
+        },
+        {
+            label: 'Удалить',
+            icon: 'pi pi-trash',
+            command: () => confirmDelete(action)
+        }
+    ]
+})
+
+// Меню для кнопки с тремя точками (если нужно оставить)
+const showMenu = (event: Event, action: Action) => {
+    event.stopPropagation()
+    event.preventDefault()
+    selectedAction.value = action
+    contextMenuRef.value?.show(event) // используем то же меню
+}
+
+const confirmDelete = (action: Action) => {
+    confirm.require({
+        message: `Удалить действие "${action.name}"?`,
+        header: 'Подтверждение удаления',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            // логика удаления
+            emits('deleted')
+        }
+    })
+}
+</script>

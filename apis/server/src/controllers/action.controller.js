@@ -253,7 +253,6 @@ class ActionController {
 
   async execute(req, res, next) {
     try {
-      // Загружаем действие со всеми его параметрами
       const action = await Action.findByPk(req.params.id, {
         include: [
           {
