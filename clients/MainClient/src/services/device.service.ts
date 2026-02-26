@@ -1,22 +1,25 @@
 import type { DeviceFilters, PaginatedRequest } from "@/types/searchParams";
 import { BaseService } from "./base.service";
 import type { AxiosRequestConfig } from "axios";
-import type { ApiPaginationResponse } from "@/types/api";
+import type { ApiPaginationResponse, ApiResponse } from "@/types/api";
 import { Device, type DeviceAttributes } from "@/types/dto";
 
 class DeviceService extends BaseService {
     async getList(
-        params?: PaginatedRequest<DeviceFilters>, 
+        params?: PaginatedRequest<DeviceFilters>,
         config?: AxiosRequestConfig
-    ): Promise<ApiPaginationResponse<Device[]>> {
+    ): Promise<ApiResponse<Device[]>> {
         const response = await this.get<DeviceAttributes[]>(
-            '/devices/', 
+            '/devices/',
             {
                 ...config,
                 params
             }
         )
-        
+        if (response.success) {
+            response.data = response.data.map(item => new Device(item))
+        }
+
         return response as ApiPaginationResponse<Device[]>
     }
 }

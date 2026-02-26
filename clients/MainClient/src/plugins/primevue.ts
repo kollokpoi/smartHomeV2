@@ -2,10 +2,17 @@ import PrimeVue from "primevue/config";
 import MyPreset from "./primeVuePreset";
 
 import Button from "primevue/button";
+import Menu from "primevue/menu";
 import Toast from "primevue/toast";
 import DataTable from "primevue/datatable"
 import Column from "primevue/column";
-import ConfirmDialog from "primevue/confirmdialog"
+import InputText from "primevue/inputtext"
+import Dialog from "primevue/dialog";
+import ConfirmDialog from "primevue/confirmdialog";
+import Select from "primevue/select"
+import InputNumber from "primevue/inputnumber";
+import DatePicker from "primevue/datepicker";
+import Paginator from "primevue/paginator"
 
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
@@ -29,8 +36,15 @@ export default {
 
     app.component("Button", Button);
     app.component("Toast", Toast);
-    app.component("DataTable",DataTable)
-    app.component("Column",Column)
-    app.component("ConfirmDialog",ConfirmDialog)
+    app.component("DataTable", DataTable)
+    app.component("Column", Column)
+    app.component("ConfirmDialog", ConfirmDialog)
+    app.component("Menu", Menu)
+    app.component("InputText", InputText)
+    app.component("Dialog", Dialog)
+    app.component("Select", Select)
+    app.component("InputNumber", InputNumber)
+    app.component("DatePicker", DatePicker)
+    app.component("Paginator",Paginator)
   },
 };

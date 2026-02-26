@@ -1,6 +1,4 @@
-// types/Action.ts
-// types/Action.ts
-import type { ActionParameter, BaseAttributes, Device, Metadata, VoiceCommand } from '.';
+import { ActionParameter, Device, VoiceCommand, type BaseAttributes, type Metadata } from '.';
 import type { DeviceAttributes } from '.';
 import type { ActionParameterAttributes } from '.';
 import type { VoiceCommandAttributes } from '.';
@@ -71,6 +69,10 @@ export class Action {
     this.callCount = data.callCount || 0;
     this.createdAt = data.createdAt || new Date();
     this.updatedAt = data.updatedAt || new Date();
+
+    if(data.device) this.device = new Device(data.device)
+    if(data.parameters) this.parameters = data.parameters.map(x=>new ActionParameter(x));
+    if(data.voiceCommands) this.voiceCommands = data.voiceCommands.map(x=>new VoiceCommand(x));
   }
 
   // Методы экземпляра

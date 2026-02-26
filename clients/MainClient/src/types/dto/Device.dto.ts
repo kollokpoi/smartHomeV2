@@ -13,7 +13,7 @@ export interface DeviceAttributes extends BaseAttributes {
   sortOrder?: number;
   isActive?: boolean;
   lastSeen?: Date | null;
-  
+
   actions?: ActionAttributes[];
 }
 
@@ -30,14 +30,14 @@ export class Device {
   lastSeen: Date | null;
   createdAt: Date;
   updatedAt: Date;
-  
+
   actions?: Action[];
 
   constructor(data: DeviceAttributes) {
     this.id = data.id || crypto.randomUUID();
     this.ip = data.ip;
     this.name = data.name.trim();
-    this.handlerPath = data.handlerPath 
+    this.handlerPath = data.handlerPath
       ? (data.handlerPath.startsWith('/') ? data.handlerPath : `/${data.handlerPath}`)
       : null;
     this.description = data.description || null;
@@ -59,13 +59,21 @@ export class Device {
   // Валидация
   validate(): string[] {
     const errors: string[] = [];
-    
+
     if (!this.ip) errors.push('IP адрес обязателен');
     if (!this.name) errors.push('Название обязательно');
     if (this.name.length > 100) errors.push('Название должно быть до 100 символов');
-    
+
     return errors;
   }
+
+  get selectOption() {
+    return {
+      value: this.id,
+      label: this.name,
+    }
+  }
+
 
   // Статистика
   static getStats(devices: Device[]): {
@@ -77,7 +85,7 @@ export class Device {
     const total = devices.length;
     const online = devices.filter(d => d.status === 'online').length;
     const maintenance = devices.filter(d => d.status === 'maintenance').length;
-    
+
     return {
       total,
       online,

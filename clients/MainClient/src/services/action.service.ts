@@ -16,8 +16,15 @@ class ActionService extends BaseService {
                 params
             }
         )
-
+        if (response.success) {
+            response.data = response.data.map(item => new Action(item))
+        }
+        
         return response as ApiPaginationResponse<Action[]>
+    }
+    async deleteAction(id: string): Promise<ApiResponse<any>> {
+        const response = await this.delete(`/actions/${id}`)
+        return response;
     }
 }
 

@@ -6,7 +6,7 @@ export interface ActionFilters extends BaseFilters {
     minTimeout?: number;
     maxTimeout?: number;
     minCallCount?: number;
-    lastCallFrom?: string;
-    lastCallTo?: string;
+    lastCallFrom?: Date;
+    lastCallTo?: Date;
     hasError?: boolean | string;
 }

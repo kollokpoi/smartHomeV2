@@ -1,13 +1,6 @@
 <template>
-    <DataTable 
-        :value="actions" 
-        :loading="loading" 
-        :row-class="rowClass" 
-        @row-click="onRowClick" 
-        striped-rows 
-        @row-contextmenu="onRowContextMenu"
-        :contextMenu="true"
-    >
+    <DataTable :value="actions" :loading="loading" :row-class="rowClass" @row-click="onRowClick" striped-rows
+        @row-contextmenu="onRowContextMenu" :contextMenu="true">
         <Column header="Название" field="name" sortable>
             <template #body="{ data }">
                 <p class="font-bold">{{ data.name }}</p>
@@ -15,7 +8,7 @@
         </Column>
         <Column header="Устройство" field="device.name" sortable>
             <template #body="{ data }">
-                <p class="font-bold">{{ data.device.name }}</p>
+                <p class="font-bold">{{ data.device?.name }}</p>
             </template>
         </Column>
         <Column header="Путь">
@@ -46,7 +39,7 @@
             </template>
         </Column>
     </DataTable>
-    
+
     <ContextMenu ref="contextMenuRef" :model="menuItems" />
     <ConfirmDialog :draggable="true" />
 </template>
@@ -54,6 +47,7 @@
 <script setup lang="ts">
 import { formatDate } from '@/helpers/formatDate';
 import { truncateString } from '@/helpers/truncateString';
+import { actionService } from '@/services';
 import { Action } from '@/types/dto';
 import { ContextMenu, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
 import { ref, computed } from 'vue';
@@ -139,9 +133,36 @@ const confirmDelete = (action: Action) => {
         message: `Удалить действие "${action.name}"?`,
         header: 'Подтверждение удаления',
         icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            // логика удаления
-            emits('deleted')
+        acceptClass: 'p-button-danger',
+        acceptLabel: 'Удалить',
+        rejectLabel: 'Отмена',
+        accept: async () => {
+            try {
+                const response = await actionService.deleteAction(action.id);
+                if (response.success) {
+                    toast.add({
+                        severity: 'success',
+                        summary: `Действие ${action.name} удалено`,
+                        detail: response.message,
+                        life:3000
+                    })
+                    emits('deleted')
+                } else {
+                    toast.add({
+                        severity: 'warn',
+                        summary: 'Не удалось удалить',
+                        detail: response.message,
+                        life:3000
+                    })
+                }
+            } catch (ex: any) {
+                toast.add({
+                    severity: 'warn',
+                    summary: 'Не удалось удалить',
+                    detail: 'Ошибка удаления ' + ex.message || '',
+                    life:3000
+                })
+            }
         }
     })
 }
