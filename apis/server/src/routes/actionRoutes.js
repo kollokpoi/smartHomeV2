@@ -9,6 +9,7 @@ router.get('/device/:deviceId', actionController.getByDevice);
 router.get('/', actionController.getAll);
 router.get('/:id', actionController.getById);
 router.post('/', validate(actionValidator.validate), actionController.create);
+router.post('/bulk', actionController.bulkCreate);
 router.post('/:id/execute', actionController.execute);
 router.put('/:id', validate(actionValidator.validate, true), actionController.update);
 router.delete('/:id', actionController.delete);

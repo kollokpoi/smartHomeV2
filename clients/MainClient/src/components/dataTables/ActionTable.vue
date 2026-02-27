@@ -75,13 +75,11 @@ const rowClass = () => {
     return classes.join(' ')
 }
 
-// ПРАВЫЙ КЛИК - открываем контекстное меню
 const onRowContextMenu = (event: DataTableRowContextMenuEvent) => {
     contextMenuRef.value?.show(event.originalEvent)
     selectedAction.value = event.data
 }
 
-// ЛЕВЫЙ КЛИК - переход
 const onRowClick = (event: DataTableRowClickEvent<Action>) => {
     const data = event.data;
     viewAction(data)
@@ -110,6 +108,11 @@ const menuItems = computed(() => {
         {
             label: 'Редактировать',
             icon: 'pi pi-pencil',
+            command: () => router.push(`/action/${action.id}/edit`)
+        },
+        {
+            label: 'Вызов',
+            icon: 'pi pi-bolt',
             command: () => router.push(`/action/${action.id}/edit`)
         },
         {
@@ -144,7 +147,7 @@ const confirmDelete = (action: Action) => {
                         severity: 'success',
                         summary: `Действие ${action.name} удалено`,
                         detail: response.message,
-                        life:3000
+                        life: 3000
                     })
                     emits('deleted')
                 } else {
@@ -152,7 +155,7 @@ const confirmDelete = (action: Action) => {
                         severity: 'warn',
                         summary: 'Не удалось удалить',
                         detail: response.message,
-                        life:3000
+                        life: 3000
                     })
                 }
             } catch (ex: any) {
@@ -160,7 +163,7 @@ const confirmDelete = (action: Action) => {
                     severity: 'warn',
                     summary: 'Не удалось удалить',
                     detail: 'Ошибка удаления ' + ex.message || '',
-                    life:3000
+                    life: 3000
                 })
             }
         }

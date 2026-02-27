@@ -9,11 +9,45 @@
         <Button class="mx-2" label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
-        <Button label="Добавить" icon="pi pi-plus" @click="addApplication" />
     </div>
-    <ActionTable :actions="actions" :loading @deleted="loadActions" />
-    <Paginator v-if="pagination?.total > pagination.limit" :rows="pagination.limit" :totalRecords="pagination.total"
-        @page="onPageChange" />
+    <div class="flex min-h-screen relative">
+        <div class="flex-1">
+            <ActionTable :actions="actions" :loading @deleted="loadActions" />
+            <Paginator v-if="pagination?.total > pagination.limit" :rows="pagination.limit"
+                :totalRecords="pagination.total" @page="onPageChange" />
+        </div>
+
+        <div class="fixed top-0 h-full z-50 pointer-events-none transition-all duration-300 ease-out" :class="[
+            isExpanded ? 'right-0' :
+                isHovered ? '-right-115' : '-right-120'
+        ]" @mouseenter="onHover(true)" @mouseleave="onHover(false)">
+
+            <div class="relative h-full pointer-events-auto">
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-48 bg-muted  rounded-l-lg shadow-lg cursor-pointer z-10"
+                    @click="togglePanel">
+                    <div class="h-full flex items-center justify-center">
+                        <span class="transform -rotate-90 whitespace-nowrap text-foreground-light font-medium text-sm">
+                            {{ isExpanded ? 'Свернуть' : 'Панель действий' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="ml-8 w-120 h-full bg-muted shadow-2xl overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl text-foreground-dark font-bold">Панель действий</h3>
+                            <Button icon="pi pi-times" text rounded @click.stop="isExpanded = false" />
+                        </div>
+                        <div class="space-y-4 flex flex-col items-center gap-2">
+                            <Button label="Создать новое" icon="pi pi-plus" severity="success" class="w-full" @click="addApplication" />
+                            <Button label="Статистика" icon="pi pi-history" class="w-full" @click="addApplication" />
+                            <Button label="К девайсам" icon="pi pi-pencil" severity="warn" class="w-full" @click="addApplication" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <Dialog :visible="showFilter" class="w-3/4 h-200" modal :closable="false">
         <div class="flex flex-col gap-4">
             <div>
@@ -90,6 +124,9 @@ const toast = useToast();
 
 const loading = ref(false);
 const showFilter = ref(false)
+
+const isExpanded = ref(false)
+const isHovered = ref(false)
 
 const pagination = reactive<Pagination>({
     page: 1,
@@ -198,6 +235,19 @@ const addApplication = function () {
 const onPageChange = function (event: any) {
     pagination.page = event.page + 1
     loadActions()
+}
+
+const onHover = (hovered: boolean) => {
+    if (!isExpanded.value) {
+        isHovered.value = hovered
+    }
+}
+
+const togglePanel = () => {
+    isExpanded.value = !isExpanded.value
+    if (!isExpanded.value) {
+        isHovered.value = false
+    }
 }
 
 const hasActiveFilters = computed(() => {

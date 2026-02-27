@@ -133,10 +133,10 @@ class ActionController {
               successRate:
                 action.call_count > 0
                   ? (
-                      ((action.call_count - (action.last_error ? 1 : 0)) /
-                        action.call_count) *
-                      100
-                    ).toFixed(2)
+                    ((action.call_count - (action.last_error ? 1 : 0)) /
+                      action.call_count) *
+                    100
+                  ).toFixed(2)
                   : 0,
             },
           };
@@ -203,7 +203,113 @@ class ActionController {
     }
   }
 
-  // Получение действий устройства
+  async bulkCreate(req, res, next) {
+  const transaction = await Action.sequelize.transaction();
+
+  try {
+    const { deviceId, actions } = req.body;
+
+    if (!Array.isArray(actions)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Действия должны быть массивом'
+      });
+    }
+
+    // Проверяем существование устройства
+    const device = await Device.findByPk(deviceId);
+    if (!device) {
+      await transaction.rollback();
+      return res.status(404).json({
+        success: false,
+        message: 'Устройство не найдено'
+      });
+    }
+
+    // === НОВАЯ ПРОВЕРКА: дубликаты в массиве ===
+    const names = actions.map(a => a.name?.trim());
+    const uniqueNames = new Set(names);
+    if (names.length !== uniqueNames.size) {
+      await transaction.rollback();
+      return res.status(400).json({
+        success: false,
+        message: 'В массиве есть дублирующиеся названия действий',
+        code: 'DUPLICATE_NAMES_IN_REQUEST'
+      });
+    }
+
+    // === НОВАЯ ПРОВЕРКА: существующие действия в БД ===
+    const existingActions = await Action.findAll({
+      where: {
+        deviceId,
+        name: names
+      },
+      attributes: ['name']
+    });
+
+    if (existingActions.length > 0) {
+      const existingNames = existingActions.map(a => a.name);
+      await transaction.rollback();
+      return res.status(400).json({
+        success: false,
+        message: 'Некоторые действия уже существуют для этого устройства',
+        existingNames,
+        code: 'DUPLICATE_ACTIONS_IN_DB'
+      });
+    }
+
+    const errors = [];
+    for (const action of actions) {
+      const actionErrors = actionValidator.validate({
+        ...action,
+        deviceId
+      });
+      if (actionErrors.length > 0) {
+        errors.push(...actionErrors.map(e => ({
+          ...e,
+          actionKey: action.key
+        })));
+      }
+    }
+
+    if (errors.length > 0) {
+      await transaction.rollback();
+      return res.status(400).json({
+        success: false,
+        errors
+      });
+    }
+
+    const createdActions = await Action.bulkCreate(
+      actions.map(a => ({ ...a, deviceId })),
+      {
+        transaction,
+        validate: true
+      }
+    );
+
+    await transaction.commit();
+
+    res.status(201).json({
+      success: true,
+      data: createdActions,
+      count: createdActions.length
+    });
+  } catch (error) {
+    await transaction.rollback();
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Конфликт уникальности: действие с таким именем уже существует',
+        code: 'UNIQUE_CONSTRAINT_ERROR',
+        details: error.errors?.map(e => e.message)
+      });
+    }
+    
+    next(error);
+  }
+}
+
   async getByDevice(req, res, next) {
     try {
       const actions = await Action.findAll({
@@ -410,8 +516,8 @@ class ActionController {
       }
 
       const updateData = { ...req.body };
-      delete updateData.deviceId; 
-      delete updateData.parameters; 
+      delete updateData.deviceId;
+      delete updateData.parameters;
 
       await action.update(updateData, { transaction });
 
@@ -448,7 +554,6 @@ class ActionController {
     }
   }
 
-  // Удаление действия
   async delete(req, res, next) {
     const transaction = await Action.sequelize.transaction();
 
