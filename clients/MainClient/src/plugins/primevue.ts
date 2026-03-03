@@ -13,6 +13,7 @@ import Select from "primevue/select"
 import InputNumber from "primevue/inputnumber";
 import DatePicker from "primevue/datepicker";
 import Paginator from "primevue/paginator"
+import ProgressSpinner  from "primevue/progressspinner";
 
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
@@ -46,5 +47,6 @@ export default {
     app.component("InputNumber", InputNumber)
     app.component("DatePicker", DatePicker)
     app.component("Paginator",Paginator)
+    app.component("ProgressSpinner",ProgressSpinner)
   },
 };

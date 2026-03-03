@@ -19,8 +19,23 @@ class ActionService extends BaseService {
         if (response.success) {
             response.data = response.data.map(item => new Action(item))
         }
-        
+
         return response as ApiPaginationResponse<Action[]>
+    }
+    async getAction(
+        id: string,
+        config?: AxiosRequestConfig
+    ): Promise<ApiResponse<Action>> {
+        const response = await this.get<ActionAttributes>(
+            `/actions/${id}/`,
+            {
+                ...config,
+            }
+        )
+        if (response.success) {
+            response.data = new Action(response.data)
+        }
+        return response as ApiResponse<Action>
     }
     async deleteAction(id: string): Promise<ApiResponse<any>> {
         const response = await this.delete(`/actions/${id}`)

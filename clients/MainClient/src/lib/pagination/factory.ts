@@ -1,7 +1,6 @@
 import type { PaginationParams, PaginatedRequest } from '@/types/searchParams'
 
 export class PaginationParamsFactory {
-  // Для устройств
   static createDevice(params?: PaginatedRequest<any>): PaginationParams & Record<string, any> {
     const {
       page = 1,

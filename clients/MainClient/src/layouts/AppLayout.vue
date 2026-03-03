@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex">
+  <div class="min-h-screen flex bg-background-dark">
     <div class="flex w-full">
       <aside
         class="hidden lg:flex lg:flex-col lg:h-screen lg:border-r lg:border-gray-200 bg-muted lg:sticky lg:top-0 transition-all"
