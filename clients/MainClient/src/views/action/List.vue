@@ -10,7 +10,7 @@
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
     </div>
-    <div class="flex min-h-screen relative">
+    <div class="flex relative">
         <div class="flex-1">
             <ActionTable :actions="actions" :loading @deleted="loadActions" />
             <Paginator v-if="pagination?.total > pagination.limit" :rows="pagination.limit"
@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+    <p>afafwfw</p>
     <Dialog :visible="showFilter" class="w-3/4 h-200" modal :closable="false">
         <div class="flex flex-col gap-4">
             <div>

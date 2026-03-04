@@ -1,6 +1,7 @@
 import type { EditableField } from "./base.editableFields";
 
-export type EditableText = EditableField & {
+export interface EditableText extends EditableField {
     modelValue: string | null,
     maxLength?: number
+    textArea?: boolean
 }

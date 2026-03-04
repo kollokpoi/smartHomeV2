@@ -34,7 +34,7 @@ const emit = defineEmits<{
 
 const validate = (): ValidationResult => {
     errorMessage.value = ''
-    if (props.required && (!localValue.value || localValue.value.trim() === '')) {
+    if (props.required && !localValue.value) {
         const result = { isValid: false, message: 'Поле обязательно для заполнения' }
         errorMessage.value = result.message
         return result
@@ -74,7 +74,7 @@ const startEditing = () => {
 watch(localValue, () => {
     const validation = validate()
     emit('validation-change', validation)
-    emit('update:modelValue', localValue.value || '')
+    emit('update:modelValue', localValue.value || null)
 })
 
 watch(() => props.isEditing, (newVal) => {

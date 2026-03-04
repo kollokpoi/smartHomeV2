@@ -3,6 +3,7 @@
         <dd v-if="!isEditing" class="cursor-pointer hover:bg-gray-50 p-1 rounded" @dblclick="startEditing">
             {{ displayValue }}
         </dd>
+        <Textarea v-else-if="textArea" v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full"/>
         <InputText v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full"/>
         <div v-if="errorMessage" class="text-red-500 text-sm mt-1">
             {{ errorMessage }}
@@ -80,8 +81,6 @@ watch(() => props.isEditing, (newVal) => {
 onMounted(() => {
     const validation = validate()
     emit('validation-change', validation)
-    console.log('props.maxLength:', props.maxLength)  // ← выведет 10
-    console.log('all props:', JSON.parse(JSON.stringify(props)))  // ← полная копия
 })
 
 </script>

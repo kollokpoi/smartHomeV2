@@ -1,6 +1,7 @@
 <template>
-    <DataTable :value="actions" :loading="loading" :row-class="rowClass" @row-click="onRowClick" striped-rows
-        @row-contextmenu="onRowContextMenu" :contextMenu="true">
+    <DataTable :value="actions" :loading="loading" :row-class="rowClass" @row-click="onRowClick"
+        @row-contextmenu="onRowContextMenu" :contextMenu="true" class="text-xs lg:text-base rounded-lg" scrollable
+        scrollHeight="50vh">
         <Column header="Название" field="name" sortable>
             <template #body="{ data }">
                 <p class="font-bold">{{ data.name }}</p>
@@ -11,22 +12,22 @@
                 <p class="font-bold">{{ data.device?.name }}</p>
             </template>
         </Column>
-        <Column header="Путь">
+        <Column header="Путь" class="hidden lg:table-cell">
             <template #body="{ data }">
                 <p>{{ getAdress(data) }}</p>
             </template>
         </Column>
-        <Column header="Описание" field="description">
+        <Column header="Описание" field="description" class="hidden sm:table-cell">
             <template #body="{ data }">
                 <p>{{ truncateString(data.description, 50) }}</p>
             </template>
         </Column>
-        <Column header="Последний вызов" field="lastCall" sortable>
+        <Column header="Последний вызов" field="lastCall" sortable class="hidden lg:table-cell">
             <template #body="{ data }">
                 <p>{{ formatDate(data.lastCall) }}</p>
             </template>
         </Column>
-        <Column header="Количество вызовов" field="callCount" sortable>
+        <Column header="Количество вызовов" field="callCount" sortable class="hidden lg:table-cell">
             <template #body="{ data }">
                 <p class="text-center">{{ data.callCount }}</p>
             </template>
@@ -39,7 +40,6 @@
             </template>
         </Column>
     </DataTable>
-
     <ContextMenu ref="contextMenuRef" :model="menuItems" />
     <ConfirmDialog :draggable="true" />
 </template>
@@ -71,7 +71,7 @@ const router = useRouter();
 const selectedAction = ref<Action | null>(null);
 
 const rowClass = () => {
-    const classes = ['cursor-pointer']
+    const classes = ['cursor-pointer text-xs lg:text-sm']
     return classes.join(' ')
 }
 

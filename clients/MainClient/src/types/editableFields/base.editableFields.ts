@@ -7,4 +7,5 @@ export interface EditableField {
     disabled?: boolean
     validators?: Validator[]
     required?: boolean
+    fieldName: string
 }
