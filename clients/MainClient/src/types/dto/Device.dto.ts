@@ -1,18 +1,17 @@
 import type { Action, BaseAttributes, Metadata } from '.';
 import type { ActionAttributes } from '.';
-
-export type DeviceStatus = 'online' | 'offline' | 'maintenance';
+import type { DeviceStatus } from '../constants';
 
 export interface DeviceAttributes extends BaseAttributes {
   ip: string;
   name: string;
-  handlerPath?: string | null;
-  description?: string | null;
+  handlerPath?: string;
+  description?: string;
   metadata?: Metadata;
   status?: DeviceStatus;
   sortOrder?: number;
   isActive?: boolean;
-  lastSeen?: Date | null;
+  lastSeen?: Date ;
 
   actions?: ActionAttributes[];
 }
@@ -21,13 +20,13 @@ export class Device {
   id: string;
   ip: string;
   name: string;
-  handlerPath: string | null;
-  description: string | null;
+  handlerPath?: string;
+  description?: string;
   metadata: Metadata;
   status: DeviceStatus;
   sortOrder: number;
   isActive: boolean;
-  lastSeen: Date | null;
+  lastSeen?: Date;
   createdAt: Date;
   updatedAt: Date;
 
@@ -39,18 +38,17 @@ export class Device {
     this.name = data.name.trim();
     this.handlerPath = data.handlerPath
       ? (data.handlerPath.startsWith('/') ? data.handlerPath : `/${data.handlerPath}`)
-      : null;
-    this.description = data.description || null;
+      : undefined;
+    this.description = data.description;
     this.metadata = data.metadata || {};
     this.status = data.status || 'offline';
     this.sortOrder = data.sortOrder || 0;
     this.isActive = data.isActive !== undefined ? data.isActive : true;
-    this.lastSeen = data.lastSeen || null;
+    this.lastSeen = data.lastSeen;
     this.createdAt = data.createdAt || new Date();
     this.updatedAt = data.updatedAt || new Date();
   }
 
-  // Методы экземпляра
   updateLastSeen(): void {
     this.lastSeen = new Date();
     this.status = 'online';

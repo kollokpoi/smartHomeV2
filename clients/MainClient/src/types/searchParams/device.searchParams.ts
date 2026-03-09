@@ -2,8 +2,7 @@ import type { BaseFilters } from ".";
 
 export interface DeviceFilters extends BaseFilters {
     status?: string;
-    minLastSeen?: string;
-    maxLastSeen?: string;
+    minLastSeen?: Date;
+    maxLastSeen?: Date;
     ip?: string;
-    metadata?: string;
 }

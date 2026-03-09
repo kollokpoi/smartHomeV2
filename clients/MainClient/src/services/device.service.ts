@@ -5,23 +5,67 @@ import type { ApiPaginationResponse, ApiResponse } from "@/types/api";
 import { Device, type DeviceAttributes } from "@/types/dto";
 
 class DeviceService extends BaseService {
-    async getList(
-        params?: PaginatedRequest<DeviceFilters>,
-        config?: AxiosRequestConfig
-    ): Promise<ApiResponse<Device[]>> {
-        const response = await this.get<DeviceAttributes[]>(
-            '/devices/',
-            {
-                ...config,
-                params
-            }
-        )
-        if (response.success) {
-            response.data = response.data.map(item => new Device(item))
-        }
-
-        return response as ApiPaginationResponse<Device[]>
+  async getList(
+    params?: PaginatedRequest<DeviceFilters>,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<Device[]>> {
+    const response = await this.get<DeviceAttributes[]>("/devices/", {
+      ...config,
+      params,
+    });
+    if (response.success) {
+      response.data = response.data.map((item) => new Device(item));
     }
+
+    return response as ApiPaginationResponse<Device[]>;
+  }
+  async getDevice(
+    id?: string,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<Device>> {
+    const response = await this.get<DeviceAttributes>(`/devices/${id}`, {
+      ...config,
+    });
+    if (response.success) {
+      response.data = new Device(response.data);
+    }
+
+    return response as ApiResponse<Device>;
+  }
+
+  async createDevice(
+    data: DeviceAttributes,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<Device>> {
+    const response = await this.get<DeviceAttributes>("/devices/", {
+      ...config,
+      data,
+    });
+    if (response.success) {
+      response.data = new Device(response.data);
+    }
+
+    return response as ApiResponse<Device>;
+  }
+  async updateDevice(
+    id: string,
+    data: DeviceAttributes,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<Device>> {
+    const response = await this.put<DeviceAttributes>(`/devices/${id}`, data, {
+      ...config,
+    });
+    if (response.success) {
+      response.data = new Device(response.data);
+    }
+
+    return response as ApiResponse<Device>;
+  }
+
+  async deleteDevice(id: string): Promise<ApiResponse<any>> {
+    const response = await this.delete(`/actions/${id}`);
+    return response;
+  }
 }
 
-export const deviceService = new DeviceService()
+export const deviceService = new DeviceService();

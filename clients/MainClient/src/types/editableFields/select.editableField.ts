@@ -1,6 +1,9 @@
 import type { EditableField } from "./base.editableFields";
 
-export type EditableNumber = EditableField & {
-    modelValue: any | null,
-    items: Record<string, string>
+export interface EditableSelect extends EditableField {
+  modelValue: any | null;
+  items: Array<{ label: string; value: any; severity?: string }>;
+  filter?: boolean;
+  optionLabel?: string;
+  optionValue?: string;
 }

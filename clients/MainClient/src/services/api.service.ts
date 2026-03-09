@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/modules/auth.store'
 import router from '@/router'
 
 
@@ -70,6 +70,7 @@ export class ApiService {
         if (error.response?.status >= 400 && error.response?.status < 500) {
           const errorBox : ApiErrorResponse = {
             message:error.response.data.message,
+            errors: error.response.data.errors,
             success: false,
             statusCode: error.response.status
           }

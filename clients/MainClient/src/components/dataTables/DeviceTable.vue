@@ -1,5 +1,5 @@
 <template>
-    <DataTable :value="actions || []" :loading="loading" :row-class="rowClass" @row-click="onRowClick"
+    <DataTable :value="devices || []" :loading="loading" :row-class="rowClass" @row-click="onRowClick"
         @row-contextmenu="onRowContextMenu" :contextMenu="true" class="text-xs lg:text-base rounded-lg" scrollable
         :scrollHeight>
         <Column header="Название" field="name" sortable>
@@ -7,29 +7,31 @@
                 <p class="font-bold">{{ data.name }}</p>
             </template>
         </Column>
-        <Column header="Устройство" field="device.name" sortable>
+        <Column header="Адрес" field="ip">
             <template #body="{ data }">
-                <p class="font-bold">{{ data.device?.name }}</p>
+                <p>{{ data.ip }}</p>
             </template>
         </Column>
-        <Column header="Путь" class="hidden lg:table-cell">
+        <Column header="Сайт" field="handlerPath" class="hidden lg:table-cell">
             <template #body="{ data }">
-                <p>{{ getAdress(data) }}</p>
+                <p>{{ data.handlerPath }}</p>
             </template>
         </Column>
-        <Column header="Описание" field="description" class="hidden sm:table-cell">
+        <Column header="Описание" field="status" class="hidden sm:table-cell">
             <template #body="{ data }">
                 <p>{{ truncateString(data.description, 50) }}</p>
             </template>
         </Column>
-        <Column header="Последний вызов" field="lastCall" sortable class="hidden lg:table-cell">
+        <Column header="Статус" field="status" class="hidden sm:table-cell">
             <template #body="{ data }">
-                <p>{{ formatDate(data.lastCall) }}</p>
+                <Tag :severity="getDeviceSeverity(data.status)">
+                    {{ getDeviceLabel(data.status) }}
+                </Tag>
             </template>
         </Column>
-        <Column header="Количество вызовов" field="callCount" sortable class="hidden lg:table-cell">
+        <Column header="Последняя активность" field="lastSeen" sortable class="hidden lg:table-cell">
             <template #body="{ data }">
-                <p class="text-center">{{ data.callCount }}</p>
+                <p class="text-center">{{ formatDate(data.lastSeen) }}</p>
             </template>
         </Column>
         <Column header="Действия">
@@ -47,14 +49,15 @@
 <script setup lang="ts">
 import { formatDate } from '@/helpers/formatDate';
 import { truncateString } from '@/helpers/truncateString';
-import { useActionStore } from '@/stores/modules/action.store';
-import { Action } from '@/types/dto';
-import { ContextMenu, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
+import { useDeviceStore } from '@/stores/modules/device.store';
+import { getDeviceLabel, getDeviceSeverity } from '@/types/constants';
+import { Device } from '@/types/dto';
+import { ContextMenu, Tag, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 interface Props {
-    actions: Action[]
+    devices: Device[]
     loading: boolean
     scrollHeight?: string
 }
@@ -68,10 +71,9 @@ const contextMenuRef = ref<InstanceType<typeof ContextMenu> | null>(null)
 const toast = useToast()
 const confirm = useConfirm()
 const router = useRouter();
+const deviceStore = useDeviceStore();
 
-const actionStore = useActionStore();
-
-const selectedAction = ref<Action | null>(null);
+const selectedDevice = ref<Device | null>(null);
 
 const rowClass = () => {
     const classes = ['cursor-pointer text-xs lg:text-sm']
@@ -80,62 +82,52 @@ const rowClass = () => {
 
 const onRowContextMenu = (event: DataTableRowContextMenuEvent) => {
     contextMenuRef.value?.show(event.originalEvent)
-    selectedAction.value = event.data
+    selectedDevice.value = event.data
 }
 
-const onRowClick = (event: DataTableRowClickEvent<Action>) => {
+const onRowClick = (event: DataTableRowClickEvent<Device>) => {
     const data = event.data;
-    viewAction(data)
+    viewDevice(data)
 }
 
-const getAdress = (data: Action): string => {
-    return `${data.method} ${data.path}:${data.port}`
+const viewDevice = function (device: Device) {
+    router.push(`/device/${device.id}`)
 }
 
-const viewAction = function (action: Action) {
-    router.push(`/action/${action.id}`)
-}
-
-// Меню для контекстного меню
 const menuItems = computed(() => {
-    if (!selectedAction.value) return []
+    if (!selectedDevice.value) return []
 
-    const action = selectedAction.value
+    const device = selectedDevice.value
 
     return [
         {
             label: 'Просмотреть',
             icon: 'pi pi-eye',
-            command: () => viewAction(action)
+            command: () => viewDevice(device)
         },
         {
             label: 'Редактировать',
             icon: 'pi pi-pencil',
-            command: () => viewAction(action)
-        },
-        {
-            label: 'Вызов',
-            icon: 'pi pi-bolt',
-            command: () => router.push(`/action/${action.id}/edit`)
+            command: () => viewDevice(device)
         },
         {
             label: 'Удалить',
             icon: 'pi pi-trash',
-            command: () => confirmDelete(action)
+            command: () => confirmDelete(device)
         }
     ]
 })
 
-const showMenu = (event: Event, action: Action) => {
+const showMenu = (event: Event, device: Device) => {
     event.stopPropagation()
     event.preventDefault()
-    selectedAction.value = action
+    selectedDevice.value = device
     contextMenuRef.value?.show(event)
 }
 
-const confirmDelete = (action: Action) => {
+const confirmDelete = (device: Device) => {
     confirm.require({
-        message: `Удалить действие "${action.name}"?`,
+        message: `Удалить устройство "${device.name}"?`,
         header: 'Подтверждение удаления',
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
@@ -143,11 +135,11 @@ const confirmDelete = (action: Action) => {
         rejectLabel: 'Отмена',
         accept: async () => {
             try {
-                const response = await actionStore.deleteAction(action.id);
+                const response = await deviceStore.deleteDevice(device.id);
                 if (response.success) {
                     toast.add({
                         severity: 'success',
-                        summary: `Действие ${action.name} удалено`,
+                        summary: `Устройство ${device.name} удалено`,
                         detail: response.message,
                         life: 3000
                     })

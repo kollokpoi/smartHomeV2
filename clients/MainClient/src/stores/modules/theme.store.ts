@@ -5,10 +5,8 @@ import { ref, computed } from 'vue'
 export type Theme = 'light' | 'dark' | 'green' | 'purple'
 
 export const useThemeStore = defineStore('theme', () => {
-  // Доступные темы - делаем через ref!
   const availableThemes = ref<Theme[]>(['light', 'dark', 'green', 'purple'])
   
-  // Текущая тема
   const currentTheme = ref<Theme>(
     (localStorage.getItem('theme') as Theme) || 'light'
   )

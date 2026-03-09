@@ -1,7 +1,13 @@
-const { Device, Action, ActionParameter, VoiceCommand, sequelize } = require("../models");
+const {
+  Device,
+  Action,
+  ActionParameter,
+  VoiceCommand,
+  sequelize,
+} = require("../models");
 const { deviceValidator } = require("../helpers/validators");
-const PaginationHelper = require('../helpers/paginationHelper');
-const { Op } = require('sequelize');
+const PaginationHelper = require("../helpers/paginationHelper");
+const { Op } = require("sequelize");
 
 class DeviceController {
   async getAll(req, res, next) {
@@ -60,10 +66,12 @@ class DeviceController {
 
       // Поиск по тексту
       if (search) {
-        const searchFields = [
-          'name','ip','description','handler_path'
-        ]
-        where[Op.or] = PaginationHelper.createSearchCondition(search,searchFields,Op);
+        const searchFields = ["name", "ip", "description", "handler_path"];
+        where[Op.or] = PaginationHelper.createSearchCondition(
+          search,
+          searchFields,
+          Op,
+        );
       }
 
       // Разрешенные поля для сортировки
@@ -135,7 +143,7 @@ class DeviceController {
     const transaction = await Device.sequelize.transaction();
 
     try {
-      const errors =  deviceValidator.validate(req.body);
+      const errors = deviceValidator.validate(req.body);
       if (errors.length > 0) {
         return res.status(400).json({
           success: false,
@@ -203,7 +211,7 @@ class DeviceController {
         });
       }
 
-      const errors = deviceValidator.validate(req.body);
+      const errors = deviceValidator.validate(req.body, true);
       if (errors.length > 0) {
         await transaction.rollback();
         return res.status(400).json({

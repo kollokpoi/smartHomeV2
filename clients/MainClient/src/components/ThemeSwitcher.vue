@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/themeStore'
+import { useThemeStore } from '@/stores/modules/theme.store'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 

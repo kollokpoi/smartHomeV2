@@ -7,6 +7,7 @@ const validate = (validator, isUpdate = false) => {
       if (errors.length > 0) {
         return res.status(400).json({
           success: false,
+          message:'Ошибка валидации',
           errors
         });
       }

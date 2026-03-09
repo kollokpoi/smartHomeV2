@@ -1,28 +1,58 @@
 <template>
     <div class="w-full">
         <dd v-if="!isEditing" class="cursor-pointer hover:bg-gray-50 p-1 rounded" @dblclick="startEditing">
-            {{ displayValue }}
+            <Badge :severity="getSeverity(localValue)">{{ displayValue }}</Badge>
         </dd>
-        <Textarea v-else-if="textArea" v-model="localValue" :placeholder="placeholder" :disabled="disabled"
-            class="w-full" />
-        <InputText v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full" />
+        <Select v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full"
+            :filter="filter" :options="items" :optionLabel="optionLabel || 'label'"
+            :optionValue="optionValue || 'value'">
+            <template #value="slotProps">
+                <Tag v-if="slotProps.value !== undefined && slotProps.value !== null"
+                    :severity="getSeverity(slotProps.value)" :value="getLabel(slotProps.value)" />
+                <span v-else>{{ placeholder }}</span>
+            </template>
+
+            <template #option="slotProps">
+                <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
+            </template>
+        </Select>
+
         <div v-if="validationResult && !validationResult.isValid" class="text-red-500 text-sm mt-1">
             {{ validationResult.message }}
         </div>
     </div>
 </template>
+
 <script setup lang="ts">
-import type { EditableText, ValidationResult } from '@/types/editableFields';
+import type { EditableSelect, ValidationResult } from '@/types/editableFields';
 import { ref, computed, watch, onMounted } from 'vue';
 
-const props = defineProps<EditableText>()
+const props = defineProps<EditableSelect>()
 const isEditing = ref<boolean>(props.isEditing)
 const localValue = ref(props.modelValue)
 const validationResult = ref(props.validationResult)
 
+const getItemByValue = (value: any) => {
+    return props.items.find(item => item.value === value)
+}
+
+const getLabel = (value: any) => {
+    const item = getItemByValue(value)
+    return item ? item.label : value
+}
+
+const getSeverity = (value: any) => {
+    const item = getItemByValue(value)
+    return item?.severity || 'secondary'
+}
+
 const displayValue = computed(() => {
     if (props.modelValue === null || props.modelValue === undefined || props.modelValue === '') {
         return '—'
+    }
+    const item = getItemByValue(props.modelValue)
+    if (item?.severity) {
+        return props.modelValue.toString()
     }
     return props.modelValue.toString()
 })
@@ -47,11 +77,6 @@ const validate = (): ValidationResult => {
             }
         }
 
-    if (props.maxLength && localValue.value && localValue.value.length > props.maxLength) {
-        const result = { isValid: false, message: `Максимальная длина: ${props.maxLength} символов`, fieldName: props.fieldName }
-        return result
-    }
-
     return { isValid: true, fieldName: props.fieldName }
 }
 
@@ -65,23 +90,22 @@ const startEditing = () => {
 watch(localValue, () => {
     validationResult.value = validate()
     emit('validation-change', validationResult.value)
-    emit('update:modelValue', localValue.value || '')
+    emit('update:modelValue', localValue.value)
 })
 
 watch(() => props.isEditing, (newVal) => {
     if (!newVal && isEditing.value) {
-        localValue.value = props.modelValue as string
+        localValue.value = props.modelValue
     }
     isEditing.value = newVal
 })
 
 watch(() => props.validationResult, (newVal) => {
     validationResult.value = newVal
-}, { deep: true })
-
-onMounted(() => {
-    const validation = validate()
-    emit('validation-change', validation)
 })
 
+onMounted(() => {
+    validationResult.value = validate()
+    emit('validation-change', validationResult.value)
+})
 </script>

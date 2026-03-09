@@ -1,11 +1,9 @@
 // types/ActionParameter.ts
 import type { BaseAttributes } from '.';
 import type { ActionAttributes } from '.';
+import type { ParameterLocation, ParameterType, ContentType } from '../constants/ParameterLocation';
 import type { Action } from './Action.dto';
 
-export type ParameterLocation = 'body' | 'query' | 'path' | 'headers';
-export type ParameterType = 'string' | 'number' | 'boolean' | 'json' | 'array';
-export type ContentType = 'json' | 'formdata' | 'x-www-form-urlencoded' | 'plain';
 
 export interface ActionParameterAttributes extends BaseAttributes {
   actionId: string;

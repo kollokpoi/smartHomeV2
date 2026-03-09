@@ -15,6 +15,8 @@ import DatePicker from "primevue/datepicker";
 import Paginator from "primevue/paginator"
 import ProgressSpinner  from "primevue/progressspinner";
 import Textarea from "primevue/textarea";
+import Tag  from "primevue/tag";
+import Badge  from "primevue/badge";
 
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
@@ -50,5 +52,7 @@ export default {
     app.component("Paginator",Paginator)
     app.component("ProgressSpinner",ProgressSpinner)
     app.component("Textarea",Textarea)
+    app.component("Tag",Tag)
+    app.component("Badge",Badge)
   },
 };

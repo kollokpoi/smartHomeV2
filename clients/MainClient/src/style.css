@@ -1,11 +1,12 @@
 @import "tailwindcss";
+@import "primeicons/primeicons.css";
 
 :root {
   --color-primary: #f0f0f0;
   --color-primary-light: #60a5fa;
   --color-primary-dark: #1e40af;
 
-  --color-background-dark:rgb(243, 243, 243);
+  --color-background-dark: rgb(243, 243, 243);
   --color-background: #ffffff;
   --color-foreground: #020817;
   --color-foreground-light: #505050;
@@ -27,7 +28,7 @@
   --color-primary: #3b82f6;
   --color-primary-light: #60a5fa;
   --color-primary-dark: #2563eb;
-  --color-background-dark:#0d1117;
+  --color-background-dark: #0d1117;
   --color-background: #1a1a1a;
   --color-foreground: #ffffff;
   --color-foreground-light: #cecece;
@@ -60,7 +61,7 @@
   --color-primary: var(--color-primary);
   --color-primary-light: var(--color-primary-light);
   --color-primary-dark: var(--color-primary-dark);
-  
+
   --color-background-dark: var(--color-background-dark);
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
