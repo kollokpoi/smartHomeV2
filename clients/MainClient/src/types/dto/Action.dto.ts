@@ -90,7 +90,6 @@ export class Action {
     this.callCount += 1;
   }
 
-  // Валидация
   validate(): string[] {
     const errors: string[] = [];
 
@@ -109,7 +108,13 @@ export class Action {
     return errors;
   }
 
-  // Скоупы (статичные методы для фильтрации)
+  get selectOption() {
+    return {
+      value: this.id,
+      label: this.name,
+    };
+  }
+
   static active(items: Action[]): Action[] {
     return items.filter((item) => item.isActive);
   }

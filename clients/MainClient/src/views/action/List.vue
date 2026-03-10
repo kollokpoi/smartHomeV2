@@ -14,8 +14,13 @@
     <div class="flex relative">
         <div class="flex-1">
             <ActionTable :actions="actions" :loading="loading" @deleted="loadActions" />
-            <Paginator v-if="pagination.total > pagination.limit" :rows="pagination.limit"
-                :totalRecords="pagination.total" @page="onPageChange" />
+            <Paginator 
+                v-if="pagination.total > pagination.limit" 
+                :rows="pagination.limit"
+                :totalRecords="pagination.total" 
+                @page="onPageChange"
+                :first="(pagination.page - 1) * pagination.limit"
+            />
         </div>
 
         <!-- Боковая панель -->
@@ -53,12 +58,13 @@
         </div>
     </div>
 
-    <Dialog :visible="showFilter" class="w-3/4 lg:w-1/2" modal :closable="false" header="Фильтры">
+    <Dialog :visible="showFilter" class="w-3/4 lg:w-1/2" modal :closable="false" header="Фильтры" @hide="onDialogHide">
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Устройство</label>
                 <Select v-model="tempFilters.deviceId" :options="deviceOptions" class="w-full" filter
-                    optionLabel="label" optionValue="value" placeholder="Все устройства" />
+                    optionLabel="label" optionValue="value" placeholder="Все устройства" 
+                    :loading="devicesLoading" />
             </div>
 
             <div>
@@ -139,9 +145,12 @@ const isExpanded = ref(false);
 const isHovered = ref(false);
 const searchText = ref('');
 const devices = ref<Device[]>([]);
+const devicesLoading = ref(false);
 
+// Создаем локальную копию фильтров для диалога
 const tempFilters = reactive<ActionFilters>({});
 
+// Computed для дат
 const lastCallFromDate = computed({
     get: () => tempFilters.lastCallFrom ? new Date(tempFilters.lastCallFrom) : undefined,
     set: (value: Date | undefined) => {
@@ -156,16 +165,24 @@ const lastCallToDate = computed({
     }
 });
 
+// Данные из стора
 const actions = computed(() => actionStore.actions);
 const loading = computed(() => actionStore.loading);
 const pagination = computed(() => actionStore.pagination);
+const storeFilters = computed(() => actionStore.filters);
+
+// Проверка наличия активных фильтров
 const hasActiveFilters = computed(() => {
-    return Object.keys(actionStore.filters).length > 0;
+    return Object.keys(storeFilters.value).length > 0;
 });
 
+// Опции для селектов
 const deviceOptions = computed(() => [
     { value: undefined, label: 'Все устройства' },
-    ...(devices.value?.map(x => x.selectOption) || [])
+    ...(devices.value?.map(d => ({
+        value: d.id,
+        label: d.name
+    })) || [])
 ]);
 
 const localMethodOptions = [
@@ -179,14 +196,22 @@ const booleanOptions = [
     { value: false, label: 'Нет' },
 ];
 
+// Загрузка данных
 const loadActions = async () => {
-    await actionStore.fetchActions({
-        ...actionStore.filters,
-        search: searchText.value || undefined
-    });
+    try {
+        await actionStore.fetchActions();
+    } catch (error) {
+        toast.add({
+            severity: "error",
+            summary: 'Ошибка',
+            detail: "Не удалось загрузить действия",
+            life: 3000
+        });
+    }
 };
 
 const loadDevices = async () => {
+    devicesLoading.value = true;
     try {
         const response = await deviceService.getList();
         if (response.success) {
@@ -195,7 +220,7 @@ const loadDevices = async () => {
             toast.add({
                 severity: "error",
                 summary: 'Ошибка',
-                detail: response.message,
+                detail: response.message || "Не удалось загрузить устройства",
                 life: 3000
             });
         }
@@ -206,34 +231,49 @@ const loadDevices = async () => {
             detail: "Не удалось загрузить устройства",
             life: 3000
         });
+    } finally {
+        devicesLoading.value = false;
     }
 };
 
-const updateSearch = debounce((value: string) => {
+// Debounced поиск
+const updateSearch = debounce(async (value: string) => {
     actionStore.setFilters({ search: value || undefined });
-    loadActions();
+    await loadActions();
 }, 500);
 
-const applyFilters = () => {
+// Обработчики фильтров
+const applyFilters = async () => {
     actionStore.setFilters(tempFilters);
     showFilter.value = false;
-    loadActions();
+    await loadActions();
 };
 
-const resetFilter = () => {
+const resetFilter = async () => {
+    // Очищаем временные фильтры
     Object.keys(tempFilters).forEach(key => {
         delete tempFilters[key as keyof ActionFilters];
     });
+    
+    // Сбрасываем фильтры в сторе
     actionStore.resetFilters();
     showFilter.value = false;
-    loadActions();
+    await loadActions();
 };
 
-const onPageChange = (event: any) => {
+const onPageChange = async (event: any) => {
     actionStore.pagination.page = event.page + 1;
-    loadActions();
+    await loadActions();
 };
 
+const onDialogHide = () => {
+    // При закрытии диалога без применения сбрасываем временные фильтры
+    if (!showFilter.value) {
+        Object.assign(tempFilters, storeFilters.value);
+    }
+};
+
+// Навигация
 const addApplication = () => {
     router.push('/action/create');
 };
@@ -246,6 +286,7 @@ const goToDevices = () => {
     router.push('/device');
 };
 
+// Обработчики панели
 const onHover = (hovered: boolean) => {
     if (!isExpanded.value) {
         isHovered.value = hovered;
@@ -259,21 +300,27 @@ const togglePanel = () => {
     }
 };
 
+// Watchers
 watch(searchText, (newVal) => {
     updateSearch(newVal);
 });
 
 watch(showFilter, (newVal) => {
     if (newVal) {
-        Object.assign(tempFilters, actionStore.filters);
+        // При открытии копируем текущие фильтры из стора
+        Object.assign(tempFilters, storeFilters.value);
     }
 });
 
+// Инициализация
 onMounted(async () => {
-    await loadActions();
-    await loadDevices();
+    await Promise.all([
+        loadActions(),
+        loadDevices()
+    ]);
 });
 
+// Очистка
 onUnmounted(() => {
     updateSearch.cancel();
 });

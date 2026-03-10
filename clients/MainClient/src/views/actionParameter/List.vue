@@ -1,7 +1,7 @@
 <template>
     <div class="mb-6">
-        <h1 class="text-2xl font-bold mb-2">Действия</h1>
-        <p class="text-gray-600">Управление действиями</p>
+        <h1 class="text-2xl font-bold mb-2">Параметры действий</h1>
+        <p class="text-gray-600">Управление параметрами действий</p>
     </div>
 
     <div class="flex w-full mb-3">
@@ -13,9 +13,14 @@
 
     <div class="flex relative">
         <div class="flex-1">
-            <ActionTable :actions="actions" :loading="loading" @deleted="loadActions" />
-            <Paginator v-if="pagination.total > pagination.limit" :rows="pagination.limit"
-                :totalRecords="pagination.total" @page="onPageChange" />
+            <ActionParameterTable :actionParameters="actionParameters" :loading="loading" @deleted="loadActionParameters" />
+            <Paginator 
+                v-if="pagination.total > pagination.limit" 
+                :rows="pagination.limit"
+                :totalRecords="pagination.total" 
+                @page="onPageChange"
+                :first="(pagination.page - 1) * pagination.limit"
+            />
         </div>
 
         <!-- Боковая панель -->
@@ -41,9 +46,9 @@
                             <Button icon="pi pi-times" text rounded @click.stop="isExpanded = false" />
                         </div>
                         <div class="space-y-4 flex flex-col items-center gap-2">
-                            <Button label="Создать новое" icon="pi pi-plus" severity="success" class="w-full"
+                            <Button label="Создать новый" icon="pi pi-plus" severity="success" class="w-full"
                                 @click="addApplication" />
-                            <Button label="Статистика" icon="pi pi-chart-bar" class="w-full" @click="showStats" />
+                            <Button label="К действиям" icon="pi pi-list" class="w-full" @click="goToActions" />
                             <Button label="К устройствам" icon="pi pi-server" severity="warn" class="w-full"
                                 @click="goToDevices" />
                         </div>
@@ -53,57 +58,105 @@
         </div>
     </div>
 
-    <Dialog :visible="showFilter" class="w-3/4 lg:w-1/2" modal :closable="false" header="Фильтры">
+    <Dialog :visible="showFilter" class="w-3/4 lg:w-1/2" modal :closable="false" header="Фильтры" @hide="onDialogHide">
         <div class="flex flex-col gap-4">
+            <!-- Действие -->
             <div>
-                <label class="block text-sm font-medium mb-2">Устройство</label>
-                <Select v-model="tempFilters.deviceId" :options="deviceOptions" class="w-full" filter
-                    optionLabel="label" optionValue="value" placeholder="Все устройства" />
+                <label class="block text-sm font-medium mb-2">Действие</label>
+                <Select 
+                    v-model="tempFilters.actionId" 
+                    :options="actionOptions" 
+                    class="w-full" 
+                    filter
+                    optionLabel="label" 
+                    optionValue="value" 
+                    placeholder="Все действия"
+                    :loading="actionsLoading"
+                    showClear
+                />
             </div>
 
+            <!-- Локация параметра -->
             <div>
-                <label class="block text-sm font-medium mb-2">Метод</label>
-                <Select v-model="tempFilters.method" :options="localMethodOptions" class="w-full" optionLabel="label"
-                    optionValue="value" placeholder="Все методы">
+                <label class="block text-sm font-medium mb-2">Локация</label>
+                <Select 
+                    v-model="tempFilters.location" 
+                    :options="locationOptions" 
+                    class="w-full"
+                    optionLabel="label" 
+                    optionValue="value" 
+                    placeholder="Все локации"
+                    showClear
+                >
                     <template #option="slotProps">
                         <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
+                    </template>
+                    <template #value="slotProps">
+                        <Tag v-if="slotProps.value" :severity="getLocationSeverity(slotProps.value)" 
+                             :value="getLocationLabel(slotProps.value)" />
+                        <span v-else>Все локации</span>
                     </template>
                 </Select>
             </div>
 
+            <!-- Тип параметра -->
             <div>
-                <label class="block text-sm font-medium mb-2">Время ожидания (мс)</label>
-                <div class="flex w-full justify-between items-center">
-                    <InputNumber class="flex-1" placeholder="от" v-model="tempFilters.minTimeout" :min="0" />
-                    <i class="pi pi-arrow-right mx-2"></i>
-                    <InputNumber class="flex-1" placeholder="до" v-model="tempFilters.maxTimeout" :min="0" />
-                </div>
+                <label class="block text-sm font-medium mb-2">Тип параметра</label>
+                <Select 
+                    v-model="tempFilters.type" 
+                    :options="typeOptions" 
+                    class="w-full"
+                    optionLabel="label" 
+                    optionValue="value" 
+                    placeholder="Все типы"
+                    showClear
+                >
+                    <template #option="slotProps">
+                        <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
+                    </template>
+                    <template #value="slotProps">
+                        <Tag v-if="slotProps.value" :severity="getTypeSeverity(slotProps.value)" 
+                             :value="getTypeLabel(slotProps.value)" />
+                        <span v-else>Все типы</span>
+                    </template>
+                </Select>
             </div>
 
+            <!-- Обязательность -->
             <div>
-                <label class="block text-sm font-medium mb-2">Последний вызов</label>
-                <div class="flex w-full justify-between items-center">
-                    <DatePicker class="flex-1" placeholder="от" v-model="lastCallFromDate" />
-                    <i class="pi pi-arrow-right mx-2"></i>
-                    <DatePicker class="flex-1" placeholder="до" v-model="lastCallToDate" />
-                </div>
+                <label class="block text-sm font-medium mb-2">Обязательный</label>
+                <Select 
+                    v-model="tempFilters.required" 
+                    :options="booleanOptions" 
+                    class="w-full" 
+                    optionLabel="label"
+                    optionValue="value" 
+                    placeholder="Не выбрано"
+                    showClear
+                />
             </div>
 
+            <!-- Content Type -->
             <div>
-                <label class="block text-sm font-medium mb-2">Минимум вызовов</label>
-                <InputNumber class="w-full" placeholder="Минимум вызовов" v-model="tempFilters.minCallCount" :min="0" />
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-2">Есть ошибки</label>
-                <Select v-model="tempFilters.hasError" :options="booleanOptions" class="w-full" optionLabel="label"
-                    optionValue="value" placeholder="Не выбрано" />
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium mb-2">Активно</label>
-                <Select v-model="tempFilters.isActive" :options="booleanOptions" class="w-full" optionLabel="label"
-                    optionValue="value" placeholder="Не выбрано" />
+                <label class="block text-sm font-medium mb-2">Content Type</label>
+                <Select 
+                    v-model="tempFilters.contentType" 
+                    :options="contentTypeOptions" 
+                    class="w-full"
+                    optionLabel="label" 
+                    optionValue="value" 
+                    placeholder="Все типы контента"
+                    showClear
+                >
+                    <template #option="slotProps">
+                        <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
+                    </template>
+                    <template #value="slotProps">
+                        <Tag v-if="slotProps.value" :severity="getContentTypeSeverity(slotProps.value)" 
+                             :value="getContentTypeLabel(slotProps.value)" />
+                        <span v-else>Все типы контента</span>
+                    </template>
+                </Select>
             </div>
         </div>
 
@@ -120,58 +173,80 @@
 </template>
 
 <script setup lang="ts">
-import ActionTable from '@/components/dataTables/ActionTable.vue';
-import type { Device } from '@/types/dto';
+import ActionParameterTable from '@/components/dataTables/ActionParameterTable.vue';
 import debounce from 'lodash/debounce';
 import { ref, computed, onMounted, reactive, watch, onUnmounted } from 'vue';
 import { useToast } from 'primevue';
-import { deviceService } from '@/services';
-import type { ActionFilters } from '@/types/searchParams';
-import { useActionStore } from '@/stores/modules/action.store';
+import type { ActionParameterFilters } from '@/types/searchParams';
+import { useActionParameterStore } from '@/stores/modules/parameter.store';
 import router from '@/router';
-import { httpMethodHelper } from '@/helpers/httpMethodHelper';
+import { ActionParameterHelper } from '@/helpers/actionParameterHelper';
+import { useActionStore } from '@/stores/modules/action.store';
 
 const toast = useToast();
+const actionParameterStore = useActionParameterStore();
 const actionStore = useActionStore();
 
 const showFilter = ref(false);
 const isExpanded = ref(false);
 const isHovered = ref(false);
 const searchText = ref('');
-const devices = ref<Device[]>([]);
 
-const tempFilters = reactive<ActionFilters>({});
+const tempFilters = reactive<ActionParameterFilters>({});
 
-const lastCallFromDate = computed({
-    get: () => tempFilters.lastCallFrom ? new Date(tempFilters.lastCallFrom) : undefined,
-    set: (value: Date | undefined) => {
-        tempFilters.lastCallFrom = value;
-    }
-});
+const actionParameters = computed(() => actionParameterStore.actionParameters);
+const loading = computed(() => actionParameterStore.loading);
+const actions = computed(() => actionStore.allActions); 
+const actionsLoading = computed(() => actionStore.loading);
 
-const lastCallToDate = computed({
-    get: () => tempFilters.lastCallTo ? new Date(tempFilters.lastCallTo) : undefined,
-    set: (value: Date | undefined) => {
-        tempFilters.lastCallTo = value;
-    }
-});
+const pagination = computed(() => actionParameterStore.pagination);
+const storeFilters = computed(() => actionParameterStore.filters);
 
-const actions = computed(() => actionStore.actions);
-const loading = computed(() => actionStore.loading);
-const pagination = computed(() => actionStore.pagination);
 const hasActiveFilters = computed(() => {
-    return Object.keys(actionStore.filters).length > 0;
+    return Object.keys(storeFilters.value).length > 0;
 });
 
-const deviceOptions = computed(() => [
-    { value: undefined, label: 'Все устройства' },
-    ...(devices.value?.map(x => x.selectOption) || [])
+const actionOptions = computed(() => [
+    { value: undefined, label: 'Все действия' },
+    ...(actions.value?.map(x => ({
+        value: x.id,
+        label: x.name
+    })) || [])
 ]);
 
-const localMethodOptions = [
-    { value: undefined, label: 'Все методы' },
-    ...httpMethodHelper.getSelectOptions()
-];
+const locationOptions = ActionParameterHelper.getLocationSelectOptions();
+const typeOptions = ActionParameterHelper.getTypeSelectOptions();
+const contentTypeOptions = ActionParameterHelper.getContentTypeSelectOptions();
+
+const getLocationLabel = (value: string) => {
+    const option = locationOptions.find(opt => opt.value === value);
+    return option?.label || value;
+};
+
+const getLocationSeverity = (value: string) => {
+    const option = locationOptions.find(opt => opt.value === value);
+    return option?.severity || 'info';
+};
+
+const getTypeLabel = (value: string) => {
+    const option = typeOptions.find(opt => opt.value === value);
+    return option?.label || value;
+};
+
+const getTypeSeverity = (value: string) => {
+    const option = typeOptions.find(opt => opt.value === value);
+    return option?.severity || 'info';
+};
+
+const getContentTypeLabel = (value: string) => {
+    const option = contentTypeOptions.find(opt => opt.value === value);
+    return option?.label || value;
+};
+
+const getContentTypeSeverity = (value: string) => {
+    const option = contentTypeOptions.find(opt => opt.value === value);
+    return option?.severity || 'info';
+};
 
 const booleanOptions = [
     { value: undefined, label: 'Не выбрано' },
@@ -179,67 +254,70 @@ const booleanOptions = [
     { value: false, label: 'Нет' },
 ];
 
-const loadActions = async () => {
-    await actionStore.fetchActions({
-        ...actionStore.filters,
-        search: searchText.value || undefined
-    });
-};
-
-const loadDevices = async () => {
+const loadActionParameters = async () => {
     try {
-        const response = await deviceService.getList();
-        if (response.success) {
-            devices.value = response.data;
-        } else {
-            toast.add({
-                severity: "error",
-                summary: 'Ошибка',
-                detail: response.message,
-                life: 3000
-            });
-        }
-    } catch {
+        await actionParameterStore.fetchActionParameters();
+    } catch (error) {
         toast.add({
             severity: "error",
             summary: 'Ошибка',
-            detail: "Не удалось загрузить устройства",
+            detail: "Не удалось загрузить параметры действий",
             life: 3000
         });
     }
 };
 
-const updateSearch = debounce((value: string) => {
-    actionStore.setFilters({ search: value || undefined });
-    loadActions();
+const loadActions = async () => {
+    try {
+        await actionStore.fetchActions(); 
+    } catch (error) {
+        toast.add({
+            severity: "error",
+            summary: 'Ошибка',
+            detail: "Не удалось загрузить действия",
+            life: 3000
+        });
+    }
+};
+
+const updateSearch = debounce(async (value: string) => {
+    actionParameterStore.setFilters({ search: value || undefined });
+    await loadActionParameters();
 }, 500);
 
-const applyFilters = () => {
-    actionStore.setFilters(tempFilters);
+const applyFilters = async () => {
+    actionParameterStore.setFilters(tempFilters);
     showFilter.value = false;
-    loadActions();
+    await loadActionParameters();
 };
 
-const resetFilter = () => {
+const resetFilter = async () => {
     Object.keys(tempFilters).forEach(key => {
-        delete tempFilters[key as keyof ActionFilters];
+        delete tempFilters[key as keyof ActionParameterFilters];
     });
-    actionStore.resetFilters();
+    
+    actionParameterStore.resetFilters();
     showFilter.value = false;
-    loadActions();
+    await loadActionParameters();
 };
 
-const onPageChange = (event: any) => {
-    actionStore.pagination.page = event.page + 1;
-    loadActions();
+const onPageChange = async (event: any) => {
+    actionParameterStore.pagination.page = event.page + 1;
+    await loadActionParameters();
+};
+
+const onDialogHide = () => {
+    if (!showFilter.value) {
+        Object.assign(tempFilters, storeFilters.value);
+    }
 };
 
 const addApplication = () => {
-    router.push('/action/create');
+    router.push('/action-parameter/create');
 };
 
-const showStats = () => {
-    router.push('/action/stats');
+const goToActions = () => {
+    router.push('/action');
 };
 
 const goToDevices = () => {
@@ -265,13 +343,15 @@ watch(searchText, (newVal) => {
 
 watch(showFilter, (newVal) => {
     if (newVal) {
-        Object.assign(tempFilters, actionStore.filters);
+        Object.assign(tempFilters, storeFilters.value);
     }
 });
 
 onMounted(async () => {
-    await loadActions();
-    await loadDevices();
+    await Promise.all([
+        loadActionParameters(),
+        loadActions()
+    ]);
 });
 
 onUnmounted(() => {

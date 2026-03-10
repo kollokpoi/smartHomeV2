@@ -1,7 +1,7 @@
 export type ParameterLocation = "body" | "query" | "path" | "headers";
 export type ParameterType = "string" | "number" | "boolean" | "json" | "array";
 export type ContentType =
-  | "json"
+  "json"
   | "formdata"
   | "x-www-form-urlencoded"
   | "plain";
@@ -43,9 +43,30 @@ export const PARAMETER_TYPE_LABELS: Record<ParameterType, string> = {
   json: "JSON",
   array: "Массив",
 };
-export const CONTENTTYPE_LABELS: Record<ContentType, string> = {
+export const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
   formdata: "Форма",
   "x-www-form-urlencoded": "x-www-form-urlencoded",
   plain: "Текст",
   json: "JSON",
 };
+
+
+export const PARAMETER_LOCATION_SEVERITY: Record<ParameterLocation, string> = {
+  body: 'info',
+  query: 'success',
+  path: 'warning',
+  headers: 'danger',
+}
+export const PARAMETER_TYPE_SEVERITY: Record<ParameterType, string> = {
+  string: 'info',
+  number: 'success',
+  boolean: 'warning',
+  json: 'danger',
+  array: 'help',
+}
+export const CONTENT_TYPE_SEVERITY: Record<ContentType, string> = {
+  json: 'info',
+  formdata: 'success',
+  'x-www-form-urlencoded': 'warning',
+  plain: 'secondary'
+}

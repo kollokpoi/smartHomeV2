@@ -1,7 +1,7 @@
 // types/ActionParameter.ts
 import type { BaseAttributes } from '.';
 import type { ActionAttributes } from '.';
-import type { ParameterLocation, ParameterType, ContentType } from '../constants/ParameterLocation';
+import type { ParameterLocation, ParameterType, ContentType } from '../constants/parameterLocation';
 import type { Action } from './Action.dto';
 
 
