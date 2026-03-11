@@ -39,7 +39,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     );
   });
 
-  const getParametersByAction= (actionId: string) =>
+  const getParametersByAction = (actionId: string) =>
     computed(() => allActionParameters.value.filter((a) => a.actionId === actionId));
 
   const getActionParameterById = (id: string) => entityStore.getItem(id);
@@ -120,6 +120,25 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
   };
 
+  const createActionParameter = async (
+    data: ActionParameterAttributes,
+  ): Promise<ApiResponse<ActionParameter>> => {
+    try {
+      const response = await actionParameterService.createActionParameter(data);
+      if (response.success) {
+        entityStore.setItem(response.data.id, { ...response.data, __type: "actionParameter" });
+        entityStore.invalidateListsByPrefix("actionParameter:");
+      }
+      return response;
+    } catch (err: any) {
+      entityStore.error = err.message;
+      return {
+        success: false,
+        message: err.message,
+      };
+    }
+  };
+
   const deleteActionParameter = async (
     id: string,
   ): Promise<{ success: boolean; message?: string }> => {
@@ -158,6 +177,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     getActionParameterById,
     fetchActionParameters,
     updateActionParameter,
+    createActionParameter,
     fetchActionParameterById,
     deleteActionParameter,
 

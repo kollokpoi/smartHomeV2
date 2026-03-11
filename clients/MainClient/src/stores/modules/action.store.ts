@@ -134,6 +134,26 @@ export const useActionStore = defineStore("action", () => {
     }
   };
 
+  const createAction = async (
+    data: ActionAttributes,
+  ): Promise<ApiResponse<Action>> => {
+    try {
+      const response = await actionService.createAction(data);
+      if (response.success) {
+
+        entityStore.setItem(response.data.id, { ...response.data, __type: "action" });
+        entityStore.invalidateListsByPrefix("action:");
+      }
+      return response;
+    } catch (err: any) {
+      entityStore.error = err.message;
+      return {
+        success: false,
+        message: err.message,
+      };
+    }
+  };
+
   const deleteAction = async (
     id: string,
   ): Promise<{ success: boolean; message?: string }> => {
@@ -175,6 +195,7 @@ export const useActionStore = defineStore("action", () => {
     fetchActionById,
     callAction,
     deleteAction,
+    createAction,
 
     setFilters: (newFilters: Partial<ActionFilters>) => {
       filters.value = { ...filters.value, ...newFilters };

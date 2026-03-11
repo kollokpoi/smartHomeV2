@@ -58,6 +58,24 @@ class ActionParameterService extends BaseService {
     return response as ApiResponse<ActionParameter>;
   }
 
+  async createActionParameter(
+    data: ActionParameterAttributes,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<ActionParameter>> {
+    const response = await this.post<ActionParameterAttributes>(
+      `/action-parameters/`,
+      data,
+      {
+        ...config,
+      },
+    );
+    if (response.success) {
+      response.data = new ActionParameter(response.data);
+    }
+
+    return response as ApiResponse<ActionParameter>;
+  }
+
   async deleteActionParameter(id: string): Promise<ApiResponse<any>> {
     const response = await this.delete(`/action-parameters/${id}`);
     return response;

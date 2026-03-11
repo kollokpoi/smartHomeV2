@@ -157,13 +157,11 @@ class ActionController {
     const transaction = await Action.sequelize.transaction();
 
     try {
-      // ВАЛИДАЦИЯ - ПРОВЕРЯЕМ ДАННЫЕ
       const errors = actionValidator.validate(req.body);
       if (errors.length > 0) {
         return res.status(400).json({ success: false, errors });
       }
 
-      // Проверка существования устройства
       const device = await Device.findByPk(req.body.deviceId);
       if (!device) {
         return res.status(404).json({
@@ -172,7 +170,6 @@ class ActionController {
         });
       }
 
-      // Проверка уникальности имени для этого устройства
       const existing = await Action.findOne({
         where: {
           device_id: req.body.deviceId,

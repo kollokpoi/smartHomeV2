@@ -60,6 +60,20 @@ class ActionService extends BaseService {
     return response as ApiResponse<Action>;
   }
 
+  async createAction(
+    data: ActionAttributes,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<Action>> {
+    const response = await this.post<ActionAttributes>(`/actions/`, data, {
+      ...config,
+    });
+    if (response.success) {
+      response.data = new Action(response.data);
+    }
+
+    return response as ApiResponse<Action>;
+  }
+
   async deleteAction(id: string): Promise<ApiResponse<any>> {
     const response = await this.delete(`/actions/${id}`);
     return response;

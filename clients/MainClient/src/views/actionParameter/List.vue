@@ -60,7 +60,6 @@
 
     <Dialog :visible="showFilter" class="w-3/4 lg:w-1/2" modal :closable="false" header="Фильтры" @hide="onDialogHide">
         <div class="flex flex-col gap-4">
-            <!-- Действие -->
             <div>
                 <label class="block text-sm font-medium mb-2">Действие</label>
                 <Select 
@@ -76,7 +75,6 @@
                 />
             </div>
 
-            <!-- Локация параметра -->
             <div>
                 <label class="block text-sm font-medium mb-2">Локация</label>
                 <Select 
@@ -196,6 +194,7 @@ const tempFilters = reactive<ActionParameterFilters>({});
 
 const actionParameters = computed(() => actionParameterStore.actionParameters);
 const loading = computed(() => actionParameterStore.loading);
+
 const actions = computed(() => actionStore.allActions); 
 const actionsLoading = computed(() => actionStore.loading);
 
@@ -208,10 +207,7 @@ const hasActiveFilters = computed(() => {
 
 const actionOptions = computed(() => [
     { value: undefined, label: 'Все действия' },
-    ...(actions.value?.map(x => ({
-        value: x.id,
-        label: x.name
-    })) || [])
+    ...(actions.value?.map(x => x.selectOption)) || []
 ]);
 
 const locationOptions = ActionParameterHelper.getLocationSelectOptions();

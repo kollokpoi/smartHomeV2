@@ -9,7 +9,7 @@ export interface ActionParameterAttributes extends BaseAttributes {
   actionId: string;
   location: ParameterLocation;
   key: string;
-  value?: string | null;
+  value?: string;
   type?: ParameterType;
   required?: boolean;
   contentType?: ContentType;
@@ -24,7 +24,7 @@ export class ActionParameter {
   actionId: string;
   location: ParameterLocation;
   key: string;
-  value: string | null;
+  value?: string;
   type: ParameterType;
   required: boolean;
   contentType: ContentType;
@@ -41,7 +41,7 @@ export class ActionParameter {
     this.actionId = data.actionId;
     this.location = data.location;
     this.key = data.key.trim();
-    this.value = data.value || null;
+    this.value = data.value;
     this.type = data.type || 'string';
     this.required = data.required || false;
     this.contentType = data.contentType || 'json';

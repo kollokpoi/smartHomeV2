@@ -165,18 +165,15 @@ const lastCallToDate = computed({
     }
 });
 
-// Данные из стора
 const actions = computed(() => actionStore.actions);
 const loading = computed(() => actionStore.loading);
 const pagination = computed(() => actionStore.pagination);
 const storeFilters = computed(() => actionStore.filters);
 
-// Проверка наличия активных фильтров
 const hasActiveFilters = computed(() => {
     return Object.keys(storeFilters.value).length > 0;
 });
 
-// Опции для селектов
 const deviceOptions = computed(() => [
     { value: undefined, label: 'Все устройства' },
     ...(devices.value?.map(d => ({
@@ -196,7 +193,6 @@ const booleanOptions = [
     { value: false, label: 'Нет' },
 ];
 
-// Загрузка данных
 const loadActions = async () => {
     try {
         await actionStore.fetchActions();
