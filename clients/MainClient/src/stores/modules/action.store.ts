@@ -42,7 +42,7 @@ export const useActionStore = defineStore("action", () => {
   const getActionsByDevice = (deviceId: string) =>
     computed(() => allActions.value.filter((a) => a.deviceId === deviceId));
 
-  const getActionById = (id: string) => entityStore.getItem(id);
+  const getActionById = (id: string) => entityStore.getItem(id) as Action;
 
   const fetchActions = async (params?: any) => {
     entityStore.loading = true;
