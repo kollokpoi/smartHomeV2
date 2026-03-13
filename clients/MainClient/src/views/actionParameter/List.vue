@@ -46,8 +46,6 @@
                             <Button icon="pi pi-times" text rounded @click.stop="isExpanded = false" />
                         </div>
                         <div class="space-y-4 flex flex-col items-center gap-2">
-                            <Button label="Создать новый" icon="pi pi-plus" severity="success" class="w-full"
-                                @click="addApplication" />
                             <Button label="К действиям" icon="pi pi-list" class="w-full" @click="goToActions" />
                             <Button label="К устройствам" icon="pi pi-server" severity="warn" class="w-full"
                                 @click="goToDevices" />
@@ -306,10 +304,6 @@ const onDialogHide = () => {
     if (!showFilter.value) {
         Object.assign(tempFilters, storeFilters.value);
     }
-};
-
-const addApplication = () => {
-    router.push('/action-parameter/create');
 };
 
 const goToActions = () => {

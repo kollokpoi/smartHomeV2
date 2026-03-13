@@ -1,18 +1,27 @@
 <template>
-    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-        <div class="text-foreground-dark">
-            <h1 class="text-2xl font-bold mb-2">Параметры</h1>
-            <p>Создание параметров для {{ action.name }}</p>
-        </div>
-        <Button @click="saveActionParameter" :disabled="!isFormValid" severity="success">Сохранить</Button>
-    </div>
-
-    <div class="w-full flex justify-center" v-if="loading">
+    <div class="w-full flex justify-center" v-if="actionLoading">
         <ProgressSpinner />
     </div>
+    <div v-else-if="action">
+        <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
+            <div class="text-foreground-dark">
+                <h1 class="text-2xl font-bold mb-2">Параметры</h1>
+                <p>Создание параметров для {{ action.name }}</p>
+            </div>
+            <Button @click="saveActionParameter" severity="success">Сохранить</Button>
+        </div>
 
-    <div class="w-full">
-        <CreateActionParameter v-for="parameter in parameters" v-model="parameter"/>
+        <div class="w-full space-y-5">
+            <CreateActionParameter v-for="(parameter, index) in parameters" :key="index" :action-parameter="parameter"
+                :expanded="expandedStates[index]" @update:expanded="(val) => expandedStates[index] = val">
+                <template v-slot:header>
+                    <p>{{ parameter.key || 'Новый параметр' }}</p>
+                    <Badge v-if="!expandedStates[index]" value="Свернуто" severity="secondary" size="small" />
+                </template>
+            </CreateActionParameter>
+
+            <Button @click="pushNewItem" class="ml-auto">Добавить</Button>
+        </div>
     </div>
 </template>
 
@@ -24,70 +33,53 @@ import type { ActionParameterAttributes } from '@/types/dto';
 import CreateActionParameter from '@/components/createElements/CreateActionParameter.vue';
 import { useActionStore } from '@/stores/modules/action.store';
 import { useRoute } from 'vue-router';
+import { CONTENT_TYPE, PARAMETER_LOCATION, PARAMETER_TYPE } from '@/types/constants/parameterLocation';
 
 const toast = useToast();
 const route = useRoute();
 const actionParameterStore = useActionParameterStore();
 const actionStore = useActionStore();
 
-const id = ref<string>('');
-const loading = computed(()=>actionParameterStore.loading || actionStore.loading);
+const actionId = ref<string>('');
+const parameterLoading = computed(() => actionParameterStore.loading)
+const actionLoading = computed(() => actionStore.loading);
+const expandedStates = ref<boolean[]>([]);
 
 const action = computed(() => {
-    const found = actionStore.getActionById(id.value);
+    const found = actionStore.getActionById(actionId.value);
     return found || null;
 });
 
 const parameters = ref<ActionParameterAttributes[]>([])
 
-const isFormValid = computed(() => {
-    return Object.values(validationState.value).every(v => v.isValid);
-});
-
+const pushNewItem = () => {
+    if (!actionId.value) return;
+    parameters.value.push({
+        actionId: actionId.value,
+        key: '',
+        location: PARAMETER_LOCATION.query,
+        value: '',
+        type: PARAMETER_TYPE.string,
+        required: false,
+        contentType: CONTENT_TYPE.json,
+        sortOrder: 0,
+        isActive: true
+    })
+    expandedStates.value.push(true);
+}
 
 const saveActionParameter = async () => {
-    if (!isFormValid.value) return;
 
-    try {
-        const updatedActionParameter = await actionParameterStore.createActionParameter(editData);
-        if (updatedActionParameter.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: "Действие обновлено",
-                life: 3000
-            });
-        } else {
-            let errorMessage = updatedActionParameter.message;
-            if (updatedActionParameter.errors) {
-                updatedActionParameter.errors.forEach(error => {
-                    errorMessage += `\nПоле ${error.field}`
-                    updateValidation({
-                        isValid: false,
-                        message: error.message,
-                        fieldName: error.field
-                    });
-                });
-            }
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: errorMessage || "Не удалось сохранить",
-                life: 3000
-            })
-        }
-    } catch {
-        toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: "Не удалось сохранить",
-            life: 3000
-        });
-    }
 };
 
-onMounted(() => {
-    id.value = route.params.id as string;
+const toggleExpand = (index: number) => {
+    expandedStates.value[index] = !expandedStates.value[index];
+};
+
+onMounted(async () => {
+    actionId.value = route.params.actionId as string;
+    await actionStore.fetchActionById(actionId.value, true)
+    pushNewItem()
 });
 
 </script>

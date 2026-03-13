@@ -6,7 +6,7 @@
         </div>
         <div class="flex gap-2">
             <Button @click="isEditing = !isEditing" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
-                }}</Button>
+            }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
 
@@ -74,7 +74,7 @@
                         :validationResult="validationState.isActive" :items="booleanOptions"
                         @edit-start="isEditing = true" />
                 </div>
-                
+
             </div>
             <div class="flex-1 flex flex-col">
                 <div>
@@ -97,16 +97,25 @@
                 </div>
             </div>
         </div>
+        <div class="w-full rounded-md p-4 mt-4 bg-background flex justify-end gap-4">
+            <Button @click="callAction" severity="secondary">Вызвать</Button>
+            <Button @click="goToActionParameters" severity="warn">Добавить параметр</Button>
+            <Button @click="goToActionCommands" severity="success">Добавить голосовую команду</Button>
+        </div>
+        <div class="mt-4">
+            <ActionParameterTable :action-parameters="action.parameters || []" :loading />
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed, reactive, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
+import ActionParameterTable from '@/components/dataTables/ActionParameterTable.vue';
 import type { ValidationResult } from '@/types/editableFields';
 import { httpMethodHelper } from '@/helpers/httpMethodHelper';
 import { useActionStore } from '@/stores/modules/action.store';
@@ -115,6 +124,7 @@ import { formatDate } from '@/helpers/formatDate';
 import { booleanOptions } from '@/types/constants';
 
 const route = useRoute();
+const router = useRouter();
 const toast = useToast();
 const actionStore = useActionStore();
 
@@ -213,6 +223,26 @@ const saveAction = async () => {
         });
     }
 };
+
+const callAction = () => {
+
+}
+
+const goToActionCommands = () => {
+    if (!action.value) return;
+    router.push({
+        name: 'ActionParameterCreate',
+        params: { actionId: action.value.id }
+    })
+}
+
+const goToActionParameters = () => {
+    if (!action.value) return;
+    router.push({
+        name: 'ActionParameterCreate',
+        params: { actionId: action.value.id }
+    })
+}
 
 watch(isEditing, (newVal) => {
     if (!newVal) {

@@ -125,7 +125,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: "create",
+        path: "create/:actionId",
         name: "ActionParameterCreate",
         component: ActionParameterCreate,
         meta: {

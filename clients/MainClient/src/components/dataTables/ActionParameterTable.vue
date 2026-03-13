@@ -1,4 +1,7 @@
 <template>
+    <slot name="header">
+
+    </slot>
     <DataTable :value="actionParameters || []" :loading="loading" :row-class="rowClass" @row-click="onRowClick"
         @row-contextmenu="onRowContextMenu" :contextMenu="true" class="text-xs lg:text-base rounded-lg" scrollable
         :scrollHeight>
@@ -44,6 +47,9 @@
             </template>
         </Column>
     </DataTable>
+    <slot name="footer">
+
+    </slot>
     <ContextMenu ref="contextMenuRef" :model="menuItems" />
     <ConfirmDialog :draggable="true" />
 </template>

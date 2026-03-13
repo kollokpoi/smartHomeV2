@@ -1,4 +1,4 @@
-export const formatDate = (dateInput: Date | string | null): string => {
+export const formatDate = (dateInput?: Date | string): string => {
     if(!dateInput)
         return "-"
     const date = dateInput instanceof Date ? dateInput : new Date(dateInput)
