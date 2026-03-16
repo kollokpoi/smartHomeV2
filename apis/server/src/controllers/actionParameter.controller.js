@@ -180,10 +180,7 @@ class ActionParameterController {
           actionId
         });
         if (paramErrors.length > 0) {
-          errors.push(...paramErrors.map(e => ({
-            ...e,
-            parameterKey: param.key
-          })));
+          errors.push(paramErrors);
         }
       }
 

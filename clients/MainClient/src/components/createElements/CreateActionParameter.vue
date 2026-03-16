@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, computed } from 'vue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
@@ -73,20 +73,17 @@ import type { ValidationResult } from '@/types/editableFields';
 import type { ActionParameterAttributes } from '@/types/dto';
 import { booleanOptions } from '@/types/constants';
 import { ActionParameterHelper } from '@/helpers/actionParameterHelper';
+import type { ActionParameterCreateProps } from '@/types/props';
 
-interface Props {
-    actionParameter: ActionParameterAttributes;
-    class?: string
-    expanded?: boolean;
-}
-const props = defineProps<Props>()
+const props = defineProps<ActionParameterCreateProps>()
 const emit = defineEmits<{
     (e: 'update:expanded', value: boolean): void;
+    (e: 'update:validationState', value: Record<string, ValidationResult>): void;
 }>();
 
 const editData = reactive<ActionParameterAttributes>(props.actionParameter)
-const validationState = ref<Record<string, ValidationResult>>({});
-const isExpanded = ref(props.expanded ?? true);
+const validationState = ref<Record<string, ValidationResult>>(props.validationState);
+const isExpanded = ref(props.blockExtended ?? true);
 
 const updateValidation = (result: ValidationResult) => {
     if (result.fieldName) {
@@ -100,15 +97,26 @@ const toggleExpand = () => {
     isExpanded.value = !isExpanded.value;
 };
 
-watch(() => props.expanded, (newVal) => {
-    if (newVal !== undefined) {
-        isExpanded.value = newVal;
-    }
-});
+
 
 watch(isExpanded, (newVal) => {
     emit('update:expanded', newVal);
 });
 
+watch(validationState, (newVal) => {
+    emit('update:validationState', newVal);
+}, { deep: true });
+
+watch(() => props.validationState, (newVal) => {
+    if (newVal !== undefined) {
+        validationState.value = newVal;
+    }
+});
+
+watch(() => props.blockExtended, (newVal) => {
+    if (newVal !== undefined) {
+        isExpanded.value = newVal;
+    }
+});
 
 </script>
