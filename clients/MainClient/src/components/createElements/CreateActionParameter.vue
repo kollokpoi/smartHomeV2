@@ -41,6 +41,7 @@
                 <div>
                     <dt class="text-sm text-foreground-dark">Тип контента</dt>
                     <EditableSelect :isEditing="true" v-model="editData.contentType" field-name="contentType"
+                        @validation-change="updateValidation"
                         :items="ActionParameterHelper.getContentTypeSelectOptions()"
                         :validation-result="validationState.contentType" />
                 </div>

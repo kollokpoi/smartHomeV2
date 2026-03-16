@@ -4,7 +4,11 @@ import type {
 } from "@/types/searchParams";
 import { BaseService } from "./base.service";
 import type { AxiosRequestConfig } from "axios";
-import type { ApiPaginationResponse, ApiResponse } from "@/types/api";
+import type {
+  ApiPaginationResponse,
+  ApiResponse,
+  BulkActionParameterCreate,
+} from "@/types/api";
 import { ActionParameter, type ActionParameterAttributes } from "@/types/dto";
 
 class ActionParameterService extends BaseService {
@@ -74,6 +78,24 @@ class ActionParameterService extends BaseService {
     }
 
     return response as ApiResponse<ActionParameter>;
+  }
+
+  async bulkCreateActionParameter(
+    data: BulkActionParameterCreate,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<ActionParameter[]>> {
+    const response = await this.post<ActionParameterAttributes[]>(
+      `/action-parameters/bulk`,
+      data,
+      {
+        ...config,
+      },
+    );
+    if (response.success) {
+      response.data = response.data.map((x) => new ActionParameter(x));
+    }
+
+    return response as ApiResponse<ActionParameter[]>;
   }
 
   async deleteActionParameter(id: string): Promise<ApiResponse<any>> {

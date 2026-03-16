@@ -39,14 +39,13 @@ class ParameterValidator {
       }
     }
 
-    // Content-Type (только для body)
     if (data.contentType !== undefined) {
       const validContentTypes = ['json', 'formdata', 'x-www-form-urlencoded', 'plain'];
       if (!validContentTypes.includes(data.contentType)) {
         errors.push({ field: 'contentType', message: 'Content-Type должен быть json, formdata, x-www-form-urlencoded или plain' });
       }
       if (data.location && data.location !== 'body') {
-        errors.push({ field: 'contentType', message: 'Content-Type можно указывать только для body параметров' });
+        data.location = undefined;
       }
     }
 

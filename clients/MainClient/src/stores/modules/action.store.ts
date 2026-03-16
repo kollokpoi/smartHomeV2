@@ -119,9 +119,7 @@ export const useActionStore = defineStore("action", () => {
     try {
       const response = await actionService.updateAction(id, data);
       if (response.success) {
-        // Обновляем элемент с сохранением типа
         entityStore.setItem(id, { ...response.data, __type: "action" });
-        // Инвалидируем все списки действий
         entityStore.invalidateListsByPrefix("action:");
       }
       return response;

@@ -5,6 +5,7 @@ import { actionParameterService } from "@/services/actionParameter.service";
 import type {
   ApiPaginationResponse,
   ApiResponse,
+  BulkActionParameterCreate,
   Pagination,
 } from "@/types/api";
 import type { ActionParameterFilters } from "@/types/searchParams";
@@ -35,12 +36,15 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
 
   const allActionParameters = computed<ActionParameter[]>(() => {
     return Object.values(entityStore.items).filter(
-      (item): item is ActionParameter => item && item.__type === "actionParameter",
+      (item): item is ActionParameter =>
+        item && item.__type === "actionParameter",
     );
   });
 
   const getParametersByAction = (actionId: string) =>
-    computed(() => allActionParameters.value.filter((a) => a.actionId === actionId));
+    computed(() =>
+      allActionParameters.value.filter((a) => a.actionId === actionId),
+    );
 
   const getActionParameterById = (id: string) => entityStore.getItem(id);
 
@@ -57,16 +61,21 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
 
       if (response.success) {
         response.data.forEach((actionParameter) => {
-          entityStore.setItem(actionParameter.id, { ...actionParameter, __type: "actionParameter" });
+          entityStore.setItem(actionParameter.id, {
+            ...actionParameter,
+            __type: "actionParameter",
+          });
         });
         entityStore.setList(currentListKey.value, response.data);
 
-        const responsePagination = (response as ApiPaginationResponse<ActionParameter[]>).pagination
-        pagination.hasNext = responsePagination.hasNext
-        pagination.hasPrev = responsePagination.hasPrev
-        pagination.page = responsePagination.page
-        pagination.total = responsePagination.total
-        pagination.totalPages = responsePagination.totalPages
+        const responsePagination = (
+          response as ApiPaginationResponse<ActionParameter[]>
+        ).pagination;
+        pagination.hasNext = responsePagination.hasNext;
+        pagination.hasPrev = responsePagination.hasPrev;
+        pagination.page = responsePagination.page;
+        pagination.total = responsePagination.total;
+        pagination.totalPages = responsePagination.totalPages;
 
         return response.data;
       }
@@ -90,7 +99,10 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     try {
       const response = await actionParameterService.getActionParameter(id);
       if (response.success) {
-        entityStore.setItem(id, { ...response.data, __type: "actionParameter" });
+        entityStore.setItem(id, {
+          ...response.data,
+          __type: "actionParameter",
+        });
         return response.data;
       }
     } finally {
@@ -105,9 +117,15 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     data: ActionParameterAttributes,
   ): Promise<ApiResponse<ActionParameter>> => {
     try {
-      const response = await actionParameterService.updateActionParameter(id, data);
+      const response = await actionParameterService.updateActionParameter(
+        id,
+        data,
+      );
       if (response.success) {
-        entityStore.setItem(id, { ...response.data, __type: "actionParameter" });
+        entityStore.setItem(id, {
+          ...response.data,
+          __type: "actionParameter",
+        });
         entityStore.invalidateListsByPrefix("actionParameter:");
       }
       return response;
@@ -126,7 +144,35 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     try {
       const response = await actionParameterService.createActionParameter(data);
       if (response.success) {
-        entityStore.setItem(response.data.id, { ...response.data, __type: "actionParameter" });
+        entityStore.setItem(response.data.id, {
+          ...response.data,
+          __type: "actionParameter",
+        });
+        entityStore.invalidateListsByPrefix("actionParameter:");
+      }
+      return response;
+    } catch (err: any) {
+      entityStore.error = err.message;
+      return {
+        success: false,
+        message: err.message,
+      };
+    }
+  };
+
+  const bulkCreateActionParameter = async (
+    data: BulkActionParameterCreate,
+  ): Promise<ApiResponse<ActionParameter[]>> => {
+    try {
+      const response =
+        await actionParameterService.bulkCreateActionParameter(data);
+      if (response.success) {
+        response.data.forEach((actionParameter) => {
+          entityStore.setItem(actionParameter.id, {
+            ...actionParameter,
+            __type: "actionParameter",
+          });
+        });
         entityStore.invalidateListsByPrefix("actionParameter:");
       }
       return response;
@@ -180,6 +226,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     createActionParameter,
     fetchActionParameterById,
     deleteActionParameter,
+    bulkCreateActionParameter,
 
     setFilters: (newFilters: Partial<ActionParameterFilters>) => {
       filters.value = { ...filters.value, ...newFilters };

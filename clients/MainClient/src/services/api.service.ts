@@ -44,53 +44,71 @@ export class ApiService {
       (response) => response,
       async (error) => {
         if (axios.isCancel(error)) {
-          return Promise.reject(error)
+          return Promise.reject(error);
         }
 
-        const originalRequest = error.config
-        const authStore = useAuthStore()
+        const originalRequest = error.config;
+        const authStore = useAuthStore();
 
         if (error.response?.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true
+          originalRequest._retry = true;
 
           try {
-            const newToken = await authStore.refreshAccessToken()
+            const newToken = await authStore.refreshAccessToken();
 
             if (newToken) {
-              originalRequest.headers.Authorization = `Bearer ${newToken}`
-              return this.axiosInstance(originalRequest)
+              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+              return this.axiosInstance(originalRequest);
             }
-          }  catch (refreshError) {
-            authStore.logout()
-            router.push('/login')
-            return Promise.reject(refreshError)
+          } catch (refreshError) {
+            authStore.logout();
+            router.push('/login');
+            return Promise.reject(refreshError);
           }
         }
 
         if (error.response?.status >= 400 && error.response?.status < 500) {
-          const errorBox : ApiErrorResponse = {
-            message:error.response.data.message,
-            errors: error.response.data.errors,
+          const errorData = error.response.data;
+          
+          const errorBox: ApiErrorResponse = {
+            message: errorData.message || 'Произошла ошибка',
             success: false,
-            statusCode: error.response.status
+            statusCode: error.response.status,
+            timestamp: errorData.timestamp || new Date().toISOString(),
+          };
+
+          if (errorData.errors) {
+            errorBox.errors = errorData.errors;
           }
-          return Promise.resolve(errorBox)
+
+          if (errorData.bulkErrors) {
+            errorBox.bulkErrors = errorData.bulkErrors;
+          }
+
+          if (errorData.code) {
+            errorBox.code = errorData.code;
+          }
+
+          return Promise.resolve(errorBox);
         }
 
         if (error.request) {
           return Promise.reject({
             message: 'Сервер не отвечает. Проверьте подключение к интернету',
-          })
+            success: false,
+            statusCode: 503
+          });
         }
 
         return Promise.reject({
           message: 'Произошла ошибка при выполнении запроса',
-        })
+          success: false,
+          statusCode: 500
+        });
       }
-    )
+    );
   }
 
-  // Общие CRUD методы для использования в специализированных сервисах
   async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
      try {
       const response =  await this.axiosInstance.get<ApiResponse<T>>(url, config)
@@ -164,5 +182,4 @@ export class ApiService {
   }
 }
 
-// Экспортируем синглтон экземпляр
 export const apiService = new ApiService()

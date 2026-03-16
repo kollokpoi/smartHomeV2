@@ -103,7 +103,7 @@
             <Button @click="goToActionCommands" severity="success">Добавить голосовую команду</Button>
         </div>
         <div class="mt-4">
-            <ActionParameterTable :action-parameters="action.parameters || []" :loading />
+            <ActionParameterTable :action-parameters="actionParams || []" :loading />
         </div>
     </div>
 </template>
@@ -122,11 +122,13 @@ import { useActionStore } from '@/stores/modules/action.store';
 import type { ActionAttributes } from '@/types/dto';
 import { formatDate } from '@/helpers/formatDate';
 import { booleanOptions } from '@/types/constants';
+import { useActionParameterStore } from '@/stores/modules/parameter.store';
 
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
 const actionStore = useActionStore();
+const actionParametersStore = useActionParameterStore();
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
@@ -149,6 +151,7 @@ const action = computed(() => {
     const found = actionStore.getActionById(id.value);
     return found || null;
 });
+const actionParams = computed(() => actionParametersStore.getParametersByAction(id.value).value);
 
 const loadAction = async () => {
     loading.value = true;
@@ -169,6 +172,9 @@ const loadAction = async () => {
     }
 };
 
+const loadActionParameters = async () => {
+    await actionParametersStore.fetchActionParameters({ actionId: id.value });
+};
 
 const updateValidation = (result: ValidationResult) => {
     if (result.fieldName) {
@@ -253,5 +259,6 @@ watch(isEditing, (newVal) => {
 onMounted(() => {
     id.value = route.params.id as string;
     loadAction();
+    loadActionParameters();
 });
 </script>
