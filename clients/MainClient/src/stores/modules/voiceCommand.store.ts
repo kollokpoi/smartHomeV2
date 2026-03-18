@@ -17,7 +17,7 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
   const filters = ref<VoiceCommandFilters>({});
   const pagination = reactive<Pagination>({
     page: 1,
-    limit: 50,
+    limit: 20,
     total: 0,
     totalPages: 0,
     hasNext: false,

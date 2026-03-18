@@ -12,6 +12,7 @@ router.post('/', validate(voiceCommandValidator.validate), voiceCommandControlle
 
 router.post('/bulk', voiceCommandController.bulkCreate);
 router.delete('/bulk', voiceCommandController.bulkDelete);
+router.delete('/:id', voiceCommandController.delete);
 
 router.post('/process', voiceCommandController.process);
 router.put('/:id', validate(voiceCommandValidator.validate, true), voiceCommandController.update);

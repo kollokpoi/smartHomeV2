@@ -180,7 +180,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "create",
+        path: "create/:actionId",
         name: "VoiceCommandCreate",
         component: VoiceCommandCreate,
         meta: {

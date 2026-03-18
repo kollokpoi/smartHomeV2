@@ -13,14 +13,11 @@
 
     <div class="flex relative">
         <div class="flex-1">
-            <ActionParameterTable :actionParameters="actionParameters" :loading="loading" @deleted="loadActionParameters" />
-            <Paginator 
-                v-if="pagination.total > pagination.limit" 
-                :rows="pagination.limit"
-                :totalRecords="pagination.total" 
-                @page="onPageChange"
-                :first="(pagination.page - 1) * pagination.limit"
-            />
+            <ActionParameterTable :actionParameters="actionParameters" :loading="loading"
+                @deleted="loadActionParameters" />
+            <Paginator v-if="pagination.total > pagination.limit" :rows="pagination.limit"
+                :totalRecords="pagination.total" @page="onPageChange"
+                :first="(pagination.page - 1) * pagination.limit" />
         </div>
 
         <!-- Боковая панель -->
@@ -60,36 +57,21 @@
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Действие</label>
-                <Select 
-                    v-model="tempFilters.actionId" 
-                    :options="actionOptions" 
-                    class="w-full" 
-                    filter
-                    optionLabel="label" 
-                    optionValue="value" 
-                    placeholder="Все действия"
-                    :loading="actionsLoading"
-                    showClear
-                />
+                <Select v-model="tempFilters.actionId" :options="actionOptions" class="w-full" filter
+                    optionLabel="label" optionValue="value" placeholder="Все действия" :loading="actionsLoading"
+                    showClear />
             </div>
 
             <div>
                 <label class="block text-sm font-medium mb-2">Локация</label>
-                <Select 
-                    v-model="tempFilters.location" 
-                    :options="locationOptions" 
-                    class="w-full"
-                    optionLabel="label" 
-                    optionValue="value" 
-                    placeholder="Все локации"
-                    showClear
-                >
+                <Select v-model="tempFilters.location" :options="locationOptions" class="w-full" optionLabel="label"
+                    optionValue="value" placeholder="Все локации" showClear>
                     <template #option="slotProps">
                         <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
                     </template>
                     <template #value="slotProps">
-                        <Tag v-if="slotProps.value" :severity="getLocationSeverity(slotProps.value)" 
-                             :value="getLocationLabel(slotProps.value)" />
+                        <Tag v-if="slotProps.value" :severity="getLocationSeverity(slotProps.value)"
+                            :value="getLocationLabel(slotProps.value)" />
                         <span v-else>Все локации</span>
                     </template>
                 </Select>
@@ -98,21 +80,14 @@
             <!-- Тип параметра -->
             <div>
                 <label class="block text-sm font-medium mb-2">Тип параметра</label>
-                <Select 
-                    v-model="tempFilters.type" 
-                    :options="typeOptions" 
-                    class="w-full"
-                    optionLabel="label" 
-                    optionValue="value" 
-                    placeholder="Все типы"
-                    showClear
-                >
+                <Select v-model="tempFilters.type" :options="typeOptions" class="w-full" optionLabel="label"
+                    optionValue="value" placeholder="Все типы" showClear>
                     <template #option="slotProps">
                         <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
                     </template>
                     <template #value="slotProps">
-                        <Tag v-if="slotProps.value" :severity="getTypeSeverity(slotProps.value)" 
-                             :value="getTypeLabel(slotProps.value)" />
+                        <Tag v-if="slotProps.value" :severity="getTypeSeverity(slotProps.value)"
+                            :value="getTypeLabel(slotProps.value)" />
                         <span v-else>Все типы</span>
                     </template>
                 </Select>
@@ -121,35 +96,21 @@
             <!-- Обязательность -->
             <div>
                 <label class="block text-sm font-medium mb-2">Обязательный</label>
-                <Select 
-                    v-model="tempFilters.required" 
-                    :options="booleanOptions" 
-                    class="w-full" 
-                    optionLabel="label"
-                    optionValue="value" 
-                    placeholder="Не выбрано"
-                    showClear
-                />
+                <Select v-model="tempFilters.required" :options="booleanOptions" class="w-full" optionLabel="label"
+                    optionValue="value" placeholder="Не выбрано" showClear />
             </div>
 
             <!-- Content Type -->
             <div>
                 <label class="block text-sm font-medium mb-2">Content Type</label>
-                <Select 
-                    v-model="tempFilters.contentType" 
-                    :options="contentTypeOptions" 
-                    class="w-full"
-                    optionLabel="label" 
-                    optionValue="value" 
-                    placeholder="Все типы контента"
-                    showClear
-                >
+                <Select v-model="tempFilters.contentType" :options="contentTypeOptions" class="w-full"
+                    optionLabel="label" optionValue="value" placeholder="Все типы контента" showClear>
                     <template #option="slotProps">
                         <Tag :severity="slotProps.option.severity" :value="slotProps.option.label" />
                     </template>
                     <template #value="slotProps">
-                        <Tag v-if="slotProps.value" :severity="getContentTypeSeverity(slotProps.value)" 
-                             :value="getContentTypeLabel(slotProps.value)" />
+                        <Tag v-if="slotProps.value" :severity="getContentTypeSeverity(slotProps.value)"
+                            :value="getContentTypeLabel(slotProps.value)" />
                         <span v-else>Все типы контента</span>
                     </template>
                 </Select>
@@ -178,6 +139,7 @@ import { useActionParameterStore } from '@/stores/modules/parameter.store';
 import router from '@/router';
 import { ActionParameterHelper } from '@/helpers/actionParameterHelper';
 import { useActionStore } from '@/stores/modules/action.store';
+import { booleanOptions } from '@/types/constants';
 
 const toast = useToast();
 const actionParameterStore = useActionParameterStore();
@@ -193,7 +155,7 @@ const tempFilters = reactive<ActionParameterFilters>({});
 const actionParameters = computed(() => actionParameterStore.actionParameters);
 const loading = computed(() => actionParameterStore.loading);
 
-const actions = computed(() => actionStore.allActions); 
+const actions = computed(() => actionStore.allActions);
 const actionsLoading = computed(() => actionStore.loading);
 
 const pagination = computed(() => actionParameterStore.pagination);
@@ -242,12 +204,6 @@ const getContentTypeSeverity = (value: string) => {
     return option?.severity || 'info';
 };
 
-const booleanOptions = [
-    { value: undefined, label: 'Не выбрано' },
-    { value: true, label: 'Да' },
-    { value: false, label: 'Нет' },
-];
-
 const loadActionParameters = async () => {
     try {
         await actionParameterStore.fetchActionParameters();
@@ -263,7 +219,7 @@ const loadActionParameters = async () => {
 
 const loadActions = async () => {
     try {
-        await actionStore.fetchActions(); 
+        await actionStore.fetchActions();
     } catch (error) {
         toast.add({
             severity: "error",
@@ -289,7 +245,7 @@ const resetFilter = async () => {
     Object.keys(tempFilters).forEach(key => {
         delete tempFilters[key as keyof ActionParameterFilters];
     });
-    
+
     actionParameterStore.resetFilters();
     showFilter.value = false;
     await loadActionParameters();

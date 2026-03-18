@@ -249,7 +249,7 @@ const callAction = () => {
 const goToActionCommands = () => {
     if (!action.value) return;
     router.push({
-        name: 'ActionParameterCreate',
+        name: 'VoiceCommandCreate',
         params: { actionId: action.value.id }
     })
 }

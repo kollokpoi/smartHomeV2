@@ -7,5 +7,5 @@ export interface BulkActionParameterCreate {
 
 export interface BulkVoiceCommandCreate {
   actionId: string;
-  parameters: VoiceCommandAttributes[];
+  commands: VoiceCommandAttributes[];
 }
