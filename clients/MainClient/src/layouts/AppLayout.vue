@@ -145,7 +145,7 @@ const navigation = [
 
 const isActive = (path: string) => {
   if (path === '/' && route.path === '/') return true
-  if (path !== '/' && route.path.startsWith(path)) return true
+  if (path !== '/' && route.path.includes(path)) return true
   return false
 }
 

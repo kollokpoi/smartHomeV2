@@ -1,21 +1,20 @@
-// stores/actionParameter.store.ts
 import { defineStore } from "pinia";
 import { ref, computed, reactive } from "vue";
-import { actionParameterService } from "@/services/actionParameter.service";
+import { voiceCommandService } from "@/services";
 import type {
   ApiPaginationResponse,
   ApiResponse,
-  BulkActionParameterCreate,
+  BulkVoiceCommandCreate,
   Pagination,
 } from "@/types/api";
-import type { ActionParameterFilters } from "@/types/searchParams";
+import type { VoiceCommandFilters } from "@/types/searchParams";
 import { useEntityStore } from "../base/entity.store";
-import type { ActionParameter, ActionParameterAttributes } from "@/types/dto";
+import type { VoiceCommand, VoiceCommandAttributes } from "@/types/dto";
 
-export const useActionParameterStore = defineStore("actionParameter", () => {
+export const useVoiceCommandStore = defineStore("voiceCommand", () => {
   const entityStore = useEntityStore();
 
-  const filters = ref<ActionParameterFilters>({});
+  const filters = ref<VoiceCommandFilters>({});
   const pagination = reactive<Pagination>({
     page: 1,
     limit: 50,
@@ -27,49 +26,49 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
 
   const currentListKey = computed(
     () =>
-      `actionParameter:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
+      `voiceCommand:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
   );
 
-  const actionParameters = computed<ActionParameter[]>(() => {
+  const voiceCommands = computed<VoiceCommand[]>(() => {
     return entityStore.getList(currentListKey.value) || [];
   });
 
-  const allActionParameters = computed<ActionParameter[]>(() => {
+  const allVoiceCommands = computed<VoiceCommand[]>(() => {
     return Object.values(entityStore.items).filter(
-      (item): item is ActionParameter =>
-        item && item.__type === "actionParameter",
+      (item): item is VoiceCommand =>
+        item && item.__type === "voiceCommand",
     );
   });
 
-  const getParametersByAction = (actionId: string) =>
+  const getVoiceCommandsByAction = (actionId: string) =>
     computed(() =>
-      allActionParameters.value.filter((a) => a.actionId === actionId),
+      allVoiceCommands.value.filter((a) => a.actionId === actionId),
     );
 
-  const getActionParameterById = (id: string) => entityStore.getItem(id) as ActionParameter;
+  const getVoiceCommandById = (id: string) => entityStore.getItem(id) as VoiceCommand;
 
-  const fetchActionParameters = async (params?: any) => {
+  const fetchVoiceCommands = async (params?: any) => {
     entityStore.loading = true;
     entityStore.error = null;
 
     try {
-      const response = await actionParameterService.getList({
+      const response = await voiceCommandService.getList({
         ...filters.value,
         ...pagination,
         ...params,
       });
 
       if (response.success) {
-        response.data.forEach((actionParameter) => {
-          entityStore.setItem(actionParameter.id, {
-            ...actionParameter,
-            __type: "actionParameter",
+        response.data.forEach((voiceCommand) => {
+          entityStore.setItem(voiceCommand.id, {
+            ...voiceCommand,
+            __type: "voiceCommand",
           });
         });
         entityStore.setList(currentListKey.value, response.data);
 
         const responsePagination = (
-          response as ApiPaginationResponse<ActionParameter[]>
+          response as ApiPaginationResponse<VoiceCommand[]>
         ).pagination;
         pagination.hasNext = responsePagination.hasNext;
         pagination.hasPrev = responsePagination.hasPrev;
@@ -86,7 +85,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
   };
 
-  const fetchActionParameterById = async (id: string, force = false) => {
+  const fetchVoiceCommandById = async (id: string, force = false) => {
     if (!force) {
       const cached = entityStore.getItem(id, { ttl: 5 * 60 * 1000 });
       if (cached) return cached;
@@ -97,11 +96,11 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
 
     try {
-      const response = await actionParameterService.getActionParameter(id);
+      const response = await voiceCommandService.getVoiceCommand(id);
       if (response.success) {
         entityStore.setItem(id, {
           ...response.data,
-          __type: "actionParameter",
+          __type: "voiceCommand",
         });
         return response.data;
       }
@@ -112,21 +111,21 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
   };
 
-  const updateActionParameter = async (
+  const updateVoiceCommand = async (
     id: string,
-    data: ActionParameterAttributes,
-  ): Promise<ApiResponse<ActionParameter>> => {
+    data: VoiceCommandAttributes,
+  ): Promise<ApiResponse<VoiceCommand>> => {
     try {
-      const response = await actionParameterService.updateActionParameter(
+      const response = await voiceCommandService.updateVoiceCommand(
         id,
         data,
       );
       if (response.success) {
         entityStore.setItem(id, {
           ...response.data,
-          __type: "actionParameter",
+          __type: "voiceCommand",
         });
-        entityStore.invalidateListsByPrefix("actionParameter:");
+        entityStore.invalidateListsByPrefix("voiceCommand:");
       }
       return response;
     } catch (err: any) {
@@ -138,17 +137,17 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
   };
 
-  const createActionParameter = async (
-    data: ActionParameterAttributes,
-  ): Promise<ApiResponse<ActionParameter>> => {
+  const createVoiceCommand = async (
+    data: VoiceCommandAttributes,
+  ): Promise<ApiResponse<VoiceCommand>> => {
     try {
-      const response = await actionParameterService.createActionParameter(data);
+      const response = await voiceCommandService.createVoiceCommand(data);
       if (response.success) {
         entityStore.setItem(response.data.id, {
           ...response.data,
-          __type: "actionParameter",
+          __type: "voiceCommand",
         });
-        entityStore.invalidateListsByPrefix("actionParameter:");
+        entityStore.invalidateListsByPrefix("voiceCommand:");
       }
       return response;
     } catch (err: any) {
@@ -160,20 +159,20 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
   };
 
-  const bulkCreateActionParameter = async (
-    data: BulkActionParameterCreate,
-  ): Promise<ApiResponse<ActionParameter[]>> => {
+  const bulkCreateVoiceCommand = async (
+    data: BulkVoiceCommandCreate,
+  ): Promise<ApiResponse<VoiceCommand[]>> => {
     try {
       const response =
-        await actionParameterService.bulkCreateActionParameter(data);
+        await voiceCommandService.bulkCreateVoiceCommand(data);
       if (response.success) {
-        response.data.forEach((actionParameter) => {
-          entityStore.setItem(actionParameter.id, {
-            ...actionParameter,
-            __type: "actionParameter",
+        response.data.forEach((voiceCommand) => {
+          entityStore.setItem(voiceCommand.id, {
+            ...voiceCommand,
+            __type: "voiceCommand",
           });
         });
-        entityStore.invalidateListsByPrefix("actionParameter:");
+        entityStore.invalidateListsByPrefix("voiceCommand:");
       }
       return response;
     } catch (err: any) {
@@ -185,22 +184,22 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     }
   };
 
-  const deleteActionParameter = async (
+  const deleteVoiceCommand = async (
     id: string,
   ): Promise<{ success: boolean; message?: string }> => {
     try {
-      const response = await actionParameterService.deleteActionParameter(id);
+      const response = await voiceCommandService.deleteVoiceCommand(id);
       if (response.success) {
         entityStore.clearItem(id);
-        entityStore.invalidateListsByPrefix("actionParameter:");
+        entityStore.invalidateListsByPrefix("voiceCommand:");
         return {
           success: true,
-          message: response.message || "Действие успешно удалено",
+          message: response.message || "Команда успешно удалена",
         };
       } else {
         return {
           success: false,
-          message: response.message || "Не удалось удалить действие",
+          message: response.message || "Не удалось удалить команду",
         };
       }
     } catch (err: any) {
@@ -215,20 +214,20 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
   return {
     filters,
     pagination,
-    actionParameters,
-    allActionParameters,
+    voiceCommands,
+    allVoiceCommands,
     loading: computed(() => entityStore.loading),
     error: computed(() => entityStore.error),
-    getParametersByAction,
-    getActionParameterById,
-    fetchActionParameters,
-    updateActionParameter,
-    createActionParameter,
-    fetchActionParameterById,
-    deleteActionParameter,
-    bulkCreateActionParameter,
+    getVoiceCommandsByAction,
+    getVoiceCommandById,
+    fetchVoiceCommands,
+    updateVoiceCommand,
+    createVoiceCommand,
+    fetchVoiceCommandById,
+    deleteVoiceCommand,
+    bulkCreateVoiceCommand,
 
-    setFilters: (newFilters: Partial<ActionParameterFilters>) => {
+    setFilters: (newFilters: Partial<VoiceCommandFilters>) => {
       filters.value = { ...filters.value, ...newFilters };
       pagination.page = 1;
     },

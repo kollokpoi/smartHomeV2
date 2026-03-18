@@ -44,6 +44,7 @@ import { useRoute } from 'vue-router';
 import { CONTENT_TYPE, PARAMETER_LOCATION, PARAMETER_TYPE } from '@/types/constants/parameterLocation';
 import type { ActionParameterCreateProps } from '@/types/props';
 import type { BulkValidationError } from '@/types/api';
+import router from '@/router';
 
 const toast = useToast();
 const route = useRoute();
@@ -51,7 +52,6 @@ const actionParameterStore = useActionParameterStore();
 const actionStore = useActionStore();
 
 const actionId = ref<string>('');
-const parameterLoading = computed(() => actionParameterStore.loading)
 const actionLoading = computed(() => actionStore.loading);
 
 const action = computed(() => {
@@ -118,8 +118,7 @@ const saveActionParameter = async () => {
                 detail: "Параметры сохранены",
                 life: 3000
             });
-
-
+            router.back()
         } else {
             if (response.bulkErrors && response.bulkErrors.length > 0) {
                 parameters.forEach(p => {

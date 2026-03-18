@@ -4,8 +4,8 @@
             {{ displayValue }}
         </dd>
         <Textarea v-else-if="textArea" v-model="localValue" :placeholder="placeholder" :disabled="disabled"
-            class="w-full" />
-        <InputText v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full" />
+            class="w-full" :id="fieldName"/>
+        <InputText v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full" :id="fieldName"/>
         <div v-if="validationResult && !validationResult.isValid" class="text-red-500 text-sm mt-1">
             {{ validationResult.message }}
         </div>

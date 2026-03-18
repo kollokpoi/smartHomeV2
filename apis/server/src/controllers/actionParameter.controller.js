@@ -315,7 +315,8 @@ class ActionParameterController {
           message: "Параметр не найден",
         });
       }
-
+      
+      const errors = parameterValidator.validate(req.body,true);
       if (errors.length > 0) {
         await transaction.rollback();
         return res.status(400).json({

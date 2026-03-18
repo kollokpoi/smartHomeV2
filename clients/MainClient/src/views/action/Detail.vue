@@ -6,7 +6,7 @@
         </div>
         <div class="flex gap-2">
             <Button @click="isEditing = !isEditing" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
-            }}</Button>
+                }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
 
@@ -105,6 +105,10 @@
         <div class="mt-4">
             <ActionParameterTable :action-parameters="actionParams || []" :loading />
         </div>
+
+        <div class="mt-4">
+            <VoiceCommandTable :voice-commands="voiceCommands || []" :loading />
+        </div>
     </div>
 </template>
 
@@ -123,12 +127,15 @@ import type { ActionAttributes } from '@/types/dto';
 import { formatDate } from '@/helpers/formatDate';
 import { booleanOptions } from '@/types/constants';
 import { useActionParameterStore } from '@/stores/modules/parameter.store';
+import VoiceCommandTable from '@/components/dataTables/VoiceCommandTable.vue';
+import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
 
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
 const actionStore = useActionStore();
 const actionParametersStore = useActionParameterStore();
+const voiceCommandStore = useVoiceCommandStore();
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
@@ -152,6 +159,7 @@ const action = computed(() => {
     return found || null;
 });
 const actionParams = computed(() => actionParametersStore.getParametersByAction(id.value).value);
+const voiceCommands = computed(() => voiceCommandStore.getVoiceCommandsByAction(id.value).value);
 
 const loadAction = async () => {
     loading.value = true;
@@ -173,7 +181,11 @@ const loadAction = async () => {
 };
 
 const loadActionParameters = async () => {
-    await actionParametersStore.fetchActionParameters({ actionId: id.value });
+    await actionParametersStore.fetchActionParameters({ actionId: id.value, limit:10 });
+};
+
+const loadVoiceCommands = async () => {
+    await voiceCommandStore.fetchVoiceCommands({ actionId: id.value, limit:10 });
 };
 
 const updateValidation = (result: ValidationResult) => {
@@ -260,5 +272,6 @@ onMounted(() => {
     id.value = route.params.id as string;
     loadAction();
     loadActionParameters();
+    loadVoiceCommands();
 });
 </script>

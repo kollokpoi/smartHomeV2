@@ -2,41 +2,37 @@
     <slot name="header">
 
     </slot>
-    <DataTable :value="actionParameters || []" :loading="loading" :row-class="rowClass" @row-click="onRowClick"
+    <DataTable :value="voiceCommands || []" :loading="loading" :row-class="rowClass" @row-click="onRowClick"
         @row-contextmenu="onRowContextMenu" :contextMenu="true" class="text-xs lg:text-base rounded-lg" scrollable
         :scrollHeight>
-        <Column header="Ключ" field="key" sortable>
-            <template #body="{ data }">
-                <p class="font-bold">{{ data.key }}</p>
-            </template>
-        </Column>
         <Column header="Действие" field="action.name" sortable>
             <template #body="{ data }">
                 <p class="font-bold">{{ data.action?.name }}</p>
             </template>
         </Column>
-        <Column header="Значение" field="value" class="hidden sm:table-cell">
+        <Column header="Команда" field="command">
             <template #body="{ data }">
-                <p>{{ truncateString(data.value, 50) }}</p>
+                <p>{{ truncateString(data.command, 50) }}</p>
             </template>
         </Column>
-        <Column header="Место" field="location" class="hidden lg:table-cell">
+        <Column header="Язык" field="language" sortable>
             <template #body="{ data }">
-                <Badge :severity="PARAMETER_LOCATION_SEVERITY[data.location as ParameterLocation]">{{
-                    PARAMETER_LOCATION_LABELS[data.location as ParameterLocation] }}</Badge>
+                <p>{{ data.language }}</p>
             </template>
         </Column>
-        <Column header="Тип" field="type" class="hidden lg:table-cell">
+        <Column header="Приоритет" field="priority" class="hidden sm:table-cell" sortable>
             <template #body="{ data }">
-                <Badge :severity="PARAMETER_TYPE_SEVERITY[data.type as ParameterType]">{{
-                    PARAMETER_TYPE_LABELS[data.type as ParameterType] }}</Badge>
+                <p>{{ data.priority }}</p>
             </template>
         </Column>
-        <Column header="Контент" field="contentType" class="hidden lg:table-cell">
+        <Column header="Вызовов" field="usageCount" class="hidden sm:table-cell" sortable>
             <template #body="{ data }">
-                <Badge :severity="CONTENT_TYPE_SEVERITY[data.contentType as ContentType]">{{
-                    CONTENT_TYPE_LABELS[data.contentType as ContentType] }}
-                </Badge>
+                <p>{{ data.usageCount }}</p>
+            </template>
+        </Column>
+        <Column header="Последный вызов" field="lastUsed" class="hidden sm:table-cell" sortable>
+            <template #body="{ data }">
+                <p>{{ formatDate(data.lastUsed)  }}</p>
             </template>
         </Column>
         <Column header="Действия">
@@ -55,16 +51,16 @@
 </template>
 
 <script setup lang="ts">
+import { formatDate } from '@/helpers/formatDate';
 import { truncateString } from '@/helpers/truncateString';
-import { useActionParameterStore } from '@/stores/modules/parameter.store';
-import { CONTENT_TYPE_LABELS, CONTENT_TYPE_SEVERITY, PARAMETER_LOCATION_SEVERITY, PARAMETER_TYPE_LABELS, PARAMETER_TYPE_SEVERITY, PARAMETER_LOCATION_LABELS, type ContentType, type ParameterLocation, type ParameterType } from '@/types/constants/parameterLocation';
-import { ActionParameter } from '@/types/dto';
+import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
+import { VoiceCommand } from '@/types/dto';
 import { ContextMenu, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 interface Props {
-    actionParameters: ActionParameter[]
+    voiceCommands: VoiceCommand[]
     loading: boolean
     scrollHeight?: string
 }
@@ -79,9 +75,9 @@ const toast = useToast()
 const confirm = useConfirm()
 const router = useRouter();
 
-const actionParameterStore = useActionParameterStore();
+const voiceCommandStore = useVoiceCommandStore();
 
-const selectedParameter = ref<ActionParameter | null>(null);
+const selectedCommand = ref<VoiceCommand | null>(null);
 
 const rowClass = () => {
     const classes = ['cursor-pointer text-xs lg:text-sm']
@@ -90,57 +86,52 @@ const rowClass = () => {
 
 const onRowContextMenu = (event: DataTableRowContextMenuEvent) => {
     contextMenuRef.value?.show(event.originalEvent)
-    selectedParameter.value = event.data
+    selectedCommand.value = event.data
 }
 
-const onRowClick = (event: DataTableRowClickEvent<ActionParameter>) => {
+const onRowClick = (event: DataTableRowClickEvent<VoiceCommand>) => {
     const data = event.data;
-    viewAction(data)
+    viewCommand(data)
 }
 
-const viewAction = function (action: ActionParameter) {
-    router.push(`/action-parameter/${action.id}`)
+const viewCommand = function (voiceCommand: VoiceCommand) {
+    router.push(`/voice-command/${voiceCommand.id}`)
 }
 
 const menuItems = computed(() => {
-    if (!selectedParameter.value) return []
+    if (!selectedCommand.value) return []
 
-    const action = selectedParameter.value
+    const voiceCommand = selectedCommand.value
 
     return [
         {
             label: 'Просмотреть',
             icon: 'pi pi-eye',
-            command: () => viewAction(action)
+            command: () => viewCommand(voiceCommand)
         },
         {
             label: 'Редактировать',
             icon: 'pi pi-pencil',
-            command: () => viewAction(action)
-        },
-        {
-            label: 'Вызов',
-            icon: 'pi pi-bolt',
-            command: () => router.push(`/action-parameter/${action.id}/edit`)
+            command: () => viewCommand(voiceCommand)
         },
         {
             label: 'Удалить',
             icon: 'pi pi-trash',
-            command: () => confirmDelete(action)
+            command: () => confirmDelete(voiceCommand)
         }
     ]
 })
 
-const showMenu = (event: Event, action: ActionParameter) => {
+const showMenu = (event: Event, voiceCommand: VoiceCommand) => {
     event.stopPropagation()
     event.preventDefault()
-    selectedParameter.value = action
+    selectedCommand.value = voiceCommand
     contextMenuRef.value?.show(event)
 }
 
-const confirmDelete = (action: ActionParameter) => {
+const confirmDelete = (voiceCommand: VoiceCommand) => {
     confirm.require({
-        message: `Удалить параметр "${action.key}"?`,
+        message: `Удалить команду "${voiceCommand.command}"?`,
         header: 'Подтверждение удаления',
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
@@ -148,11 +139,11 @@ const confirmDelete = (action: ActionParameter) => {
         rejectLabel: 'Отмена',
         accept: async () => {
             try {
-                const response = await actionParameterStore.deleteActionParameter(action.id);
+                const response = await voiceCommandStore.deleteVoiceCommand(voiceCommand.id);
                 if (response.success) {
                     toast.add({
                         severity: 'success',
-                        summary: `Параметр ${action.key} удалено`,
+                        summary: `Команда удаленf`,
                         detail: response.message,
                         life: 3000
                     })

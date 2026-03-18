@@ -3,7 +3,7 @@
         <dd v-if="!isEditing" class="cursor-pointer hover:bg-gray-50 p-1 rounded" @dblclick="startEditing">
             <Badge :severity="getSeverity(localValue)">{{ displayValue }}</Badge>
         </dd>
-        <Select v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full"
+        <Select v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full" :id="fieldName"
             :filter="filter" :options="items" :optionLabel="optionLabel || 'label'"
             :optionValue="optionValue || 'value'">
             <template #value="slotProps">

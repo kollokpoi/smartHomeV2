@@ -13,33 +13,33 @@
             leave-to-class="opacity-0 max-h-0 overflow-hidden">
             <div v-if="isExpanded" class="space-y-4">
                 <div>
-                    <dt class="text-sm text-foreground-dark">Ключ</dt>
+                    <label class="text-sm text-foreground-dark">Ключ</label>
                     <EditableText :isEditing="true" v-model="editData.key" :maxLength="50" required field-name="key"
                         @validation-change="updateValidation" :validation-result="validationState.key" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Значение</dt>
+                    <label class="text-sm text-foreground-dark">Значение</label>
                     <EditableText :isEditing="true" v-model="editData.value" :maxLength="50" field-name="value"
                         @validation-change="updateValidation" :validation-result="validationState.value" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Место</dt>
+                    <label class="text-sm text-foreground-dark">Место</label>
                     <EditableSelect :isEditing="true" v-model="editData.location" field-name="location"
                         :items="ActionParameterHelper.getLocationSelectOptions()"
                         :validation-result="validationState.location" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Тип значения</dt>
+                    <label class="text-sm text-foreground-dark">Тип значения</label>
                     <EditableSelect :isEditing="true" v-model="editData.type" field-name="type"
                         :items="ActionParameterHelper.getTypeSelectOptions()"
                         :validation-result="validationState.type" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Тип контента</dt>
+                    <label for="contentType" class="text-sm text-foreground-dark">Тип контента</label>
                     <EditableSelect :isEditing="true" v-model="editData.contentType" field-name="contentType"
                         @validation-change="updateValidation"
                         :items="ActionParameterHelper.getContentTypeSelectOptions()"
@@ -47,13 +47,13 @@
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Значение</dt>
+                    <label for="sortOrder" class="text-sm text-foreground-dark">Сортировка</label>
                     <EditableNumber :isEditing="true" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
                         @validation-change="updateValidation" :validation-result="validationState.sortOrder" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Активно</dt>
+                    <label class="text-sm text-foreground-dark">Активно</label>
                     <EditableSelect :isEditing="true" v-model="editData.isActive" field-name="isActive"
                         :validationResult="validationState.isActive" :items="booleanOptions" />
                 </div>
@@ -66,12 +66,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, computed } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
 import type { ValidationResult } from '@/types/editableFields';
-import type { ActionParameterAttributes } from '@/types/dto';
+import type { ActionParameterAttributes } from '@/types/dto/';
 import { booleanOptions } from '@/types/constants';
 import { ActionParameterHelper } from '@/helpers/actionParameterHelper';
 import type { ActionParameterCreateProps } from '@/types/props';
