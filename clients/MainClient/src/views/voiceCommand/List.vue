@@ -1,7 +1,7 @@
 <template>
     <div class="mb-6">
-        <h1 class="text-2xl font-bold mb-2">Параметры действий</h1>
-        <p class="text-gray-600">Управление параметрами действий</p>
+        <h1 class="text-2xl font-bold mb-2">Голосовые команды</h1>
+        <p class="text-gray-600">Управление командами действий</p>
     </div>
 
     <div class="flex w-full mb-3">
@@ -56,7 +56,7 @@
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Действие</label>
-                <Select v-model="tempFilters.actionId" :options="actionOptions" class="w-full" filter
+                <Select v-model="tempFilters.actionId" :options="actionStore.actionsOptions" class="w-full" filter
                     optionLabel="label" optionValue="value" placeholder="Все действия" :loading="actionsLoading"
                     showClear />
             </div>
@@ -129,7 +129,6 @@ const tempFilters = reactive<VoiceCommandFilters>({});
 const voiceCommands = computed(() => voiceCommandStore.voiceCommands);
 const loading = computed(() => voiceCommandStore.loading);
 
-const actions = computed(() => actionStore.allActions);
 const actionsLoading = computed(() => actionStore.loading);
 
 const pagination = computed(() => voiceCommandStore.pagination);
@@ -138,12 +137,6 @@ const storeFilters = computed(() => voiceCommandStore.filters);
 const hasActiveFilters = computed(() => {
     return Object.keys(storeFilters.value).length > 0;
 });
-
-const actionOptions = computed(() => [
-    { value: undefined, label: 'Все действия' },
-    ...(actions.value?.map(x => x.selectOption)) || []
-]);
-
 const languageOptions = languageHelper.getSelectOptionsWithNull();
 
 const getLanguageLabel = (value: string) => {
@@ -245,9 +238,7 @@ const togglePanel = () => {
     }
 };
 
-watch(searchText, (newVal) => {
-    updateSearch(newVal);
-});
+watch(searchText, updateSearch)
 
 watch(showFilter, (newVal) => {
     if (newVal) {

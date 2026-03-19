@@ -37,10 +37,13 @@ class DeviceService extends BaseService {
     data: DeviceAttributes,
     config?: AxiosRequestConfig,
   ): Promise<ApiResponse<Device>> {
-    const response = await this.get<DeviceAttributes>("/devices/", {
-      ...config,
+    const response = await this.post<DeviceAttributes>(
+      "/devices/",
       data,
-    });
+      {
+        ...config,
+      },
+    );
     if (response.success) {
       response.data = new Device(response.data);
     }

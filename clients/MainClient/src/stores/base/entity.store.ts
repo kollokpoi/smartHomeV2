@@ -13,6 +13,8 @@ interface EntityMetadata {
 }
 
 export const useEntityStore = defineStore("entity", () => {
+  let cleanupInterval: ReturnType<typeof setInterval>
+
   const items = ref<Record<string, any>>({});
   const lists = ref<Record<string, any[]>>({});
   const metadata = ref<Record<string, EntityMetadata>>({});
@@ -112,7 +114,7 @@ export const useEntityStore = defineStore("entity", () => {
   // Очистка просроченных элементов
   const cleanExpired = (maxAge: number = 10 * 60 * 1000) => {
     const now = Date.now();
-    
+
     Object.entries(metadata.value).forEach(([key, meta]) => {
       if (now - meta.timestamp > maxAge) {
         if (key.startsWith('item:')) {
@@ -126,6 +128,14 @@ export const useEntityStore = defineStore("entity", () => {
       }
     });
   };
+
+  const startCleanupInterval = () => {
+    cleanupInterval = setInterval(() => {
+      cleanExpired()
+    }, 5 * 60 * 1000) 
+  }
+
+  startCleanupInterval()
 
   return {
     items,

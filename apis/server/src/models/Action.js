@@ -66,10 +66,33 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: {},
         get() {
           const rawValue = this.getDataValue("metadata");
-          return rawValue ? JSON.parse(rawValue) : {};
+
+          // Если уже объект - возвращаем как есть
+          if (rawValue && typeof rawValue === 'object') {
+            return rawValue;
+          }
+
+          // Если строка - парсим
+          if (rawValue && typeof rawValue === 'string') {
+            try {
+              return JSON.parse(rawValue);
+            } catch (e) {
+              console.error('Error parsing metadata:', e);
+              return {};
+            }
+          }
+
+          // Если ничего нет - пустой объект
+          return {};
         },
         set(value) {
-          this.setDataValue("metadata", JSON.stringify(value || {}));
+          // Если value - объект, стрингифицируем
+          if (value && typeof value === 'object') {
+            this.setDataValue("metadata", JSON.stringify(value));
+          } else {
+            // Если уже строка или null - сохраняем как есть
+            this.setDataValue("metadata", value || '{}');
+          }
         },
       },
       timeout: {

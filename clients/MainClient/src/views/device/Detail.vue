@@ -102,7 +102,7 @@
 
     <div class="bg-background w-full p-3" v-if="actions.length > 0">
         <p class="text-xl text-foreground-dark font-bold mb-4">Действия</p>
-        <ActionTable :actions="actions" :loading="actionStore.loading" scroll-height="40vh" />
+        <ActionTable :actions="actions" :loading="actionStore.loading" scroll-height="40vh" v-memo="[actions.length, loading]" />
     </div>
 </template>
 
@@ -116,7 +116,7 @@ import EditableSelect from '@/components/editableFields/EditableSelect.vue';
 import type { ValidationResult } from '@/types/editableFields';
 import { useDeviceStore } from '@/stores/modules/device.store';
 import { useActionStore } from '@/stores/modules/action.store';
-import { Action, type DeviceAttributes } from '@/types/dto';
+import { type DeviceAttributes } from '@/types/dto';
 import { formatDate } from '@/helpers/formatDate';
 import { DeviceStatusHelper } from '@/helpers/deviceStatusHelper';
 import { booleanOptions } from '@/types/constants';
@@ -149,8 +149,7 @@ const device = computed(() => {
     const found = deviceStore.getDeviceById(id.value);
     return found || null;
 });
-
-const actions = ref<Action[]>([]);
+const actions = computed(() => actionStore.getActionsByDevice(id.value).value);
 
 const loadDevice = async () => {
     loading.value = true;
@@ -158,7 +157,7 @@ const loadDevice = async () => {
         const data = await deviceStore.fetchDeviceById(id.value);
         if (data) {
             Object.assign(editData, data);
-            actions.value = await actionStore.fetchActions({ deviceId: id.value , limit:5}) || [];
+             await actionStore.fetchActions({ deviceId: id.value, limit: 5 });
         }
     } catch (error) {
         toast.add({

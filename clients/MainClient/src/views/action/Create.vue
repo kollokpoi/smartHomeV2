@@ -1,15 +1,10 @@
 <template>
     <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
         <div class="text-foreground-dark">
-            <h1 class="text-2xl font-bold mb-2">Действия</h1>
-            <p>Управление действиями</p>
+            <h1 class="text-2xl font-bold mb-2">Создание действия</h1>
+            <p>Заполните поля для нового действия</p>
         </div>
-        <div class="flex gap-2">
-            <Button @click="isEditing = !isEditing" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
-            }}</Button>
-            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
-        </div>
-
+        <Button @click="save" :disabled="!isFormValid" severity="success">Сохранить</Button>
     </div>
 
     <div class="w-full flex justify-center" v-if="loading">
@@ -23,7 +18,11 @@
                 <EditableText :isEditing="true" v-model="editData.name" :maxLength="50" required field-name="name"
                     @validation-change="updateValidation" :validation-result="validationState.name" />
             </div>
-
+            <div>
+                <dt class="text-sm text-foreground-dark">Девайс</dt>
+                <EditableSelect :isEditing="true" v-model="editData.deviceId" field-name="deviceId" required
+                    :items="deviceStore.deviceOptions" :validation-result="validationState.deviceId"  placeholder="Устройство"/>
+            </div>
             <div>
                 <dt class="text-sm text-foreground-dark">Путь</dt>
                 <EditableText :isEditing="true" v-model="editData.path" :maxLength="150" required field-name="path"
@@ -72,98 +71,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useToast } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
-import type { ValidationResult } from '@/types/editableFields';
 import { httpMethodHelper } from '@/helpers/httpMethodHelper';
 import { useActionStore } from '@/stores/modules/action.store';
 import type { ActionAttributes } from '@/types/dto';
 import { booleanOptions } from '@/types/constants';
+import { useEntityForm } from '@/composables/useEntityForm';
+import { useRouter } from 'vue-router';
+import { useDeviceStore } from '@/stores/modules/device.store';
 
 const toast = useToast();
 const actionStore = useActionStore();
+const deviceStore = useDeviceStore();
+const router = useRouter();
 
 const loading = ref<boolean>(false);
-const validationState = ref<Record<string, ValidationResult>>({});
-const isEditing = ref<boolean>(false);
 
-const editData = reactive<ActionAttributes>({
-    deviceId: '',
-    name: '',
-    path: '',
-    port: 0,
-    method: 'GET',
-    description: '',
-    timeout: 5000,
-    sortOrder: 0,
-    isActive:true
-});
-
-
-const updateValidation = (result: ValidationResult) => {
-    if (result.fieldName) {
-        validationState.value[result.fieldName] = {
-            ...result
-        };
-    }
-};
-const isFormValid = computed(() => {
-    return Object.values(validationState.value).every(v => v.isValid);
-});
-
-const saveAction = async () => {
-    if (!isFormValid.value) return;
-
-    try {
-        const updatedAction = await actionStore.createAction(editData);
-        if (updatedAction.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: "Действие обновлено",
-                life: 3000
-            });
-            isEditing.value = false;
-        } else {
-            let errorMessage = updatedAction.message;
-            if (updatedAction.errors) {
-                updatedAction.errors.forEach(error => {
-                    errorMessage += `\nПоле ${error.field}`
-                    updateValidation({
-                        isValid: false,
-                        message: error.message,
-                        fieldName: error.field
-                    });
-                });
-            }
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: errorMessage || "Не удалось сохранить",
-                life: 3000
-            })
-
-        }
-    } catch {
+const {
+    validationState,
+    editData,
+    isFormValid,
+    updateValidation,
+    save,
+} = useEntityForm(
+    {
+        deviceId: '',
+        name: '',
+        path: '',
+        port: 0,
+        method: 'GET',
+        description: '',
+        timeout: 5000,
+        sortOrder: 0,
+        isActive: true
+    },
+    async (data: ActionAttributes) => {
+        return await actionStore.createAction(data);
+    },
+    () => {
         toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: "Не удалось сохранить",
+            severity: "success",
+            summary: "Успешно",
+            detail: "Действие создано",
             life: 3000
         });
+        router.back();
     }
-};
+);
 
-watch(isEditing, (newVal) => {
-    if (!newVal) {
-        validationState.value = {};
-    }
-});
 
-onMounted(() => {
-
-});
+onMounted(async()=>{
+    await deviceStore.fetchDevices();
+})
 </script>

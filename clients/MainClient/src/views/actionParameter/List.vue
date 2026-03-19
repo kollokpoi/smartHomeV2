@@ -5,7 +5,7 @@
     </div>
 
     <div class="flex w-full mb-3">
-        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" :disabled="loading" />
+        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
         <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
@@ -57,7 +57,7 @@
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Действие</label>
-                <Select v-model="tempFilters.actionId" :options="actionOptions" class="w-full" filter
+                <Select v-model="tempFilters.actionId" :options="actionStore.actionsOptions" class="w-full" filter
                     optionLabel="label" optionValue="value" placeholder="Все действия" :loading="actionsLoading"
                     showClear />
             </div>
@@ -154,8 +154,6 @@ const tempFilters = reactive<ActionParameterFilters>({});
 
 const actionParameters = computed(() => actionParameterStore.actionParameters);
 const loading = computed(() => actionParameterStore.loading);
-
-const actions = computed(() => actionStore.allActions);
 const actionsLoading = computed(() => actionStore.loading);
 
 const pagination = computed(() => actionParameterStore.pagination);
@@ -164,11 +162,6 @@ const storeFilters = computed(() => actionParameterStore.filters);
 const hasActiveFilters = computed(() => {
     return Object.keys(storeFilters.value).length > 0;
 });
-
-const actionOptions = computed(() => [
-    { value: undefined, label: 'Все действия' },
-    ...(actions.value?.map(x => x.selectOption)) || []
-]);
 
 const locationOptions = ActionParameterHelper.getLocationSelectOptions();
 const typeOptions = ActionParameterHelper.getTypeSelectOptions();
@@ -283,9 +276,7 @@ const togglePanel = () => {
     }
 };
 
-watch(searchText, (newVal) => {
-    updateSearch(newVal);
-});
+watch(searchText, updateSearch)
 
 watch(showFilter, (newVal) => {
     if (newVal) {

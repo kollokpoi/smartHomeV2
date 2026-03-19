@@ -13,7 +13,6 @@ import type { Action, ActionAttributes } from "@/types/dto";
 
 export const useActionStore = defineStore("action", () => {
   const entityStore = useEntityStore();
-
   const filters = ref<ActionFilters>({});
   const pagination = reactive<Pagination>({
     page: 1,
@@ -38,7 +37,10 @@ export const useActionStore = defineStore("action", () => {
       (item): item is Action => item && item.__type === "action",
     );
   });
-
+  const actionsOptions = computed(() => 
+    allActions.value.map(d => ({ value: d.id, label: d.name }))
+);
+  const totalActions = computed<number>(()=>pagination.total || 0)
   const getActionsByDevice = (deviceId: string) =>
     computed(() => allActions.value.filter((a) => a.deviceId === deviceId));
 
@@ -113,11 +115,11 @@ export const useActionStore = defineStore("action", () => {
   };
 
   const updateAction = async (
-    id: string,
+    id:string,
     data: ActionAttributes,
   ): Promise<ApiResponse<Action>> => {
     try {
-      const response = await actionService.updateAction(id, data);
+      const response = await actionService.updateAction(id,data);
       if (response.success) {
         entityStore.setItem(id, { ...response.data, __type: "action" });
         entityStore.invalidateListsByPrefix("action:");
@@ -184,6 +186,8 @@ export const useActionStore = defineStore("action", () => {
     pagination,
     actions,
     allActions,
+    actionsOptions,
+    totalActions,
     loading: computed(() => entityStore.loading),
     error: computed(() => entityStore.error),
     getActionsByDevice,

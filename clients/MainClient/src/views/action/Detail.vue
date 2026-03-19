@@ -6,7 +6,7 @@
         </div>
         <div class="flex gap-2">
             <Button @click="isEditing = !isEditing" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
-                }}</Button>
+            }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
 
@@ -181,11 +181,11 @@ const loadAction = async () => {
 };
 
 const loadActionParameters = async () => {
-    await actionParametersStore.fetchActionParameters({ actionId: id.value, limit:10 });
+    await actionParametersStore.fetchActionParameters({ actionId: id.value, limit: 10 });
 };
 
 const loadVoiceCommands = async () => {
-    await voiceCommandStore.fetchVoiceCommands({ actionId: id.value, limit:10 });
+    await voiceCommandStore.fetchVoiceCommands({ actionId: id.value, limit: 10 });
 };
 
 const updateValidation = (result: ValidationResult) => {
@@ -268,10 +268,12 @@ watch(isEditing, (newVal) => {
     }
 });
 
-onMounted(() => {
+onMounted(async () => {
     id.value = route.params.id as string;
-    loadAction();
-    loadActionParameters();
-    loadVoiceCommands();
+    await Promise.all([
+        loadAction(),
+        loadActionParameters(),
+        loadVoiceCommands()
+    ]);
 });
 </script>

@@ -24,8 +24,8 @@ export const useDeviceStore = defineStore("device", () => {
     hasPrev: false,
   });
 
-
-  const currentListKey = computed(() => 
+  const totalDevices = computed<number>(() => pagination.total || 0)
+  const currentListKey = computed(() =>
     `device:${JSON.stringify({ ...filters.value, page: pagination.page })}`
   );
 
@@ -39,19 +39,16 @@ export const useDeviceStore = defineStore("device", () => {
     );
   });
 
-  const activeDevices = computed(() => 
+  const activeDevices = computed(() =>
     allDevices.value.filter((d) => d.isActive)
   );
-  
+
   const onlineDevices = computed(() =>
     allDevices.value.filter((d) => d.status === "online"),
   );
-  
+
   const deviceOptions = computed(() =>
-    allDevices.value.map((d) => ({
-      value: d.id,
-      label: d.name,
-    })),
+    allDevices.value.map(d => ({ value: d.id, label: d.name }))
   );
 
   const getDeviceById = (id: string) => entityStore.getItem(id);
@@ -63,7 +60,7 @@ export const useDeviceStore = defineStore("device", () => {
     try {
       const response = await deviceService.getList({
         ...filters.value,
-        page: pagination.page,
+        ...pagination,
         ...params,
       });
 
@@ -107,19 +104,25 @@ export const useDeviceStore = defineStore("device", () => {
     }
   };
 
-  const createDevice = async (data: DeviceAttributes) => {
+  const createDevice = async (
+    data: DeviceAttributes,
+  ): Promise<ApiResponse<Device>> => {
     try {
       const response = await deviceService.createDevice(data);
       if (response.success) {
-        entityStore.setItem(response.data.id, { 
-          ...response.data, 
-          __type: 'device' 
+        entityStore.setItem(response.data.id, {
+          ...response.data,
+          __type: 'device'
         });
         entityStore.invalidateListsByPrefix('device:');
-        return response.data;
       }
+      return response;
     } catch (err: any) {
       entityStore.error = err.message;
+      return {
+        success: false,
+        message: err.message,
+      };
     }
   };
 
@@ -177,7 +180,7 @@ export const useDeviceStore = defineStore("device", () => {
   // Метод для поиска устройств по критериям
   const findDevices = (criteria: Partial<Device>) => {
     return allDevices.value.filter(device => {
-      return Object.entries(criteria).every(([key, value]) => 
+      return Object.entries(criteria).every(([key, value]) =>
         device[key as keyof Device] === value
       );
     });
@@ -207,7 +210,8 @@ export const useDeviceStore = defineStore("device", () => {
     activeDevices,
     onlineDevices,
     deviceOptions,
-    
+    totalDevices,
+
     getDeviceById,
     findDevices,
 

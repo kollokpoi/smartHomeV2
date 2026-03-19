@@ -28,7 +28,7 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     () =>
       `voiceCommand:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
   );
-
+  const totalVoiceCommands = computed<number>(() => pagination.total || 0)
   const voiceCommands = computed<VoiceCommand[]>(() => {
     return entityStore.getList(currentListKey.value) || [];
   });
@@ -39,6 +39,10 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
         item && item.__type === "voiceCommand",
     );
   });
+
+  const voiceCommandOptions = computed(() =>
+    allVoiceCommands.value.map(d => ({ value: d.id, label: d.command }))
+  );
 
   const getVoiceCommandsByAction = (actionId: string) =>
     computed(() =>
@@ -216,6 +220,8 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     pagination,
     voiceCommands,
     allVoiceCommands,
+    totalVoiceCommands,
+    voiceCommandOptions,
     loading: computed(() => entityStore.loading),
     error: computed(() => entityStore.error),
     getVoiceCommandsByAction,

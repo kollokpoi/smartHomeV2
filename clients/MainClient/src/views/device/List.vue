@@ -5,7 +5,7 @@
     </div>
 
     <div class="flex w-full mb-3">
-        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" :disabled="loading" />
+        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
         <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
@@ -121,7 +121,7 @@ const lastSeenFromDate = computed({
 const lastSeenToDate = computed({
     get: () => tempFilters.maxLastSeen ? new Date(tempFilters.maxLastSeen) : undefined,
     set: (value: Date | undefined) => {
-        tempFilters.minLastSeen = value;
+        tempFilters.maxLastSeen = value;
     }
 });
 
@@ -196,9 +196,7 @@ const togglePanel = () => {
     }
 };
 
-watch(searchText, (newVal) => {
-    updateSearch(newVal);
-});
+watch(searchText, updateSearch)
 
 watch(showFilter, (newVal) => {
     if (newVal) {

@@ -5,7 +5,7 @@
     </div>
 
     <div class="flex w-full mb-3">
-        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" :disabled="loading" />
+        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText"/>
         <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
@@ -13,7 +13,7 @@
 
     <div class="flex relative">
         <div class="flex-1">
-            <ActionTable :actions="actions" :loading="loading" @deleted="loadActions" />
+            <ActionTable :actions="actions" :loading="loading" @deleted="loadActions" v-memo="[actions.length, loading]"/>
             <Paginator 
                 v-if="pagination.total > pagination.limit" 
                 :rows="pagination.limit"
@@ -62,9 +62,9 @@
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Устройство</label>
-                <Select v-model="tempFilters.deviceId" :options="deviceOptions" class="w-full" filter
+                <Select v-model="tempFilters.deviceId" :options="deviceStore.deviceOptions" class="w-full" filter
                     optionLabel="label" optionValue="value" placeholder="Все устройства" 
-                    :loading="devicesLoading" />
+                    :loading="deviceStore.loading" />
             </div>
 
             <div>
@@ -127,25 +127,23 @@
 
 <script setup lang="ts">
 import ActionTable from '@/components/dataTables/ActionTable.vue';
-import type { Device } from '@/types/dto';
 import debounce from 'lodash/debounce';
 import { ref, computed, onMounted, reactive, watch, onUnmounted } from 'vue';
 import { useToast } from 'primevue';
-import { deviceService } from '@/services';
 import type { ActionFilters } from '@/types/searchParams';
 import { useActionStore } from '@/stores/modules/action.store';
 import router from '@/router';
 import { httpMethodHelper } from '@/helpers/httpMethodHelper';
+import { useDeviceStore } from '@/stores/modules/device.store';
 
 const toast = useToast();
 const actionStore = useActionStore();
+const deviceStore = useDeviceStore()
 
 const showFilter = ref(false);
 const isExpanded = ref(false);
 const isHovered = ref(false);
 const searchText = ref('');
-const devices = ref<Device[]>([]);
-const devicesLoading = ref(false);
 
 // Создаем локальную копию фильтров для диалога
 const tempFilters = reactive<ActionFilters>({});
@@ -174,14 +172,6 @@ const hasActiveFilters = computed(() => {
     return Object.keys(storeFilters.value).length > 0;
 });
 
-const deviceOptions = computed(() => [
-    { value: undefined, label: 'Все устройства' },
-    ...(devices.value?.map(d => ({
-        value: d.id,
-        label: d.name
-    })) || [])
-]);
-
 const localMethodOptions = [
     { value: undefined, label: 'Все методы' },
     ...httpMethodHelper.getSelectOptions()
@@ -207,19 +197,8 @@ const loadActions = async () => {
 };
 
 const loadDevices = async () => {
-    devicesLoading.value = true;
     try {
-        const response = await deviceService.getList();
-        if (response.success) {
-            devices.value = response.data;
-        } else {
-            toast.add({
-                severity: "error",
-                summary: 'Ошибка',
-                detail: response.message || "Не удалось загрузить устройства",
-                life: 3000
-            });
-        }
+        await deviceStore.fetchDevices();
     } catch {
         toast.add({
             severity: "error",
@@ -227,8 +206,6 @@ const loadDevices = async () => {
             detail: "Не удалось загрузить устройства",
             life: 3000
         });
-    } finally {
-        devicesLoading.value = false;
     }
 };
 

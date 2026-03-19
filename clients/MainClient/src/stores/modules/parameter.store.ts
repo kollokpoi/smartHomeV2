@@ -29,7 +29,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     () =>
       `actionParameter:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
   );
-
+  const totalActionParameters = computed<number>(() => pagination.total || 0)
   const actionParameters = computed<ActionParameter[]>(() => {
     return entityStore.getList(currentListKey.value) || [];
   });
@@ -40,6 +40,10 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
         item && item.__type === "actionParameter",
     );
   });
+
+  const actionParameterOptions = computed(() =>
+    allActionParameters.value.map(d => ({ value: d.id, label: d.key }))
+  );
 
   const getParametersByAction = (actionId: string) =>
     computed(() =>
@@ -217,6 +221,9 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     pagination,
     actionParameters,
     allActionParameters,
+    totalActionParameters,
+    actionParameterOptions,
+    
     loading: computed(() => entityStore.loading),
     error: computed(() => entityStore.error),
     getParametersByAction,
