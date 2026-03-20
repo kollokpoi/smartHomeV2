@@ -5,7 +5,7 @@
             <p>Управление действиями</p>
         </div>
         <div class="flex gap-2">
-            <Button @click="isEditing = !isEditing" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
+            <Button @click="toggleEdit" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
             }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
@@ -113,14 +113,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
 import ActionParameterTable from '@/components/dataTables/ActionParameterTable.vue';
-import type { ValidationResult } from '@/types/editableFields';
 import { httpMethodHelper } from '@/helpers/httpMethodHelper';
 import { useActionStore } from '@/stores/modules/action.store';
 import type { ActionAttributes } from '@/types/dto';
@@ -129,6 +128,7 @@ import { booleanOptions } from '@/types/constants';
 import { useActionParameterStore } from '@/stores/modules/parameter.store';
 import VoiceCommandTable from '@/components/dataTables/VoiceCommandTable.vue';
 import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
+import { useEntityForm } from '@/composables/useEntityForm';
 
 const route = useRoute();
 const router = useRouter();
@@ -139,20 +139,30 @@ const voiceCommandStore = useVoiceCommandStore();
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
-const validationState = ref<Record<string, ValidationResult>>({});
-const isEditing = ref<boolean>(false);
 
-const editData = reactive<ActionAttributes>({
-    deviceId: '',
-    name: '',
-    path: '',
-    port: 0,
-    method: 'GET',
-    description: '',
-    timeout: 5000,
-    sortOrder: 0,
-    metadata: {}
-});
+const {
+    validationState,
+    editData,
+    isFormValid,
+    updateValidation,
+    isEditing,
+    save,
+} = useEntityForm(
+    {
+        deviceId: '',
+        name: '',
+        path: '',
+        port: 0,
+        method: 'GET',
+        description: '',
+        timeout: 5000,
+        sortOrder: 0,
+        metadata: {}
+    } as ActionAttributes,
+    async (data: ActionAttributes) => {
+        return await actionStore.updateAction(id.value, data);
+    },
+);
 
 const action = computed(() => {
     const found = actionStore.getActionById(id.value);
@@ -188,59 +198,26 @@ const loadVoiceCommands = async () => {
     await voiceCommandStore.fetchVoiceCommands({ actionId: id.value, limit: 10 });
 };
 
-const updateValidation = (result: ValidationResult) => {
-    if (result.fieldName) {
-        validationState.value[result.fieldName] = {
-            ...result
-        };
-    }
-};
-const isFormValid = computed(() => {
-    return Object.values(validationState.value).every(v => v.isValid);
-});
-
 const saveAction = async () => {
-    if (!isFormValid.value) return;
+    const result = await save()
 
-    try {
-        const updatedAction = await actionStore.updateAction(id.value, editData);
-        if (updatedAction.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: "Действие обновлено",
-                life: 3000
-            });
-            isEditing.value = false;
-        } else {
-            let errorMessage = updatedAction.message;
-            if (updatedAction.errors) {
-                updatedAction.errors.forEach(error => {
-                    errorMessage += `\nПоле ${error.field}`
-                    updateValidation({
-                        isValid: false,
-                        message: error.message,
-                        fieldName: error.field
-                    });
-                });
-            }
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: errorMessage || "Не удалось сохранить",
-                life: 3000
-            })
-
-        }
-    } catch {
+    if (result.success) {
+        toast.add({
+            severity: "success",
+            summary: "Успешно",
+            detail: "Действие обновлено",
+            life: 3000
+        })
+        isEditing.value = false;
+    } else {
         toast.add({
             severity: "error",
             summary: "Ошибка",
-            detail: "Не удалось сохранить",
+            detail: result.message || "Не удалось сохранить",
             life: 3000
-        });
+        })
     }
-};
+}
 
 const callAction = () => {
 
@@ -262,11 +239,14 @@ const goToActionParameters = () => {
     })
 }
 
-watch(isEditing, (newVal) => {
-    if (!newVal) {
+const toggleEdit = () => {
+    if (isEditing.value) {
         validationState.value = {};
+        Object.assign(editData, action.value);
     }
-});
+    isEditing.value = !isEditing.value;
+};
+
 
 onMounted(async () => {
     id.value = route.params.id as string;

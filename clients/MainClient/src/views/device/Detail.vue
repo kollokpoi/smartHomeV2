@@ -5,10 +5,10 @@
             <p>Управление устройством</p>
         </div>
         <div class="flex gap-2">
-            <Button @click="isEditing = !isEditing">{{
+            <Button @click="toggleEdit">{{
                 isEditing ? 'Отменить' : 'Редактировать'
             }}</Button>
-            <Button @click="saveDevice" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
+            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
     </div>
 
@@ -102,18 +102,18 @@
 
     <div class="bg-background w-full p-3" v-if="actions.length > 0">
         <p class="text-xl text-foreground-dark font-bold mb-4">Действия</p>
-        <ActionTable :actions="actions" :loading="actionStore.loading" scroll-height="40vh" v-memo="[actions.length, loading]" />
+        <ActionTable :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
+            v-memo="[actions.length, loading]" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useToast } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
-import type { ValidationResult } from '@/types/editableFields';
 import { useDeviceStore } from '@/stores/modules/device.store';
 import { useActionStore } from '@/stores/modules/action.store';
 import { type DeviceAttributes } from '@/types/dto';
@@ -121,6 +121,7 @@ import { formatDate } from '@/helpers/formatDate';
 import { DeviceStatusHelper } from '@/helpers/deviceStatusHelper';
 import { booleanOptions } from '@/types/constants';
 import ActionTable from '@/components/dataTables/ActionTable.vue';
+import { useEntityForm } from '@/composables/useEntityForm';
 
 const route = useRoute();
 const toast = useToast();
@@ -129,21 +130,31 @@ const actionStore = useActionStore();
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
-const validationState = reactive<Record<string, ValidationResult>>({});
-const isEditing = ref<boolean>(false);
 
-const editData = reactive<DeviceAttributes>({
-    id: '',
-    ip: '',
-    name: '',
-    handlerPath: '',
-    description: '',
-    status: 'offline',
-    sortOrder: 0,
-    isActive: true,
-    lastSeen: undefined,
-    metadata: {}
-});
+const {
+    validationState,
+    editData,
+    isFormValid,
+    isEditing,
+    updateValidation,
+    save,
+} = useEntityForm(
+    {
+        id: '',
+        ip: '',
+        name: '',
+        handlerPath: '',
+        description: '',
+        status: 'offline',
+        sortOrder: 0,
+        isActive: true,
+        lastSeen: undefined,
+        metadata: {}
+    } as DeviceAttributes,
+    async (data: DeviceAttributes) => {
+        return await deviceStore.updateDevice(id.value, data);
+    },
+);
 
 const device = computed(() => {
     const found = deviceStore.getDeviceById(id.value);
@@ -151,13 +162,34 @@ const device = computed(() => {
 });
 const actions = computed(() => actionStore.getActionsByDevice(id.value).value);
 
+const saveAction = async () => {
+    const result = await save()
+
+    if (result.success) {
+        toast.add({
+            severity: "success",
+            summary: "Успешно",
+            detail: "Действие обновлено",
+            life: 3000
+        })
+        isEditing.value = false;
+    } else {
+        toast.add({
+            severity: "error",
+            summary: "Ошибка",
+            detail: result.message || "Не удалось сохранить",
+            life: 3000
+        })
+    }
+}
+
 const loadDevice = async () => {
     loading.value = true;
     try {
         const data = await deviceStore.fetchDeviceById(id.value);
         if (data) {
             Object.assign(editData, data);
-             await actionStore.fetchActions({ deviceId: id.value, limit: 5 });
+            await actionStore.fetchActions({ deviceId: id.value, limit: 5 });
         }
     } catch (error) {
         toast.add({
@@ -171,70 +203,13 @@ const loadDevice = async () => {
     }
 };
 
-const updateValidation = (result: ValidationResult) => {
-    if (result.fieldName) {
-        validationState[result.fieldName] = {
-            ...result
-        };
+const toggleEdit = () => {
+    if (isEditing.value) {
+        validationState.value = {};
+        Object.assign(editData, device.value);
     }
+    isEditing.value = !isEditing.value;
 };
-
-const isFormValid = computed(() => {
-    return Object.values(validationState).every(v => v.isValid);
-});
-
-const saveDevice = async () => {
-    if (!isFormValid.value) return;
-
-    try {
-        const updatedDevice = await deviceStore.updateDevice(id.value, editData);
-        if (updatedDevice.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: "Устройство обновлено",
-                life: 3000
-            });
-            isEditing.value = false;
-        } else {
-            let errorMessage = updatedDevice.message;
-            if (updatedDevice.errors) {
-                updatedDevice.errors.forEach(error => {
-                    errorMessage += `\nПоле ${error.field}`
-                    updateValidation({
-                        isValid: false,
-                        message: error.message,
-                        fieldName: error.field
-                    });
-                });
-            }
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: errorMessage || "Не удалось сохранить",
-                life: 3000
-            })
-
-        }
-    } catch {
-        toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: "Не удалось сохранить",
-            life: 3000
-        });
-    }
-};
-
-
-watch(isEditing, (newVal) => {
-    if (!newVal) {
-        Object.values(validationState).every(v => v.isValid = true);
-        if (device.value) {
-            Object.assign(editData, device.value);
-        }
-    }
-});
 
 onMounted(() => {
     id.value = route.params.id as string;

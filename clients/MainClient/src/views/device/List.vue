@@ -42,7 +42,7 @@
                         </div>
                         <div class="space-y-4 flex flex-col items-center gap-2">
                             <Button label="Создать новое" icon="pi pi-plus" severity="success" class="w-full"
-                                @click="addApplication" />
+                                @click="goToCreateDevice" />
                             <Button label="Статистика" icon="pi pi-chart-bar" class="w-full" @click="showStats" />
                         </div>
                     </div>
@@ -143,6 +143,7 @@ const booleanOptions = [
     { value: false, label: 'Нет' },
 ];
 
+
 const loadDevices = async () => {
     await deviceStore.fetchDevices({
         ...deviceStore.filters,
@@ -175,7 +176,7 @@ const onPageChange = (event: any) => {
     loadDevices();
 };
 
-const addApplication = () => {
+const goToCreateDevice = () => {
     router.push('/device/create');
 };
 

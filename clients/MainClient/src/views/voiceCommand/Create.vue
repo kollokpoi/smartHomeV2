@@ -12,39 +12,38 @@
         </div>
 
         <div class="w-full space-y-5">
-            <CreateVoiceCommand v-for="(command, index) in voiceCommands" :key="command.listIndex"
-                :voice-command="command.voiceCommand" :validation-state="command.validationState"
-                :block-extended="command.blockExtended" @update:expanded="(val) => command.blockExtended = val"
-                @update:validation-state="(val) => command.validationState = val">
+            <CreateVoiceCommand v-for="(command, index) in items" :key="command.listIndex"
+                :voice-command="command.data" :validation-state="command.validationState"
+                :block-extended="command.blockExtended" @update:expanded="(val) => setExpanded(command.id, val)"
+                @update:validation-state="(result) => updateValidation(command.id, result)">
                 <template v-slot:header>
                     <div class="flex items-center justify-between w-full">
                         <div class="flex items-center gap-2">
-                            <p>{{ command.voiceCommand.command || 'Новый параметр' }}</p>
+                            <p>{{ command.data.command || 'Новый параметр' }}</p>
                             <Badge v-if="!command.blockExtended" value="Свернуто" severity="secondary" size="small" />
                             <Badge v-if="hasErrors(command)" value="!" severity="danger" size="small" />
                         </div>
 
-                        <Badge v-if="index > 0" value="Удалить" severity="danger" @click="deleteBlock(index)" />
+                        <Badge v-if="index > 0" value="Удалить" severity="danger" @click="removeItem(command.id)" />
                     </div>
                 </template>
             </CreateVoiceCommand>
 
-            <Button @click="pushNewItem" class="ml-auto">Добавить</Button>
+            <Button @click="addItem(actionId)" class="ml-auto">Добавить</Button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useToast } from 'primevue';
 import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
 import CreateVoiceCommand from '@/components/createElements/CreateVoiceCommand.vue';
 import { useActionStore } from '@/stores/modules/action.store';
 import { useRoute } from 'vue-router';
-import type { VoiceCommandCreateProps } from '@/types/props';
-import type { BulkValidationError } from '@/types/api';
 import router from '@/router';
 import type { VoiceCommandAttributes } from '@/types/dto';
+import { useBulkForm } from '@/composables/useBulkForm';
 
 const toast = useToast();
 const route = useRoute();
@@ -58,127 +57,56 @@ const action = computed(() => {
     const found = actionStore.getActionById(actionId.value);
     return found || null;
 });
-const voiceCommands = reactive<VoiceCommandCreateProps[]>([])
 
-const hasErrors = (param: VoiceCommandCreateProps) => {
-    return Object.values(param.validationState).some(v => !v.isValid);
-};
-
-const isFormValid = computed(() => {
-    const res = voiceCommands.every(param => {
-        const hasValidationErrors = Object.values(param.validationState).some(v => !v.isValid);
-        return !hasValidationErrors;
-    });
-    return res;
-});
-
-const pushNewItem = () => {
-    if (!actionId.value) return;
-    const newParam : VoiceCommandAttributes = {
-        actionId: actionId.value,
+const {
+    items,
+    isFormValid,
+    hasErrors,
+    init,
+    addItem,
+    removeItem,
+    updateValidation,
+    setExpanded,
+    save
+} = useBulkForm(
+    (id: string) => ({
+        actionId: id,
         command: '',
-        isActive:true
+        isActive: true
+    } as VoiceCommandAttributes),
+    async (data) => {
+        return await voiceCommandStore.bulkCreateVoiceCommand({
+            actionId: actionId.value,
+            commands: data
+        })
     }
-    voiceCommands.push({
-        listIndex: voiceCommands.length ?? 0,
-        validationState: {},
-        voiceCommand: newParam,
-        blockExtended: true
-    })
-}
-
-const deleteBlock = (index: number) => {
-    if (voiceCommands.length <= index) return
-    voiceCommands.splice(index, 1);
-
-    voiceCommands.forEach((param, idx) => {
-        param.listIndex = idx;
-    });
-}
+)
 
 const saveVoiceCommand = async () => {
-    if (!isFormValid.value) return;
+    const result = await save()
 
-    try {
-        const response = await voiceCommandStore.bulkCreateVoiceCommand({
-            actionId: actionId.value,
-            commands: voiceCommands.map(x => x.voiceCommand)
-        });
-
-        if (response.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: "Параметры сохранены",
-                life: 3000
-            });
-            router.back()
-        } else {
-            if (response.bulkErrors && response.bulkErrors.length > 0) {
-                voiceCommands.forEach(p => {
-                    p.validationState = {};
-                });
-
-                response.bulkErrors.forEach((error: BulkValidationError) => {
-                    const param = voiceCommands[error.index];
-                    if (param) {
-                        error.errors.forEach(err => {
-                            param.validationState[err.field] = {
-                                isValid: false,
-                                message: err.message,
-                                fieldName: err.field
-                            };
-                        });
-                        param.blockExtended = true;
-                    }
-                });
-
-                toast.add({
-                    severity: "error",
-                    summary: "Ошибка валидации",
-                    detail: "Проверьте правильность заполнения полей",
-                    life: 3000
-                });
-            } else if (response.errors) {
-                response.errors.forEach(err => {
-                    if (voiceCommands[0]) {
-                        voiceCommands[0].validationState[err.field] = {
-                            isValid: false,
-                            message: err.message,
-                            fieldName: err.field
-                        };
-                    }
-                });
-
-                toast.add({
-                    severity: "error",
-                    summary: "Ошибка",
-                    detail: response.message || "Ошибка валидации",
-                    life: 3000
-                });
-            } else {
-                toast.add({
-                    severity: "error",
-                    summary: "Ошибка",
-                    detail: response.message || "Не удалось сохранить",
-                    life: 3000
-                });
-            }
-        }
-    } catch (error) {
+    if (result?.success) {
+        toast.add({
+            severity: "success",
+            summary: "Успешно",
+            detail: "Параметры сохранены",
+            life: 3000
+        })
+        router.back()
+    } else if (result && !result.success && !result.bulkErrors) {
         toast.add({
             severity: "error",
             summary: "Ошибка",
-            detail: "Не удалось сохранить",
+            detail: result.message || "Не удалось сохранить",
             life: 3000
-        });
+        })
     }
 };
 
 onMounted(async () => {
     actionId.value = route.params.actionId as string;
     await actionStore.fetchActionById(actionId.value, true)
-    pushNewItem()
+    init(actionId.value, 1);
 });
 
 </script>

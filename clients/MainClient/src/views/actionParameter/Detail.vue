@@ -8,8 +8,7 @@
             <Button @click="updateEdit">{{ isEditing ? 'Отменить' : 'Редактировать'
             }}</Button>
             <Button @click="confirmDelete" v-if="!isEditing" severity="danger">Удалить</Button>
-            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing"
-                severity="success">Сохранить</Button>
+            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
 
     </div>
@@ -88,19 +87,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useConfirm, useToast } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
-import type { ValidationResult } from '@/types/editableFields';
 import type { ActionParameterAttributes } from '@/types/dto';
 import { formatDate } from '@/helpers/formatDate';
 import { booleanOptions } from '@/types/constants';
 import { useActionParameterStore } from '@/stores/modules/parameter.store';
 import { PARAMETER_LOCATION, PARAMETER_TYPE, CONTENT_TYPE } from '@/types/constants/parameterLocation';
 import { ActionParameterHelper } from '@/helpers/actionParameterHelper';
+import { useEntityForm } from '@/composables/useEntityForm';
 
 const route = useRoute();
 const router = useRouter();
@@ -112,25 +111,56 @@ const actionParametersStore = useActionParameterStore();
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
-const validationState = ref<Record<string, ValidationResult>>({});
-const isEditing = ref<boolean>(false);
 
-const editData = reactive<ActionParameterAttributes>({
-    actionId: '',
-    key: '',
-    location: PARAMETER_LOCATION.query,
-    value: '',
-    type: PARAMETER_TYPE.string,
-    required: false,
-    contentType: CONTENT_TYPE.json,
-    sortOrder: 0,
-    isActive: true
-});
+const {
+    validationState,
+    editData,
+    isFormValid,
+    updateValidation,
+    isEditing,
+    save,
+} = useEntityForm(
+    {
+        actionId: '',
+        key: '',
+        location: PARAMETER_LOCATION.query,
+        value: '',
+        type: PARAMETER_TYPE.string,
+        required: false,
+        contentType: CONTENT_TYPE.json,
+        sortOrder: 0,
+        isActive: true
+    } as ActionParameterAttributes,
+    async (data: ActionParameterAttributes) => {
+        return await actionParametersStore.updateActionParameter(id.value, data);
+    },
+);
 
 const actionParameter = computed(() => {
     const found = actionParametersStore.getActionParameterById(id.value);
     return found || null;
 });
+
+const saveAction = async () => {
+    const result = await save()
+    
+    if (result.success) {
+        toast.add({
+            severity: "success",
+            summary: "Успешно",
+            detail: "Действие обновлено",
+            life: 3000
+        })
+        isEditing.value = false;
+    } else {
+        toast.add({
+            severity: "error",
+            summary: "Ошибка",
+            detail: result.message || "Не удалось сохранить",
+            life: 3000
+        })
+    }
+}
 
 const loadActionParameter = async () => {
     loading.value = true;
@@ -151,63 +181,8 @@ const loadActionParameter = async () => {
     }
 };
 
-
-const updateValidation = (result: ValidationResult) => {
-    if (result.fieldName) {
-        validationState.value[result.fieldName] = {
-            ...result
-        };
-    }
-};
-const isFormValid = computed(() => {
-    return Object.values(validationState.value).every(v => v.isValid);
-});
-
-const saveAction = async () => {
-    if (!isFormValid.value) return;
-
-    try {
-        const updatedAction = await actionParametersStore.updateActionParameter(id.value, editData);
-        if (updatedAction.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: "Действие обновлено",
-                life: 3000
-            });
-            isEditing.value = false;
-        } else {
-            let errorMessage = updatedAction.message;
-            if (updatedAction.errors) {
-                updatedAction.errors.forEach(error => {
-                    errorMessage += `\nПоле ${error.field}`
-                    updateValidation({
-                        isValid: false,
-                        message: error.message,
-                        fieldName: error.field
-                    });
-                });
-            }
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: errorMessage || "Не удалось сохранить",
-                life: 3000
-            })
-
-        }
-    } catch {
-        toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: "Не удалось сохранить",
-            life: 3000
-        });
-    }
-};
-
 const confirmDelete = () => {
-    if(!actionParameter.value) return
+    if (!actionParameter.value) return
     confirm.require({
         message: `Удалить параметр "${actionParameter.value.key}"?`,
         header: 'Подтверждение удаления',
@@ -251,12 +226,6 @@ const updateEdit = () => {
     if (!isEditing.value)
         Object.assign(editData, actionParameter.value);
 }
-
-watch(isEditing, (newVal) => {
-    if (!newVal) {
-        validationState.value = {};
-    }
-});
 
 onMounted(() => {
     id.value = route.params.id as string;

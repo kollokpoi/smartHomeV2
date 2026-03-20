@@ -4,7 +4,7 @@
             <h1 class="text-2xl font-bold mb-2">Создание действия</h1>
             <p>Заполните поля для нового действия</p>
         </div>
-        <Button @click="save" :disabled="!isFormValid" severity="success">Сохранить</Button>
+        <Button @click="saveAction" :disabled="!isFormValid" severity="success">Сохранить</Button>
     </div>
 
     <div class="w-full flex justify-center" v-if="loading">
@@ -111,18 +111,31 @@ const {
     },
     async (data: ActionAttributes) => {
         return await actionStore.createAction(data);
-    },
-    () => {
+    }
+);
+const saveAction = async () => {
+    const result = await save()
+    
+    if (result.success) {
         toast.add({
             severity: "success",
             summary: "Успешно",
             detail: "Действие создано",
             life: 3000
-        });
-        router.back();
+        })
+        router.push({
+            name:'ActionDetail',
+            params:{id:result.data.id}
+        })
+    } else {
+        toast.add({
+            severity: "error",
+            summary: "Ошибка",
+            detail: result.message || "Не удалось сохранить",
+            life: 3000
+        })
     }
-);
-
+}
 
 onMounted(async()=>{
     await deviceStore.fetchDevices();
