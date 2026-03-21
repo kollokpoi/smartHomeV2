@@ -3,6 +3,7 @@
     <p>Устройств{{ deviceStore.totalDevices }}</p>
     <p>Команд{{ voiceCommandStore.totalVoiceCommands }}</p>
     <p>Параметров{{ actionParameterStore.totalActionParameters }}</p>
+    <p>{{ networkStore.apiUrl }}</p>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/modules/auth.store';
@@ -11,9 +12,11 @@ import { useActionStore } from '@/stores/modules/action.store';
 import { useDeviceStore } from '@/stores/modules/device.store';
 import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
 import { useActionParameterStore } from '@/stores/modules/parameter.store';
+import { useNetworkStore } from '@/stores/modules/network.store';
 import { onMounted } from 'vue';
 
 const authStore = useAuthStore();
+const networkStore = useNetworkStore();
 const themeStore = useThemeStore();
 const actionStore = useActionStore()
 const deviceStore = useDeviceStore();

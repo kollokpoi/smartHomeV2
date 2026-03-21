@@ -164,7 +164,6 @@ class DeviceController {
     }
   }
 
-  // Получение устройства по ID
   async getById(req, res, next) {
     try {
       const device = await Device.findByPk(req.params.id, {
@@ -186,7 +185,6 @@ class DeviceController {
           message: "Устройство не найдено",
         });
       }
-
       res.json({
         success: true,
         data: device,

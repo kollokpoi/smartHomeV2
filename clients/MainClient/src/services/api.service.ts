@@ -1,44 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios'
-import { useAuthStore } from '@/stores/modules/auth.store'
-import router from '@/router'
-
-
-import type { ApiErrorResponse, ApiResponse } from '@/types/api'
-
-const API_BASE_URL = 'http://127.0.0.1:3000/api'
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+import { useAuthStore } from "@/stores/modules/auth.store";
+import type { ApiErrorResponse, ApiResponse } from "@/types/api";
+import { useNetworkStore } from "@/stores/modules/network.store";
+import router from "@/router";
 
 export class ApiService {
-  private axiosInstance: AxiosInstance
+  private axiosInstance: AxiosInstance;
 
   constructor() {
+    const networkStore = useNetworkStore();
     this.axiosInstance = axios.create({
-      baseURL: API_BASE_URL,
+      baseURL: networkStore.apiUrl,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    })
+    });
 
-    this.setupInterceptors()
+    this.setupInterceptors();
   }
 
   private setupInterceptors() {
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        const authStore = useAuthStore()
-        const token = authStore.token
+        const authStore = useAuthStore();
+        const token = authStore.token;
 
         if (token && config.headers) {
-          config.headers.Authorization = `Bearer ${token}`
+          config.headers.Authorization = `Bearer ${token}`;
         }
 
-        return config
+        return config;
       },
       (error) => {
-        return Promise.reject(error)
-      }
-    )
+        return Promise.reject(error);
+      },
+    );
 
     this.axiosInstance.interceptors.response.use(
       (response) => response,
@@ -62,16 +60,16 @@ export class ApiService {
             }
           } catch (refreshError) {
             authStore.logout();
-            router.push('/login');
+            router.push("/login");
             return Promise.reject(refreshError);
           }
         }
 
         if (error.response?.status >= 400 && error.response?.status < 500) {
           const errorData = error.response.data;
-          
+
           const errorBox: ApiErrorResponse = {
-            message: errorData.message || 'Произошла ошибка',
+            message: errorData.message || "Произошла ошибка",
             success: false,
             statusCode: error.response.status,
             timestamp: errorData.timestamp || new Date().toISOString(),
@@ -94,92 +92,120 @@ export class ApiService {
 
         if (error.request) {
           return Promise.reject({
-            message: 'Сервер не отвечает. Проверьте подключение к интернету',
+            message: "Сервер не отвечает. Проверьте подключение к интернету",
             success: false,
-            statusCode: 503
+            statusCode: 503,
           });
         }
 
         return Promise.reject({
-          message: 'Произошла ошибка при выполнении запроса',
+          message: "Произошла ошибка при выполнении запроса",
           success: false,
-          statusCode: 500
+          statusCode: 500,
         });
-      }
+      },
     );
   }
 
-  async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
-     try {
-      const response =  await this.axiosInstance.get<ApiResponse<T>>(url, config)
-      return response.data || response
-    } catch (error: any) {
-      if (error.success === false) {
-        return error
-      }
-      if (axios.isCancel(error) || error.name === 'AbortError') {
-        throw error
-      }
-      return {
-        success: false,
-        message: 'Неизвестная ошибка'
-      }
-    }
-  }
-
-  async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     try {
-      const response = await this.axiosInstance.post<ApiResponse<T>>(url, data, config)
-      return response.data || response
+      const response = await this.axiosInstance.get<ApiResponse<T>>(
+        url,
+        config,
+      );
+      return response.data || response;
     } catch (error: any) {
       if (error.success === false) {
-        return error
+        return error;
       }
-      if (axios.isCancel(error) || error.name === 'AbortError') {
-        throw error
+      if (axios.isCancel(error) || error.name === "AbortError") {
+        throw error;
       }
       return {
         success: false,
-        message: 'Неизвестная ошибка'
-      }
+        message: "Неизвестная ошибка",
+      };
     }
   }
 
-  async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  async post<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
     try {
-      const response = await this.axiosInstance.put<ApiResponse<T>>(url, data, config)
-      return response.data || response
+      const response = await this.axiosInstance.post<ApiResponse<T>>(
+        url,
+        data,
+        config,
+      );
+      return response.data || response;
     } catch (error: any) {
       if (error.success === false) {
-        return error
+        return error;
       }
-      if (axios.isCancel(error) || error.name === 'AbortError') {
-        throw error
+      if (axios.isCancel(error) || error.name === "AbortError") {
+        throw error;
       }
       return {
         success: false,
-        message: 'Неизвестная ошибка'
-      }
+        message: "Неизвестная ошибка",
+      };
     }
   }
 
-  async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
-     try {
-      const response =  await this.axiosInstance.delete<ApiResponse<T>>(url, config)
-      return response.data || response
+  async put<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
+    try {
+      const response = await this.axiosInstance.put<ApiResponse<T>>(
+        url,
+        data,
+        config,
+      );
+      return response.data || response;
     } catch (error: any) {
       if (error.success === false) {
-        return error
+        return error;
       }
-      if (axios.isCancel(error) || error.name === 'AbortError') {
-        throw error
+      if (axios.isCancel(error) || error.name === "AbortError") {
+        throw error;
       }
       return {
         success: false,
-        message: 'Неизвестная ошибка'
+        message: "Неизвестная ошибка",
+      };
+    }
+  }
+
+  async delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T>> {
+    try {
+      const response = await this.axiosInstance.delete<ApiResponse<T>>(
+        url,
+        config,
+      );
+      return response.data || response;
+    } catch (error: any) {
+      if (error.success === false) {
+        return error;
       }
+      if (axios.isCancel(error) || error.name === "AbortError") {
+        throw error;
+      }
+      return {
+        success: false,
+        message: "Неизвестная ошибка",
+      };
     }
   }
 }
 
-export const apiService = new ApiService()
+export const apiService = new ApiService();

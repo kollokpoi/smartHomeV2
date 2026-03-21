@@ -11,4 +11,12 @@ router.use('/actions', actionRoutes);
 router.use('/action-parameters', actionParameterRoutes);
 router.use('/voice-commands', voiceCommandRoutes);
 
+router.get('/health', (req, res) => {
+  res.json({
+    success: true,
+    status: 'ok',
+    timestamp: new Date().toISOString()
+  });
+});
+
 module.exports = router;

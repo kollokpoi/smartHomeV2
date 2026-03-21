@@ -31,7 +31,7 @@
                   'group flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
                   isActive(item.to)
                     ? 'bg-primary-50 text-foreground-dark'
-                    : 'text-foreground-light hover:bg-gray-100 hover:text-foreground-dark'
+                    : 'text-foreground-light hover:bg-gray-100 hover:text-foreground-light'
                 ]"
                 :title="!panelExpanded ? item.name : ''"
               >
@@ -39,7 +39,7 @@
                   :is="item.icon" 
                   :class="[
                     'h-5 w-5 shrink-0',
-                    isActive(item.to) ? 'text-primary-600' : 'text-gray-400 group-hover:text-gray-500'
+                    isActive(item.to) ? 'text-primary-600' : 'text-gray-400 group-hover:text-foreground-dark'
                   ]" 
                 />
                 <span 

@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6">
-        <h1 class="text-2xl font-bold mb-2">Устройства</h1>
+        <h1 class="text-2xl font-bold mb-2 text-foreground">Устройства</h1>
         <p class="text-gray-600">Управление устройствами</p>
     </div>
 

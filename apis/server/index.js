@@ -1,4 +1,4 @@
-// 👉 1. СНАЧАЛА ЗАГРУЖАЕМ .env!
+
 require('dotenv').config();
 
 const express = require("express");
@@ -6,8 +6,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const routes = require("./src/routes");
 const logger = require("./src/utils/logger");
+const deviceChecker = require('./services/deviceCheckerService')
 
-// 👉 2. ПОТОМ импортируем модели (уже с загруженными переменными)
 const { sequelize } = require('./src/models');
 
 const app = express();
@@ -77,21 +77,35 @@ app.use((err, req, res, next) => {
 });
 
 
-if (require.main === module) {
-  sequelize
-    .authenticate()
-    .then(() => {
-      console.log("✅ База данных подключена");
-      return sequelize.sync({ alter: process.env.NODE_ENV === "development" });
-    })
-    .then(() => {
-      app.listen(port, () => {
-        console.log(`🚀 Сервер запущен на порту ${port}`);
-        console.log(`📝 Режим: ${process.env.NODE_ENV || "development"}`);
-      });
-    })
-    .catch((err) => {
-      console.error("❌ Ошибка подключения к БД:", err);
-      process.exit(1);
+async function startServer() {
+  try {
+    await sequelize.authenticate();
+    console.log("✅ База данных подключена");
+    
+    await sequelize.sync({ alter: process.env.NODE_ENV === "development" });
+    
+    await deviceChecker.start();
+    
+    app.listen(port, () => {
+      console.log(`🚀 Сервер запущен на порту ${port}`);
+      console.log(`📝 Режим: ${process.env.NODE_ENV || "development"}`);
     });
+  } catch (err) {
+    console.error("❌ Ошибка:", err);
+    process.exit(1);
+  }
 }
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down...');
+  deviceChecker.stop();
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down...');
+  deviceChecker.stop();
+  process.exit(0);
+});
+
+startServer();

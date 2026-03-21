@@ -4,11 +4,13 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import PrimeVuePlugin from './plugins/primevue.js';
+import { useNetworkStore } from './stores/modules/network.store'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.use(PrimeVuePlugin)
+useNetworkStore().init()
 
 app.mount('#app')

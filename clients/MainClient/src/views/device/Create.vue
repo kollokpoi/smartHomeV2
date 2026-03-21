@@ -88,7 +88,6 @@ const {
     save,
 } = useEntityForm(
     {
-        id: '',
         ip: '',
         name: '',
         handlerPath: '',

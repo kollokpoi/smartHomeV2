@@ -202,10 +202,8 @@ export const useDeviceStore = defineStore("device", () => {
     loading: computed(() => entityStore.loading),
     loadingItems: computed(() => entityStore.loadingItems),
     error: computed(() => entityStore.error),
-
-    // Текущий список с учетом фильтров
     devices: currentDevicesList,
-    // Все устройства для computed свойств
+
     allDevices,
     activeDevices,
     onlineDevices,
