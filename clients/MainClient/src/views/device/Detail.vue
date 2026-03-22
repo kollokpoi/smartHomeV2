@@ -7,7 +7,7 @@
         <div class="flex gap-2">
             <Button @click="toggleEdit">{{
                 isEditing ? 'Отменить' : 'Редактировать'
-            }}</Button>
+                }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
     </div>
@@ -101,12 +101,24 @@
     </div>
 
     <div class="bg-background w-full p-3" v-if="actions.length > 0">
-        <div>
-            
+        <div class="w-full flex justify-between  items-center"">
+            <p class=" text-xl text-foreground-dark font-bold mb-4">Действия</p>
+            <div class="flex items-center gap-2">
+                <span>Панель</span>
+                <ToggleSwitch v-model="panelMode" />
+            </div>
         </div>
-        <p class="text-xl text-foreground-dark font-bold mb-4">Действия</p>
-        <ActionTable :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
+        <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
             v-memo="[actions.length, loading]" />
+        <div v-else>
+            <div class="grid grid-cols-4 items-center w-full gap-2">
+                <Button v-for="action in actions" @click="callAction(action.id)">
+                    {{ action.name }}
+                </Button>
+            </div>
+            <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
+        </div>
+
     </div>
 </template>
 
@@ -124,12 +136,17 @@ import { formatDate } from '@/helpers/formatDate';
 import { DeviceStatusHelper } from '@/helpers/deviceStatusHelper';
 import { booleanOptions } from '@/types/constants';
 import ActionTable from '@/components/dataTables/ActionTable.vue';
+import ActionRequestResult from '@/components/ActionRequestResult.vue';
 import { useEntityForm } from '@/composables/useEntityForm';
+import type { ActionCallResult } from '@/types/api';
 
 const route = useRoute();
 const toast = useToast();
 const deviceStore = useDeviceStore();
 const actionStore = useActionStore();
+
+const panelMode = ref(false)
+const callResponse = ref<ActionCallResult | null>(null)
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
@@ -205,6 +222,35 @@ const loadDevice = async () => {
         loading.value = false;
     }
 };
+
+const callAction = async (id: string) => {
+    try {
+        const result = await actionStore.callAction(id)
+        callResponse.value = result;
+        if (result.success) {
+            toast.add({
+                severity: "success",
+                summary: "Успешно",
+                detail: `Действие "${result.data?.action.name}" выполнено`,
+                life: 3000
+            });
+        } else {
+            toast.add({
+                severity: "error",
+                summary: "Ошибка",
+                detail: result.error?.message || "Не удалось выполнить действие",
+                life: 3000
+            });
+        }
+    } catch (err: any) {
+        toast.add({
+            severity: "error",
+            summary: "Ошибка",
+            detail: err.message || "Не удалось выполнить действие",
+            life: 3000
+        });
+    }
+}
 
 const toggleEdit = () => {
     if (isEditing.value) {

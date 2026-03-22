@@ -14,6 +14,7 @@ import InputNumber from "primevue/inputnumber";
 import DatePicker from "primevue/datepicker";
 import Paginator from "primevue/paginator"
 import ProgressSpinner  from "primevue/progressspinner";
+import { ToggleSwitch } from "primevue";
 import Textarea from "primevue/textarea";
 import Tag  from "primevue/tag";
 import Badge  from "primevue/badge";
@@ -54,5 +55,6 @@ export default {
     app.component("Textarea",Textarea)
     app.component("Tag",Tag)
     app.component("Badge",Badge)
+    app.component('ToggleSwitch',ToggleSwitch)
   },
 };
