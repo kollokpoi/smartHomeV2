@@ -133,10 +133,10 @@ class ActionController {
               successRate:
                 action.call_count > 0
                   ? (
-                    ((action.call_count - (action.last_error ? 1 : 0)) /
-                      action.call_count) *
-                    100
-                  ).toFixed(2)
+                      ((action.call_count - (action.last_error ? 1 : 0)) /
+                        action.call_count) *
+                      100
+                    ).toFixed(2)
                   : 0,
             },
           };
@@ -209,7 +209,7 @@ class ActionController {
       if (!Array.isArray(actions)) {
         return res.status(400).json({
           success: false,
-          message: 'Действия должны быть массивом'
+          message: "Действия должны быть массивом",
         });
       }
 
@@ -219,19 +219,19 @@ class ActionController {
         await transaction.rollback();
         return res.status(404).json({
           success: false,
-          message: 'Устройство не найдено'
+          message: "Устройство не найдено",
         });
       }
 
       // === НОВАЯ ПРОВЕРКА: дубликаты в массиве ===
-      const names = actions.map(a => a.name?.trim());
+      const names = actions.map((a) => a.name?.trim());
       const uniqueNames = new Set(names);
       if (names.length !== uniqueNames.size) {
         await transaction.rollback();
         return res.status(400).json({
           success: false,
-          message: 'В массиве есть дублирующиеся названия действий',
-          code: 'DUPLICATE_NAMES_IN_REQUEST'
+          message: "В массиве есть дублирующиеся названия действий",
+          code: "DUPLICATE_NAMES_IN_REQUEST",
         });
       }
 
@@ -239,19 +239,19 @@ class ActionController {
       const existingActions = await Action.findAll({
         where: {
           deviceId,
-          name: names
+          name: names,
         },
-        attributes: ['name']
+        attributes: ["name"],
       });
 
       if (existingActions.length > 0) {
-        const existingNames = existingActions.map(a => a.name);
+        const existingNames = existingActions.map((a) => a.name);
         await transaction.rollback();
         return res.status(400).json({
           success: false,
-          message: 'Некоторые действия уже существуют для этого устройства',
+          message: "Некоторые действия уже существуют для этого устройства",
           existingNames,
-          code: 'DUPLICATE_ACTIONS_IN_DB'
+          code: "DUPLICATE_ACTIONS_IN_DB",
         });
       }
 
@@ -259,13 +259,15 @@ class ActionController {
       for (const action of actions) {
         const actionErrors = actionValidator.validate({
           ...action,
-          deviceId
+          deviceId,
         });
         if (actionErrors.length > 0) {
-          errors.push(...actionErrors.map(e => ({
-            ...e,
-            actionKey: action.key
-          })));
+          errors.push(
+            ...actionErrors.map((e) => ({
+              ...e,
+              actionKey: action.key,
+            })),
+          );
         }
       }
 
@@ -273,16 +275,16 @@ class ActionController {
         await transaction.rollback();
         return res.status(400).json({
           success: false,
-          errors
+          errors,
         });
       }
 
       const createdActions = await Action.bulkCreate(
-        actions.map(a => ({ ...a, deviceId })),
+        actions.map((a) => ({ ...a, deviceId })),
         {
           transaction,
-          validate: true
-        }
+          validate: true,
+        },
       );
 
       await transaction.commit();
@@ -290,16 +292,17 @@ class ActionController {
       res.status(201).json({
         success: true,
         data: createdActions,
-        count: createdActions.length
+        count: createdActions.length,
       });
     } catch (error) {
       await transaction.rollback();
-      if (error.name === 'SequelizeUniqueConstraintError') {
+      if (error.name === "SequelizeUniqueConstraintError") {
         return res.status(400).json({
           success: false,
-          message: 'Конфликт уникальности: действие с таким именем уже существует',
-          code: 'UNIQUE_CONSTRAINT_ERROR',
-          details: error.errors?.map(e => e.message)
+          message:
+            "Конфликт уникальности: действие с таким именем уже существует",
+          code: "UNIQUE_CONSTRAINT_ERROR",
+          details: error.errors?.map((e) => e.message),
         });
       }
 
@@ -488,6 +491,49 @@ class ActionController {
         throw error;
       }
     } catch (error) {
+      next(error);
+    }
+  }
+
+  async registerCall(req, res, next) {
+    const transaction = await Action.sequelize.transaction();
+    try {
+      const id = req.params.id;
+      const { responseStatus, errorMessage } = req.body; 
+
+      const action = await Action.findByPk(id, { transaction });
+
+      if (!action) {
+        return res.status(404).json({
+          success: false,
+          message: "Действие не найдено",
+        });
+      }
+
+      await action.update(
+        {
+          callCount: (action.callCount || 0) + 1,
+          lastCall: new Date(),
+          lastResponse: responseStatus || null,
+          lastError: errorMessage || null,
+        },
+        { transaction },
+      );
+
+      await transaction.commit();
+
+      res.json({
+        success: true,
+        message: "Вызов зарегистрирован",
+        data: {
+          callCount: action.callCount + 1,
+          lastCall: new Date(),
+          lastResponse: responseStatus,
+          lastError: errorMessage,
+        },
+      });
+    } catch (error) {
+      await transaction.rollback();
       next(error);
     }
   }

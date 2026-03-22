@@ -1,7 +1,7 @@
 import type { ActionFilters, PaginatedRequest } from "@/types/searchParams";
 import { BaseService } from "./base.service";
 import type { AxiosRequestConfig } from "axios";
-import type { ApiPaginationResponse, ApiResponse } from "@/types/api";
+import type { ActionCallResult, ApiPaginationResponse, ApiResponse } from "@/types/api";
 import { Action, type ActionAttributes } from "@/types/dto";
 
 class ActionService extends BaseService {
@@ -35,14 +35,11 @@ class ActionService extends BaseService {
   async callAction(
     id: string,
     config?: AxiosRequestConfig,
-  ): Promise<ApiResponse<Action>> {
-    const response = await this.get<ActionAttributes>(`/actions/${id}/`, {
+  ): Promise<ApiResponse<ActionCallResult>> {
+    const response = await this.get<ActionCallResult>(`/actions/${id}/`, {
       ...config,
     });
-    if (response.success) {
-      response.data = new Action(response.data);
-    }
-    return response as ApiResponse<Action>;
+    return response as ApiResponse<ActionCallResult>;
   }
 
   async updateAction(
@@ -73,7 +70,13 @@ class ActionService extends BaseService {
 
     return response as ApiResponse<Action>;
   }
-
+  async registerCall(
+    id: string,
+    data: { responseStatus?: number; errorMessage?: string },
+  ): Promise<ApiResponse<any>> {
+    const response = await this.post(`/actions/register-call/${id}`, data);
+    return response;
+  }
   async deleteAction(id: string): Promise<ApiResponse<any>> {
     const response = await this.delete(`/actions/${id}`);
     return response;

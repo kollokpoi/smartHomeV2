@@ -101,6 +101,9 @@
     </div>
 
     <div class="bg-background w-full p-3" v-if="actions.length > 0">
+        <div>
+            
+        </div>
         <p class="text-xl text-foreground-dark font-bold mb-4">Действия</p>
         <ActionTable :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
             v-memo="[actions.length, loading]" />

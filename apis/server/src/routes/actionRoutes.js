@@ -8,6 +8,7 @@ const { actionValidator } = require('../helpers/validators');
 router.get('/device/:deviceId', actionController.getByDevice);
 router.get('/', actionController.getAll);
 router.get('/:id', actionController.getById);
+router.post('/register-call/:id', actionController.registerCall);
 router.post('/', validate(actionValidator.validate), actionController.create);
 router.post('/bulk', actionController.bulkCreate);
 router.post('/:id/execute', actionController.execute);

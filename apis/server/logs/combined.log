@@ -48,3 +48,18 @@
 {"level":"info","message":"Device неw (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-21 12:19:57"}
 {"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-21 12:23:41"}
 {"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-21 12:24:01"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 13:31:45"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-21 13:31:50"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-21 13:31:50"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 14:44:10"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-21 15:13:08"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 15:13:15"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 15:15:55"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-21 15:16:09"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 15:16:14"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-21 15:16:30"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 15:16:43"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 15:16:51"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-21 15:17:03"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-21 15:33:33"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-22 14:27:43"}

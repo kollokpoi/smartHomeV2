@@ -6,8 +6,8 @@ export const useNetworkStore = defineStore('network', () => {
     const isLocalNetwork = ref<boolean | null>(null)
     const isChecking = ref(false)
     
-    const LOCAL_API_URL = 'http://192.168.0.100:3000/api'
-    const PUBLIC_API_URL = 'https://api.kollokpoi.ddns.net/api'
+    const LOCAL_API_URL = import.meta.env.VITE_LOCAL_API_URL
+    const PUBLIC_API_URL = import.meta.env.VITE_PUBLIC_API_URL
     
     const apiUrl = computed(() => {
         if (isLocalNetwork.value === true) return LOCAL_API_URL
