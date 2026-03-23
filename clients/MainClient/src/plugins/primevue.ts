@@ -13,11 +13,11 @@ import Select from "primevue/select"
 import InputNumber from "primevue/inputnumber";
 import DatePicker from "primevue/datepicker";
 import Paginator from "primevue/paginator"
-import ProgressSpinner  from "primevue/progressspinner";
+import ProgressSpinner from "primevue/progressspinner";
 import { ToggleSwitch } from "primevue";
 import Textarea from "primevue/textarea";
-import Tag  from "primevue/tag";
-import Badge  from "primevue/badge";
+import Tag from "primevue/tag";
+import Badge from "primevue/badge";
 
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
@@ -30,7 +30,10 @@ export default {
         options: {
           prefix: "p",
           darkModeSelector: false,
-          cssLayer: false,
+          cssLayer: {
+            name: "primevue",
+            order: "theme, base, primevue",
+          },
         },
       },
       ripple: true,
@@ -50,11 +53,11 @@ export default {
     app.component("Select", Select)
     app.component("InputNumber", InputNumber)
     app.component("DatePicker", DatePicker)
-    app.component("Paginator",Paginator)
-    app.component("ProgressSpinner",ProgressSpinner)
-    app.component("Textarea",Textarea)
-    app.component("Tag",Tag)
-    app.component("Badge",Badge)
-    app.component('ToggleSwitch',ToggleSwitch)
+    app.component("Paginator", Paginator)
+    app.component("ProgressSpinner", ProgressSpinner)
+    app.component("Textarea", Textarea)
+    app.component("Tag", Tag)
+    app.component("Badge", Badge)
+    app.component('ToggleSwitch', ToggleSwitch)
   },
 };
