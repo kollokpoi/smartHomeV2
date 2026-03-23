@@ -1,14 +1,14 @@
 <template>
     <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
         <div class="text-foreground-dark">
-            <h1 class="text-2xl font-bold mb-2">Устройство</h1>
-            <p>Управление устройством</p>
+            <h1 class="text-lg sm:text-2xl font-bold mb-2">Устройство</h1>
+            <p class="text-sm">Управление устройством</p>
         </div>
         <div class="flex gap-2">
-            <Button @click="toggleEdit">{{
+            <Button @click="toggleEdit" class="text-sm sm:text-md">{{
                 isEditing ? 'Отменить' : 'Редактировать'
                 }}</Button>
-            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
+            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success" class="text-sm sm:text-md">Сохранить</Button>
         </div>
     </div>
 
@@ -17,7 +17,7 @@
     </div>
 
     <div class="w-full mb-3" v-else-if="device">
-        <div class="flex w-full bg-background p-4 rounded-md gap-6">
+        <div class=" sm:flex w-full bg-background p-4 rounded-md gap-6">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
                     <dt class="text-sm text-foreground-dark">Название</dt>
@@ -71,10 +71,6 @@
 
             <div class="flex-1 flex flex-col gap-2">
                 <div>
-                    <dt class="text-sm text-foreground-dark">ID</dt>
-                    <dd>{{ device.id }}</dd>
-                </div>
-                <div>
                     <dt class="text-sm text-foreground-dark">Последний раз виден</dt>
                     <dd>{{ formatDate(device.lastSeen) || 'Никогда' }}</dd>
                 </div>
@@ -100,25 +96,25 @@
         </div>
     </div>
 
-    <div class="bg-background w-full p-3" v-if="actions.length > 0">
-        <div class="w-full flex justify-between  items-center"">
-            <p class=" text-xl text-foreground-dark font-bold mb-4">Действия</p>
+    <div class="bg-background w-full p-3" v-if="actions.length > 0" :class="fullWindowMode ? 'fixed inset-0 z-50 p-6' : ''">
+        <div class="w-full flex justify-between items-center">
+            <p class="text-xl text-foreground-dark font-bold mb-4">Действия</p>
             <div class="flex items-center gap-2">
                 <span>Панель</span>
-                <ToggleSwitch v-model="panelMode" />
+                <ToggleSwitch v-model="panelMode" class="mr-2"/>
+                <i class="pi cursor-pointer" :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'" @click="fullWindowMode = !fullWindowMode"/>
             </div>
         </div>
         <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
             v-memo="[actions.length, loading]" />
         <div v-else>
-            <div class="grid grid-cols-4 items-center w-full gap-2">
-                <Button v-for="action in actions" @click="callAction(action.id)">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center w-full gap-2">
+                <Button v-for="action in actions" @click="callAction(action.id)" class="text-xs md:text-sm">
                     {{ action.name }}
                 </Button>
             </div>
             <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
         </div>
-
     </div>
 </template>
 
@@ -146,6 +142,7 @@ const deviceStore = useDeviceStore();
 const actionStore = useActionStore();
 
 const panelMode = ref(false)
+const fullWindowMode = ref(false)
 const callResponse = ref<ActionCallResult | null>(null)
 
 const id = ref<string>('');

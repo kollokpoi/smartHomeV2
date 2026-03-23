@@ -1,12 +1,12 @@
 <template>
     <div class="mb-6">
-        <h1 class="text-2xl font-bold mb-2 text-foreground">Устройства</h1>
-        <p class="text-gray-600">Управление устройствами</p>
+        <h1 class="text-2xl font-bold mb-2 text-font-primary">Устройства</h1>
+        <p class="text-font-secondary">Управление устройствами</p>
     </div>
 
     <div class="flex w-full mb-3">
         <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
-        <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter"
+        <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter" class="text-sm md:text-normal"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
     </div>
@@ -18,32 +18,49 @@
                 :totalRecords="pagination.total" @page="onPageChange" />
         </div>
 
-        <!-- Боковая панель -->
-        <div class="fixed top-0 h-full z-50 pointer-events-none transition-all duration-300 ease-out" :class="[
-            isExpanded ? 'right-0' :
-                isHovered ? '-right-115' : '-right-120'
-        ]" @mouseenter="onHover(true)" @mouseleave="onHover(false)">
+    </div>
+    <div class="fixed top-0 h-full z-50 pointer-events-none transition-all duration-300 ease-out" :class="[
+        isExpanded ? 'right-0' :
+            isHovered ? '-right-115' : '-right-120'
+    ]" @mouseenter="onHover(true)" @mouseleave="onHover(false)">
 
-            <div class="relative h-full pointer-events-auto">
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-48 bg-muted rounded-l-lg shadow-lg cursor-pointer z-10"
-                    @click="togglePanel">
-                    <div class="h-full flex items-center justify-center">
-                        <span class="transform -rotate-90 whitespace-nowrap text-foreground-light font-medium text-sm">
-                            {{ isExpanded ? 'Свернуть' : 'Панель действий' }}
-                        </span>
-                    </div>
+        <div class="relative h-full pointer-events-auto">
+            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-48 bg-muted rounded-l-lg shadow-lg cursor-pointer z-10"
+                @click="togglePanel">
+                <div class="h-full flex items-center justify-center">
+                    <span class="transform -rotate-90 whitespace-nowrap text-foreground-light font-medium text-sm">
+                        {{ isExpanded ? 'Свернуть' : 'Панель действий' }}
+                    </span>
                 </div>
+            </div>
 
-                <div class="ml-8 w-120 h-full bg-muted shadow-2xl overflow-y-auto">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl text-foreground-dark font-bold">Панель действий</h3>
-                            <Button icon="pi pi-times" text rounded @click.stop="isExpanded = false" />
+            <div class="fixed top-0 h-full z-50 pointer-events-none transition-all duration-300 ease-out" :class="[
+                isExpanded ? 'right-0' :
+                    isHovered ? '-right-[calc(100%-2rem)] sm:-right-115' : '-right-[calc(100%-30px)] sm:-right-120'
+            ]" @mouseenter="onHover(true)" @mouseleave="onHover(false)">
+
+                <div class="relative h-full pointer-events-auto">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-48 bg-back-accent/70 rounded-l-lg shadow-lg cursor-pointer z-10"
+                        @click="togglePanel">
+                        <div class="h-full flex items-center justify-center">
+                            <span
+                                class="transform -rotate-90 whitespace-nowrap text-font-primary font-medium text-sm">
+                                {{ isExpanded ? 'Свернуть' : 'Панель действий' }}
+                            </span>
                         </div>
-                        <div class="space-y-4 flex flex-col items-center gap-2">
-                            <Button label="Создать новое" icon="pi pi-plus" severity="success" class="w-full"
-                                @click="goToCreateDevice" />
-                            <Button label="Статистика" icon="pi pi-chart-bar" class="w-full" @click="showStats" />
+                    </div>
+                    <div
+                        class="ml-8 w-[calc(100vw-2rem)] sm:w-120 max-w-125 h-full bg-back-secondary shadow-2xl overflow-y-auto">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl text-font-primary font-bold">Панель действий</h3>
+                                <Button icon="pi pi-times" text rounded @click.stop="isExpanded = false" />
+                            </div>
+                            <div class="space-y-4 flex flex-col items-center gap-2">
+                                <Button label="Создать новое" icon="pi pi-plus" severity="success" class="w-full"
+                                    @click="goToCreateDevice" />
+                                <Button label="Статистика" icon="pi pi-chart-bar" class="w-full" @click="showStats" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -71,7 +88,7 @@
 
             <div>
                 <label class="block text-sm font-medium mb-2">Адрес</label>
-                <InputText class="w-full" placeholder="Адрес" v-model="tempFilters.ip"/>
+                <InputText class="w-full" placeholder="Адрес" v-model="tempFilters.ip" />
             </div>
 
             <div>

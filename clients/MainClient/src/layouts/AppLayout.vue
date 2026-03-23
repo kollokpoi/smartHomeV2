@@ -1,21 +1,21 @@
 <template>
-  <div class="min-h-screen flex bg-background-dark">
+  <div class="min-h-screen flex bg-back-primary">
     <div class="flex w-full">
       <aside
-        class="hidden lg:flex lg:flex-col lg:h-screen lg:border-r lg:border-gray-200 bg-muted lg:sticky lg:top-0 transition-all"
+        class="hidden lg:flex lg:flex-col lg:h-screen lg:border-r lg:border-gray-200 bg-back-secondary lg:sticky lg:top-0 transition-all"
         :class="[
           panelExpanded ? 'lg:w-64' : 'lg:w-20'
         ]">
         <div class="flex flex-col h-full"
         :class="panelExpanded?'':'items-center'">
-          <div class="flex w-full justify-between border-b border-gray-200 items-center p-6">
+          <div class="flex w-full justify-between border-b items-center p-6">
             <div class="shrink-0" v-if="panelExpanded">
               <router-link to="/">
-                <span class="text-xl font-bold text-foreground-dark whitespace-nowrap">AdminPanel</span>
+                <span class="text-xl font-bold text-font-primary whitespace-nowrap">AdminPanel</span>
               </router-link>
             </div>
             <ArrowRightCircleIcon 
-              class="text-foreground-dark h-7 cursor-pointer transition-all" 
+              class="text-font-primary h-7 cursor-pointer transition-all" 
               :class="panelExpanded ? 'rotate-180' : 'rotate-0'"
               @click="panelExpanded = !panelExpanded" 
             />
@@ -30,8 +30,8 @@
                 :class="[
                   'group flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
                   isActive(item.to)
-                    ? 'bg-primary-50 text-foreground-dark'
-                    : 'text-foreground-light hover:bg-gray-100 hover:text-foreground-light'
+                    ? 'bg-back-primary text-font-primary'
+                    : 'text-font-secondary hover:bg-back-accent hover:text-font-primary'
                 ]"
                 :title="!panelExpanded ? item.name : ''"
               >
@@ -39,7 +39,7 @@
                   :is="item.icon" 
                   :class="[
                     'h-5 w-5 shrink-0',
-                    isActive(item.to) ? 'text-primary-600' : 'text-gray-400 group-hover:text-foreground-dark'
+                    isActive(item.to) ? 'text-primary-600' : 'text-gray-400 group-hover:text-font-primary'
                   ]" 
                 />
                 <span 

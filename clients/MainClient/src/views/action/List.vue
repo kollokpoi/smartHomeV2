@@ -1,11 +1,11 @@
 <template>
     <div class="mb-6">
-        <h1 class="text-2xl font-bold mb-2">Действия</h1>
-        <p class="text-gray-600">Управление действиями</p>
+        <h1 class="text-2xl font-bold mb-2 text-font-primary">Действия</h1>
+        <p class="text-font-secondary">Управление действиями</p>
     </div>
 
     <div class="flex w-full mb-3">
-        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText"/>
+        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
         <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
@@ -13,36 +13,32 @@
 
     <div class="flex relative">
         <div class="flex-1">
-            <ActionTable :actions="actions" :loading="loading" @deleted="loadActions" v-memo="[actions.length, loading]"/>
-            <Paginator 
-                v-if="pagination.total > pagination.limit" 
-                :rows="pagination.limit"
-                :totalRecords="pagination.total" 
-                @page="onPageChange"
-                :first="(pagination.page - 1) * pagination.limit"
-            />
+            <ActionTable :actions="actions" :loading="loading" @deleted="loadActions"
+                v-memo="[actions.length, loading]" />
+            <Paginator v-if="pagination.total > pagination.limit" :rows="pagination.limit"
+                :totalRecords="pagination.total" @page="onPageChange"
+                :first="(pagination.page - 1) * pagination.limit" />
         </div>
 
         <!-- Боковая панель -->
         <div class="fixed top-0 h-full z-50 pointer-events-none transition-all duration-300 ease-out" :class="[
             isExpanded ? 'right-0' :
-                isHovered ? '-right-115' : '-right-120'
+                isHovered ? '-right-[calc(100%-2rem)] sm:-right-115' : '-right-[calc(100%-30px)] sm:-right-120'
         ]" @mouseenter="onHover(true)" @mouseleave="onHover(false)">
 
             <div class="relative h-full pointer-events-auto">
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-48 bg-muted rounded-l-lg shadow-lg cursor-pointer z-10"
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-48 bg-back-accent/70 rounded-l-lg shadow-lg cursor-pointer z-10"
                     @click="togglePanel">
                     <div class="h-full flex items-center justify-center">
-                        <span class="transform -rotate-90 whitespace-nowrap text-foreground-light font-medium text-sm">
+                        <span class="transform -rotate-90 whitespace-nowrap text-font-primary font-medium text-sm">
                             {{ isExpanded ? 'Свернуть' : 'Панель действий' }}
                         </span>
                     </div>
                 </div>
-
-                <div class="ml-8 w-120 h-full bg-muted shadow-2xl overflow-y-auto">
+                <div class="ml-8 w-[calc(100vw-2rem)] sm:w-120 max-w-125 h-full bg-back-secondary shadow-2xl overflow-y-auto">
                     <div class="p-6">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl text-foreground-dark font-bold">Панель действий</h3>
+                            <h3 class="text-xl text-font-primary font-bold">Панель действий</h3>
                             <Button icon="pi pi-times" text rounded @click.stop="isExpanded = false" />
                         </div>
                         <div class="space-y-4 flex flex-col items-center gap-2">
@@ -63,7 +59,7 @@
             <div>
                 <label class="block text-sm font-medium mb-2">Устройство</label>
                 <Select v-model="tempFilters.deviceId" :options="deviceStore.deviceOptions" class="w-full" filter
-                    optionLabel="label" optionValue="value" placeholder="Все устройства" 
+                    optionLabel="label" optionValue="value" placeholder="Все устройства"
                     :loading="deviceStore.loading" />
             </div>
 
@@ -227,7 +223,7 @@ const resetFilter = async () => {
     Object.keys(tempFilters).forEach(key => {
         delete tempFilters[key as keyof ActionFilters];
     });
-    
+
     // Сбрасываем фильтры в сторе
     actionStore.resetFilters();
     showFilter.value = false;
