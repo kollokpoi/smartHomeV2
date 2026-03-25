@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-        <div class="text-foreground-dark">
+        <div class="text-font-primary">
             <h1 class="text-2xl font-bold mb-2">Действия</h1>
             <p>Управление действиями</p>
         </div>
@@ -18,38 +18,38 @@
     </div>
 
     <div class="w-full" v-else-if="actionParameter">
-        <div class="flex w-full bg-background p-4 rounded-md gap-6">
+        <div class="flex w-full bg-back-secondary p-4 rounded-md gap-6">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
-                    <label for="key" class="text-sm text-foreground-dark">Ключ</label>
+                    <label for="key" class="text-sm text-font-primary">Ключ</label>
                     <EditableText :isEditing="isEditing" v-model="editData.key" :maxLength="50" required
                         field-name="key" @validation-change="updateValidation" @edit-start="isEditing = true"
                         :validation-result="validationState.key" />
                 </div>
 
                 <div>
-                    <label for="value" class="text-sm text-foreground-dark">Значение</label>
+                    <label for="value" class="text-sm text-font-primary">Значение</label>
                     <EditableText :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.value"
                         :maxLength="50" field-name="value" @validation-change="updateValidation"
                         :validation-result="validationState.value" />
                 </div>
 
                 <div>
-                    <label for="location" class="text-sm text-foreground-dark">Место</label>
+                    <label for="location" class="text-sm text-font-primary">Место</label>
                     <EditableSelect :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.location"
                         field-name="location" :items="ActionParameterHelper.getLocationSelectOptions()"
                         :validation-result="validationState.location" />
                 </div>
 
                 <div>
-                    <label class="text-sm text-foreground-dark">Тип значения</label>
+                    <label class="text-sm text-font-primary">Тип значения</label>
                     <EditableSelect :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.type"
                         field-name="type" :items="ActionParameterHelper.getTypeSelectOptions()"
                         :validation-result="validationState.type" />
                 </div>
 
                 <div>
-                    <label for="contentType" class="text-sm text-foreground-dark">Тип контента</label>
+                    <label for="contentType" class="text-sm text-font-primary">Тип контента</label>
                     <EditableSelect :isEditing="isEditing" v-model="editData.contentType" field-name="contentType"
                         @validation-change="updateValidation" @edit-start="isEditing = true"
                         :items="ActionParameterHelper.getContentTypeSelectOptions()"
@@ -57,14 +57,14 @@
                 </div>
 
                 <div>
-                    <label for="sortOrder" class="text-sm text-foreground-dark">Сортировка</label>
+                    <label for="sortOrder" class="text-sm text-font-primary">Сортировка</label>
                     <EditableNumber :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.sortOrder"
                         :min="0" field-name="sortOrder" @validation-change="updateValidation"
                         :validation-result="validationState.sortOrder" />
                 </div>
 
                 <div>
-                    <label class="text-sm text-foreground-dark">Активно</label>
+                    <label class="text-sm text-font-primary">Активно</label>
                     <EditableSelect :isEditing="isEditing" v-model="editData.isActive" field-name="isActive"
                         :validationResult="validationState.isActive" :items="booleanOptions"
                         @edit-start="isEditing = true" />
@@ -73,12 +73,12 @@
             </div>
             <div class="flex-1 flex flex-col">
                 <div>
-                    <dt class="text-sm text-foreground-dark ">Дата создания</dt>
-                    <dd>{{ formatDate(actionParameter.createdAt) }}</dd>
+                    <dt class="text-sm text-font-primary ">Дата создания</dt>
+                    <dd class="text-font-primary">{{ formatDate(actionParameter.createdAt) }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-foreground-dark ">Последние изменения</dt>
-                    <dd>{{ formatDate(actionParameter.updatedAt) }}</dd>
+                    <dt class="text-sm text-font-primary ">Последние изменения</dt>
+                    <dd class="text-font-primary">{{ formatDate(actionParameter.updatedAt) }}</dd>
                 </div>
             </div>
         </div>

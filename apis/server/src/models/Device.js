@@ -36,6 +36,16 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue("metadata", JSON.stringify(value || {}));
         }
       },
+      port: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 80,
+        validate: {
+          isInt: { msg: "Порт должен быть целым числом" },
+          min: { args: [1], msg: "Порт должен быть от 1 до 65535" },
+          max: { args: [65535], msg: "Порт должен быть от 1 до 65535" },
+        },
+      },
       status: {
         type: DataTypes.ENUM("online", "offline", "maintenance"),
         defaultValue: "offline"

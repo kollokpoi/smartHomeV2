@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'delete parameter by :id'
+method: DELETE
+url: '{{base_url}}/action-parameters/:id'
+order: 4400
+pathVariables:
+  - key: id
+    value: '1'

@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'get voice-commands by actionId'
+method: GET
+url: '{{base_url}}/voice-commands/action/:actionId'
+order: 5300
+pathVariables:
+  - key: actionId
+    value: '1'

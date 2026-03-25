@@ -42,6 +42,8 @@
     </DataTable>
     <ContextMenu ref="contextMenuRef" :model="menuItems" />
     <ConfirmDialog :draggable="true" />
+    <DelayDialog v-model:visible="showDelayDialog" :actionName="selectedAction?.name"
+        :deviceName="selectedAction?.device?.name" @confirm="executeWithDelay" />
 </template>
 
 <script setup lang="ts">
@@ -52,6 +54,7 @@ import { Action } from '@/types/dto';
 import { ContextMenu, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import DelayCallDialog from '../DelayCallDialog.vue';
 
 interface Props {
     actions: Action[]
@@ -60,6 +63,7 @@ interface Props {
 }
 interface Emits {
     (e: 'deleted'): void
+    (e: 'called'): void
 }
 
 const props = defineProps<Props>()
@@ -68,6 +72,7 @@ const contextMenuRef = ref<InstanceType<typeof ContextMenu> | null>(null)
 const toast = useToast()
 const confirm = useConfirm()
 const router = useRouter();
+const showDelayDialog = ref(false)
 
 const actionStore = useActionStore();
 
@@ -89,7 +94,7 @@ const onRowClick = (event: DataTableRowClickEvent<Action>) => {
 }
 
 const getAdress = (data: Action): string => {
-    return `${data.method} ${data.path}:${data.port}`
+    return `${data.method} :${data.port}${data.path}`
 }
 
 const viewAction = function (action: Action) {
@@ -170,5 +175,10 @@ const confirmDelete = (action: Action) => {
             }
         }
     })
+}
+
+const executeWithDelay = ()=>{
+    showDelayDialog.value = false
+    emits('called')
 }
 </script>

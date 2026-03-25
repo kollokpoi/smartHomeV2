@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-        <div class="text-foreground-dark">
+        <div class="text-font-primary">
             <h1 class="text-lg sm:text-2xl font-bold mb-2">Устройство</h1>
             <p class="text-sm">Управление устройством</p>
         </div>
@@ -8,7 +8,8 @@
             <Button @click="toggleEdit" class="text-sm sm:text-md">{{
                 isEditing ? 'Отменить' : 'Редактировать'
                 }}</Button>
-            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success" class="text-sm sm:text-md">Сохранить</Button>
+            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success"
+                class="text-sm sm:text-md">Сохранить</Button>
         </div>
     </div>
 
@@ -17,78 +18,76 @@
     </div>
 
     <div class="w-full mb-3" v-else-if="device">
-        <div class=" sm:flex w-full bg-background p-4 rounded-md gap-6">
+        <div class=" sm:flex w-full bg-back-secondary p-4 rounded-md gap-6">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
-                    <dt class="text-sm text-foreground-dark">Название</dt>
                     <EditableText :isEditing="isEditing" v-model="editData.name" :maxLength="100" required
-                        :validationResult="validationState.name" field-name="name" @edit-start="isEditing = true"
-                        @validation-change="updateValidation" />
+                        placeholder="Название" :validationResult="validationState.name" field-name="name"
+                        @edit-start="isEditing = true" @validation-change="updateValidation" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">IP адрес</dt>
                     <EditableText :isEditing="isEditing" v-model="editData.ip" :maxLength="45" required field-name="ip"
-                        :validationResult="validationState.ip" @edit-start="isEditing = true"
+                        :validationResult="validationState.ip" @edit-start="isEditing = true" placeholder='IP адреc'
                         @validation-change="updateValidation" />
                 </div>
-
                 <div>
-                    <dt class="text-sm text-foreground-dark">Путь обработчика</dt>
+                    <EditableNumber :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.port"
+                        :min="1" :max="65535" placeholder="Базовый порт" field-name="port"
+                        @validation-change="updateValidation" :validation-result="validationState.port" />
+                </div>
+                <div>
                     <EditableText :isEditing="isEditing" v-model="editData.handlerPath" :maxLength="255" required
                         :validationResult="validationState.handlerPath" field-name="handlerPath"
-                        @edit-start="isEditing = true" @validation-change="updateValidation" />
-                </div>
-
-                <div>
-                    <dt class="text-sm text-foreground-dark">Описание</dt>
-                    <EditableText :isEditing="isEditing" v-model="editData.description" textArea
-                        :validationResult="validationState.description" field-name="description"
-                        @edit-start="isEditing = true" @validation-change="updateValidation" />
-                </div>
-
-                <div>
-                    <dt class="text-sm text-foreground-dark">Статус</dt>
-                    <EditableSelect :isEditing="isEditing" v-model="editData.status" field-name="status"
-                        :validationResult="validationState.status" :items="DeviceStatusHelper.getSelectOptions()"
-                        @edit-start="isEditing = true" />
-                </div>
-
-                <div>
-                    <dt class="text-sm text-foreground-dark">Сортировка</dt>
-                    <EditableNumber :isEditing="isEditing" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
-                        :validationResult="validationState.sortOrder" @edit-start="isEditing = true"
+                        placeholder="Путь обработчика" @edit-start="isEditing = true"
                         @validation-change="updateValidation" />
                 </div>
 
                 <div>
-                    <dt class="text-sm text-foreground-dark">Активно</dt>
+                    <EditableText :isEditing="isEditing" v-model="editData.description" textArea
+                        :validationResult="validationState.description" field-name="description" placeholder="Описание"
+                        @edit-start="isEditing = true" @validation-change="updateValidation" />
+                </div>
+
+                <div>
+                    <EditableSelect :isEditing="isEditing" v-model="editData.status" field-name="status"
+                        :validationResult="validationState.status" :items="DeviceStatusHelper.getSelectOptions()"
+                        placeholder="Статус" @edit-start="isEditing = true" />
+                </div>
+
+                <div>
+                    <EditableNumber :isEditing="isEditing" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
+                        :validationResult="validationState.sortOrder" @edit-start="isEditing = true"
+                        placeholder="Сортировка" @validation-change="updateValidation" />
+                </div>
+
+                <div>
                     <EditableSelect :isEditing="isEditing" v-model="editData.isActive" field-name="isActive"
-                        :validationResult="validationState.isActive" :items="booleanOptions"
+                        :validationResult="validationState.isActive" :items="booleanOptions" placeholder="Активно"
                         @edit-start="isEditing = true" />
                 </div>
             </div>
 
             <div class="flex-1 flex flex-col gap-2">
                 <div>
-                    <dt class="text-sm text-foreground-dark">Последний раз виден</dt>
+                    <dt class="text-sm text-font-primary">Последний раз виден</dt>
                     <dd>{{ formatDate(device.lastSeen) || 'Никогда' }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-foreground-dark">Дата создания</dt>
-                    <dd>{{ formatDate(device.createdAt) }}</dd>
+                    <dt class="text-sm text-font-primary">Дата создания</dt>
+                    <dd class="text-font-primary">{{ formatDate(device.createdAt) }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-foreground-dark">Дата обновления</dt>
-                    <dd>{{ formatDate(device.updatedAt) }}</dd>
+                    <dt class="text-sm text-font-primary">Дата обновления</dt>
+                    <dd class="text-font-primary">{{ formatDate(device.updatedAt) }}</dd>
                 </div>
                 <div v-if="device.actions && device.actions.length > 0">
-                    <dt class="text-sm text-foreground-dark">Действия</dt>
-                    <dd>{{ device.actions.length }} действий</dd>
+                    <dt class="text-sm text-font-primary">Действия</dt>
+                    <dd class="text-font-primary">{{ device.actions.length }} действий</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-foreground-dark">Метаданные</dt>
-                    <pre class="bg-gray-50 p-4 rounded text-sm overflow-auto max-h-60">{{
+                    <dt class="text-sm text-font-primary">Метаданные</dt> 
+                    <pre class="hover:bg-back-accent text-font-primary p-4 rounded text-sm overflow-auto max-h-60">{{
                         JSON.stringify(device.metadata, null, 2)
                     }}</pre>
                 </div>
@@ -96,13 +95,16 @@
         </div>
     </div>
 
-    <div class="bg-background w-full p-3" v-if="actions.length > 0" :class="fullWindowMode ? 'fixed inset-0 z-50 p-6' : ''">
+    <div class="bg-back-secondary w-full p-3 rounded-md" v-if="actions.length > 0"
+        :class="fullWindowMode ? 'fixed inset-0 z-50 p-6' : ''">
         <div class="w-full flex justify-between items-center">
-            <p class="text-xl text-foreground-dark font-bold mb-4">Действия</p>
+            <p class="text-xl text-font-primary font-bold mb-4">Действия</p>
             <div class="flex items-center gap-2">
-                <span>Панель</span>
-                <ToggleSwitch v-model="panelMode" class="mr-2"/>
-                <i class="pi cursor-pointer" :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'" @click="fullWindowMode = !fullWindowMode"/>
+                <span class="text-font-primary">Панель</span>
+                <ToggleSwitch v-model="panelMode" class="mr-2" />
+                <i class="pi cursor-pointer text-font-primary"
+                    :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'"
+                    @click="fullWindowMode = !fullWindowMode" />
             </div>
         </div>
         <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
@@ -115,6 +117,10 @@
             </div>
             <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
         </div>
+    </div>
+    <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="tasks.length > 0">
+        <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
+        <DelayedTasksTable :tasks="tasks" :loading="loading" @cancelled="loadTasks" @refresh="loadTasks" />
     </div>
 </template>
 
@@ -133,6 +139,7 @@ import { DeviceStatusHelper } from '@/helpers/deviceStatusHelper';
 import { booleanOptions } from '@/types/constants';
 import ActionTable from '@/components/dataTables/ActionTable.vue';
 import ActionRequestResult from '@/components/ActionRequestResult.vue';
+import DelayedTasksTable from '@/components/dataTables/DelayedTasksTable.vue';
 import { useEntityForm } from '@/composables/useEntityForm';
 import type { ActionCallResult } from '@/types/api';
 
@@ -178,6 +185,7 @@ const device = computed(() => {
     return found || null;
 });
 const actions = computed(() => actionStore.getActionsByDevice(id.value).value);
+const tasks = computed(() => actionStore.delayedTasks);
 
 const saveAction = async () => {
     const result = await save()
@@ -257,8 +265,16 @@ const toggleEdit = () => {
     isEditing.value = !isEditing.value;
 };
 
-onMounted(() => {
+const loadTasks = async () => {
+    await actionStore.fetchDelayedTasks({ deviceId: id.value });
+};
+
+onMounted(async () => {
     id.value = route.params.id as string;
-    loadDevice();
+
+    await Promise.all([
+        loadDevice(),
+        loadTasks()
+    ]);
 });
 </script>

@@ -1,0 +1,13 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/voice-commands/bulk'
+order: 5600
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "ids": [1, 2, 3]
+    }

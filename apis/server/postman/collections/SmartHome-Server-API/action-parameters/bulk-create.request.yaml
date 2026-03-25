@@ -1,0 +1,13 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/action-parameters/bulk'
+order: 3300
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    [
+      { "actionId": 1, "key": "speed", "value": "fast" }
+    ]

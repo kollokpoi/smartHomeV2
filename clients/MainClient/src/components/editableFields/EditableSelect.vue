@@ -1,6 +1,7 @@
 <template>
     <div class="w-full">
-        <dd v-if="!isEditing" class="cursor-pointer hover:bg-gray-50 p-1 rounded" @dblclick="startEditing">
+        <label :for="fieldName" class="text-sm text-font-primary">{{placeholder}}</label>
+        <dd v-if="!isEditing" class="cursor-pointer hover:bg-back-accent p-1 rounded text-font-primary" @dblclick="startEditing">
             <Badge :severity="getSeverity(localValue)">{{ displayValue }}</Badge>
         </dd>
         <Select v-else v-model="localValue" :placeholder="placeholder" :disabled="disabled" class="w-full" :id="fieldName"

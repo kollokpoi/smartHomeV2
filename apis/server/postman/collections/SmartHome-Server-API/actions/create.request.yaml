@@ -1,0 +1,17 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/actions'
+order: 2500
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "deviceId": 1,
+      "name": "Turn On",
+      "parameters": [
+        { "key": "duration", "value": 60 }
+      ]
+    }

@@ -1,0 +1,5 @@
+$kind: collection
+name: SmartHome Server API
+variables:
+  - key: base_url
+    value: 'http://localhost:3000/api'

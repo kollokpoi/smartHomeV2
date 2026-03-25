@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'get actions by deviceId'
+method: GET
+url: '{{base_url}}/actions/device/:deviceId'
+order: 2100
+pathVariables:
+  - key: deviceId
+    value: '1'

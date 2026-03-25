@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full rounded-md p-4 mt-4 bg-background flex flex-col gap-4">
+    <div class="w-full rounded-md p-4 mt-4 bg-back-secondary flex flex-col gap-4">
         <div v-if="error" class="p-3 bg-red-50 border border-red-200 rounded-md">
             <dt class="text-sm font-medium text-red-700">Ошибка</dt>
             <dd class="text-sm text-red-600 mt-1">{{ error.message }}</dd>

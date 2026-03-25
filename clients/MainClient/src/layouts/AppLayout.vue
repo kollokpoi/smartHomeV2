@@ -61,8 +61,8 @@
       <div class="flex-1 min-w-0">
         <!-- Мобильная шапка -->
         <div class="lg:hidden">
-          <div class="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3">
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-500 hover:text-gray-600">
+          <div class="flex items-center justify-between border-b border-gray-200 bg-back-secondary px-4 py-3">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-font-primary hover:text-gray-600">
               <Bars3Icon class="h-6 w-6" />
             </button>
             <router-link to="/" class="flex items-center space-x-2">
@@ -70,13 +70,13 @@
                 class="h-8 w-8 rounded-lg bg-linear-to-br from-primary-600 to-primary-800 flex items-center justify-center">
                 <span class="text-white font-bold text-sm">A</span>
               </div>
-              <span class="text-lg font-bold text-gray-900">Admin</span>
+              <span class="text-lg font-bold text-font-primary">Admin</span>
             </router-link>
             <div class="h-8 w-8"></div>
           </div>
 
           <!-- Мобильное меню -->
-          <div v-if="mobileMenuOpen" class="bg-white shadow-lg">
+          <div v-if="mobileMenuOpen" class="bg-back-secondary shadow-lg">
             <div class="space-y-1 px-2 pb-3 pt-2">
               <router-link 
                 v-for="item in navigation" 
@@ -85,8 +85,8 @@
                 :class="[
                   'block rounded-lg px-3 py-2 text-base font-medium',
                   isActive(item.to)
-                    ? 'bg-primary-50 text-primary-700'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                    ? 'bg-back-primary text-font-primary'
+                    : 'text-font-secondary hover:bg-back-accent hover:text-font-primary'
                 ]" 
                 @click="mobileMenuOpen = false"
               >

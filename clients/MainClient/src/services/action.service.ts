@@ -3,6 +3,7 @@ import { BaseService } from "./base.service";
 import type { AxiosRequestConfig } from "axios";
 import type { ActionCallResult, ApiPaginationResponse, ApiResponse } from "@/types/api";
 import { Action, type ActionAttributes } from "@/types/dto";
+import { DelayedTask } from "@/types/common/DelayedTask";
 
 class ActionService extends BaseService {
   async getList(
@@ -79,6 +80,21 @@ class ActionService extends BaseService {
   }
   async deleteAction(id: string): Promise<ApiResponse<any>> {
     const response = await this.delete(`/actions/${id}`);
+    return response;
+  }
+
+  async getDelayedActions(params?: { actionId?: string; deviceId?: string }): Promise<ApiResponse<DelayedTask[]>> {
+    const response = await this.get<DelayedTask[]>('/actions/delayed', { params });
+    return response;
+  }
+
+  async cancelDelayedTask(taskId: string): Promise<ApiResponse<null>> {
+    const response = await this.delete<null>(`/actions/delayed/${taskId}`);
+    return response;
+  }
+
+  async cancelAllDelayedByAction(actionId: string): Promise<ApiResponse<null>> {
+    const response = await this.delete<null>(`/actions/delayed/action/${actionId}`);
     return response;
   }
 }

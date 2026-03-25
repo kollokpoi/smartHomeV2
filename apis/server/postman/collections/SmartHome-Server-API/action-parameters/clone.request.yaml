@@ -1,0 +1,14 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/action-parameters/clone'
+order: 3500
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "sourceActionId": 1,
+      "targetActionId": 2
+    }

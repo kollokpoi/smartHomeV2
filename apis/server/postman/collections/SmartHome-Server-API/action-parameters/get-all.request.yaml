@@ -1,0 +1,4 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/action-parameters'
+order: 3900

@@ -11,8 +11,8 @@ export interface DeviceAttributes extends BaseAttributes {
   status?: DeviceStatus;
   sortOrder?: number;
   isActive?: boolean;
-  lastSeen?: Date ;
-
+  lastSeen?: Date;
+  port?: number;
   actions?: ActionAttributes[];
 }
 
@@ -29,6 +29,7 @@ export class Device {
   lastSeen?: Date;
   createdAt: Date;
   updatedAt: Date;
+  port?: number;
 
   actions?: Action[];
 
@@ -46,6 +47,7 @@ export class Device {
     this.isActive = data.isActive !== undefined ? data.isActive : true;
     this.lastSeen = data.lastSeen;
     this.createdAt = data.createdAt || new Date();
+    this.port = data.port;
     this.updatedAt = data.updatedAt || new Date();
   }
 

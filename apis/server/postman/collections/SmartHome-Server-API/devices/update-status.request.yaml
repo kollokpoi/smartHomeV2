@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'patch device status by :id'
+method: PATCH
+url: '{{base_url}}/devices/:id/status'
+order: 1700
+pathVariables:
+  - key: id
+    value: '1'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "online"
+    }

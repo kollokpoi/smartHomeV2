@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'get parameters by actionId'
+method: GET
+url: '{{base_url}}/action-parameters/action/:actionId'
+order: 3800
+pathVariables:
+  - key: actionId
+    value: '1'

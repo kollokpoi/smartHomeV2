@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-        <div class="text-foreground-dark">
+        <div class="text-font-primary">
             <h1 class="text-2xl font-bold mb-2">Действия</h1>
             <p>Управление действиями</p>
         </div>
@@ -15,49 +15,48 @@
     </div>
 
     <div class="w-full">
-        <div class="w-full bg-background p-4 rounded-md gap-6">
+        <div class="w-full bg-back-secondary p-4 rounded-md gap-6">
             <div>
-                <dt class="text-sm text-foreground-dark">Название</dt>
-                <EditableText :isEditing="true" v-model="editData.name" :maxLength="100" required
+                <EditableText :isEditing="true" v-model="editData.name" :maxLength="100" required placeholder="Название"
                     :validationResult="validationState.name" field-name="name" @validation-change="updateValidation" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">IP адрес</dt>
                 <EditableText :isEditing="true" v-model="editData.ip" :maxLength="45" required field-name="ip"
-                    :validationResult="validationState.ip" @validation-change="updateValidation" />
-            </div>
-
-            <div>
-                <dt class="text-sm text-foreground-dark">Путь обработчика</dt>
-                <EditableText :isEditing="true" v-model="editData.handlerPath" :maxLength="255" required
-                    :validationResult="validationState.handlerPath" field-name="handlerPath"
+                    placeholder="IP адрес" :validationResult="validationState.ip"
                     @validation-change="updateValidation" />
             </div>
+            <div>
+                <EditableNumber :isEditing="true" v-model="editData.port" :min="1" :max="65535"
+                    placeholder="Базовый порт" field-name="port" @validation-change="updateValidation"
+                    :validation-result="validationState.port" />
+            </div>
+            <div>
+                <EditableText :isEditing="true" v-model="editData.handlerPath" :maxLength="255" required
+                    :validationResult="validationState.handlerPath" field-name="handlerPath"
+                    placeholder="Путь обработчика" @validation-change="updateValidation" />
+            </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Описание</dt>
-                <EditableText :isEditing="true" v-model="editData.description" textArea
+                <EditableText :isEditing="true" v-model="editData.description" textArea placeholder="Описание"
                     :validationResult="validationState.description" field-name="description"
                     @validation-change="updateValidation" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Статус</dt>
-                <EditableSelect :isEditing="true" v-model="editData.status" field-name="status"
+                <EditableSelect :isEditing="true" v-model="editData.status" field-name="status" placeholder="Статус"
                     :validationResult="validationState.status" :items="DeviceStatusHelper.getSelectOptions()" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Сортировка</dt>
                 <EditableNumber :isEditing="true" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
-                    :validationResult="validationState.sortOrder" @validation-change="updateValidation" />
+                    placeholder="Сортировка" :validationResult="validationState.sortOrder"
+                    @validation-change="updateValidation" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Активно</dt>
                 <EditableSelect :isEditing="true" v-model="editData.isActive" field-name="isActive"
-                    :validationResult="validationState.isActive" :items="booleanOptions" />
+                    placeholder="Активно" :validationResult="validationState.isActive" :items="booleanOptions" />
             </div>
         </div>
     </div>
@@ -105,7 +104,7 @@ const {
 
 const saveDevice = async () => {
     const result = await save()
-    
+
     if (result.success) {
         toast.add({
             severity: "success",
@@ -114,8 +113,8 @@ const saveDevice = async () => {
             life: 3000
         })
         router.push({
-            name:'DeviceDetail',
-            params:{id:result.data.id}
+            name: 'DeviceDetail',
+            params: { id: result.data.id }
         })
     } else {
         toast.add({

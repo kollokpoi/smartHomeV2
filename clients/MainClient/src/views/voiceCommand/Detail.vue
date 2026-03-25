@@ -1,14 +1,15 @@
 <template>
-    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-        <div class="text-foreground-dark">
+    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between sm:items-end items-center">
+        <div class="text-font-primary">
             <h1 class="text-2xl font-bold mb-2">Действия</h1>
             <p>Управление действиями</p>
         </div>
-        <div class="flex gap-2" v-if="voiceCommand">
-            <Button @click="updateEdit">{{ isEditing ? 'Отменить' : 'Редактировать'
-            }}</Button>
-            <Button @click="confirmDelete" v-if="!isEditing" severity="danger">Удалить</Button>
-            <Button @click="saveVoiceCommand" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
+        <div class="flex gap-2 flex-col sm:flex-row" v-if="voiceCommand">
+            <Button class="text-sm md:text-base" @click="updateEdit">{{ isEditing ? 'Отменить' : 'Редактировать'
+                }}</Button>
+            <Button class="text-sm md:text-base" @click="confirmDelete" v-if="!isEditing" severity="danger">Удалить</Button>
+            <Button class="text-sm md:text-base" @click="saveVoiceCommand" :disabled="!isFormValid" v-if="isEditing"
+                severity="success">Сохранить</Button>
         </div>
 
     </div>
@@ -18,52 +19,47 @@
     </div>
 
     <div class="w-full" v-else-if="voiceCommand">
-        <div class="flex w-full bg-background p-4 rounded-md gap-6">
+        <div class="flex w-full p-4 rounded-md gap-6 bg-back-secondary">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
-                    <label class="text-sm text-foreground-dark">Команда</label>
                     <EditableText :isEditing="isEditing" v-model="editData.command" @edit-start="isEditing = true"
                         :maxLength="50" required field-name="command" @validation-change="updateValidation"
-                        :validation-result="validationState.command" text-area />
+                        placeholder="Команда" :validation-result="validationState.command" text-area />
                 </div>
                 <div>
-                    <label class="text-sm text-foreground-dark">Язык</label>
                     <EditableSelect :items="languageHelper.getSelectOptionsWithNull()" :isEditing="isEditing"
                         @edit-start="isEditing = true" v-model="editData.language" field-name="language"
                         @validation-change="updateValidation" :validation-result="validationState.language"
-                        placeholder="язык" />
+                        placeholder="Язык" />
                 </div>
 
                 <div>
-                    <label for="sortOrder" class="text-sm text-foreground-dark">Приоритет</label>
                     <EditableNumber :isEditing="isEditing" v-model="editData.priority" :min="0" field-name="priority"
-                        @edit-start="isEditing = true" @validation-change="updateValidation"
+                        @edit-start="isEditing = true" @validation-change="updateValidation" placeholder="Приоритет"
                         :validation-result="validationState.priority" />
                 </div>
 
                 <div>
-                    <label for="sortOrder" class="text-sm text-foreground-dark">Сортировка</label>
                     <EditableNumber :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.sortOrder"
-                        :min="0" field-name="sortOrder" @validation-change="updateValidation"
+                        :min="0" field-name="sortOrder" @validation-change="updateValidation" placeholder="Сортировка"
                         :validation-result="validationState.sortOrder" />
                 </div>
 
                 <div>
-                    <label class="text-sm text-foreground-dark">Активно</label>
                     <EditableSelect :isEditing="isEditing" v-model="editData.isActive" field-name="isActive"
-                        :validationResult="validationState.isActive" :items="booleanOptions"
+                        placeholder="Активно" :validationResult="validationState.isActive" :items="booleanOptions"
                         @edit-start="isEditing = true" />
                 </div>
 
             </div>
             <div class="flex-1 flex flex-col">
                 <div>
-                    <dt class="text-sm text-foreground-dark ">Дата создания</dt>
-                    <dd>{{ formatDate(voiceCommand.createdAt) }}</dd>
+                    <dt class="text-sm text-font-primary ">Дата создания</dt>
+                    <dd class="text-font-primary">{{ formatDate(voiceCommand.createdAt) }}</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-foreground-dark ">Последние изменения</dt>
-                    <dd>{{ formatDate(voiceCommand.updatedAt) }}</dd>
+                    <dt class="text-sm text-font-primary ">Последние изменения</dt>
+                    <dd class="text-font-primary">{{ formatDate(voiceCommand.updatedAt) }}</dd>
                 </div>
             </div>
         </div>
@@ -180,7 +176,7 @@ const confirmDelete = () => {
 }
 const saveVoiceCommand = async () => {
     const result = await save()
-    
+
     if (result.success) {
         toast.add({
             severity: "success",

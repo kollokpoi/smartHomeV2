@@ -4,6 +4,7 @@ const {
   actionValidator,
   parameterValidator,
 } = require("../helpers/validators");
+const { delayQueue } = require('../../services/delayQueue');
 const axios = require("axios");
 const PaginationHelper = require("../helpers/paginationHelper");
 const { Op } = require("sequelize");
@@ -133,10 +134,10 @@ class ActionController {
               successRate:
                 action.call_count > 0
                   ? (
-                      ((action.call_count - (action.last_error ? 1 : 0)) /
-                        action.call_count) *
-                      100
-                    ).toFixed(2)
+                    ((action.call_count - (action.last_error ? 1 : 0)) /
+                      action.call_count) *
+                    100
+                  ).toFixed(2)
                   : 0,
             },
           };
@@ -188,6 +189,9 @@ class ActionController {
             },
           ],
         });
+      }
+      if (!req.body.port) {
+        req.body.port = device.port;
       }
 
       const action = await Action.create(req.body, { transaction });
@@ -359,137 +363,139 @@ class ActionController {
 
   async execute(req, res, next) {
     try {
+      const { delay } = req.body;
+
       const action = await Action.findByPk(req.params.id, {
         include: [
-          {
-            association: "device",
-            required: true,
-          },
-          {
-            association: "parameters",
-            where: { is_active: true },
-            required: false,
-          },
-        ],
+          { association: "device", required: true },
+          { association: "parameters", where: { is_active: true }, required: false }
+        ]
       });
 
       if (!action) {
         return res.status(404).json({
           success: false,
-          message: "Действие не найдено",
+          message: "Действие не найдено"
         });
       }
 
       const device = action.device;
-      if (device.status === "offline") {
-        return res.status(503).json({
-          success: false,
-          message: "Устройство офлайн",
-        });
-      }
+      const request = buildRequest(action, device);
 
-      // Формируем URL
-      let url = `http://${device.ip}:${action.port}${action.path}`;
+      if (delay && delay > 0) {
+        const task = delayQueue.add(
+          action.id,
+          action,
+          device,
+          request,
+          delay
+        );
 
-      // Подготавливаем параметры ИЗ ActionParameter
-      const requestParams = {
-        query: {},
-        headers: {},
-        body: null,
-      };
-
-      // Заполняем параметры из БД (ActionParameter)
-      for (const param of action.parameters) {
-        let value = param.value; // Берем значение из БД
-
-        if (value !== null && value !== undefined) {
-          // Преобразуем тип
-          switch (param.type) {
-            case "number":
-              value = Number(value);
-              break;
-            case "boolean":
-              value = value === "true" || value === true;
-              break;
-            case "json":
-              value = typeof value === "string" ? JSON.parse(value) : value;
-              break;
-            case "array":
-              value = Array.isArray(value) ? value : [value];
-              break;
-          }
-
-          // Распределяем по месту назначения
-          switch (param.location) {
-            case "query":
-              requestParams.query[param.key] = value;
-              break;
-            case "headers":
-              requestParams.headers[param.key] = value;
-              break;
-            case "body":
-              if (!requestParams.body) {
-                requestParams.body = {};
-                if (param.contentType) {
-                  requestParams.headers["Content-Type"] =
-                    param.contentType === "json"
-                      ? "application/json"
-                      : param.contentType === "formdata"
-                        ? "multipart/form-data"
-                        : param.contentType === "x-www-form-urlencoded"
-                          ? "application/x-www-form-urlencoded"
-                          : "text/plain";
-                }
-              }
-              requestParams.body[param.key] = value;
-              break;
-            case "path":
-              url = url.replace(`:${param.key}`, encodeURIComponent(value));
-              break;
-          }
-        }
-      }
-
-      // Выполняем запрос к устройству
-      try {
-        const response = await axios({
-          method: action.method,
-          url,
-          params: requestParams.query,
-          data: requestParams.body,
-          headers: requestParams.headers,
-          timeout: action.timeout,
-        });
-
-        // Регистрируем успешный вызов
-        await action.registerCall(response.status);
-
-        res.json({
+        return res.json({
           success: true,
           data: {
-            action: {
-              id: action.id,
-              name: action.name,
-            },
-            device: {
-              id: device.id,
-              name: device.name,
-            },
-            request: {
-              method: action.method,
-              url,
-              params: requestParams,
-            },
-            response: {
-              status: response.status,
-              data: response.data,
-            },
-          },
+            taskId: task.taskId,
+            actionId: action.id,
+            actionName: action.name,
+            deviceName: device.name,
+            delay: task.delay,
+            scheduledTime: task.scheduledTime,
+            message: `Действие запланировано через ${delay}мс`
+          }
         });
-      } catch (error) {
-        await action.registerCall(error.response?.status || 500, error.message);
-        throw error;
       }
+
+      const response = await axios(request);
+      await action.registerCall(response.status);
+
+      res.json({
+        success: true,
+        data: {
+          action: {
+            id: action.id,
+            name: action.name,
+          },
+          device: {
+            id: device.id,
+            name: device.name,
+          },
+          request: {
+            method: request.method,
+            url: request.url,
+            params: request.params,
+          },
+          response: {
+            status: response.status,
+            data: response.data,
+          },
+        },
+      });
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getDelayedActions(req, res, next) {
+    try {
+      const { actionId, deviceId } = req.query;
+      let tasks;
+
+      if (deviceId) {
+        tasks = delayQueue.getByDeviceId(deviceId);
+      }
+      else if (actionId) {
+        tasks = delayQueue.getByActionId(actionId);
+      } else {
+        tasks = delayQueue.getAll();
+      }
+
+      res.json({
+        success: true,
+        data: tasks
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async cancelDelayedAction(req, res, next) {
+    try {
+      const { taskId } = req.params;
+      const cancelled = delayQueue.cancel(taskId);
+
+      if (!cancelled) {
+        return res.status(404).json({
+          success: false,
+          message: "Отложенная задача не найдена"
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Задача отменена"
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async cancelAllDelayedByAction(req, res, next) {
+    try {
+      const { actionId } = req.params;
+      const cancelled = delayQueue.cancelByActionId(actionId);
+
+      if (!cancelled) {
+        return res.status(404).json({
+          success: false,
+          message: "Нет отложенных задач для этого действия"
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Все задачи для действия отменены"
+      });
     } catch (error) {
       next(error);
     }
@@ -499,7 +505,7 @@ class ActionController {
     const transaction = await Action.sequelize.transaction();
     try {
       const id = req.params.id;
-      const { responseStatus, errorMessage } = req.body; 
+      const { responseStatus, errorMessage } = req.body;
 
       const action = await Action.findByPk(id, { transaction });
 
@@ -562,6 +568,7 @@ class ActionController {
       delete updateData.deviceId;
       delete updateData.parameters;
 
+
       await action.update(updateData, { transaction });
 
       if (req.body.parameters) {
@@ -623,6 +630,74 @@ class ActionController {
       next(error);
     }
   }
+}
+
+function buildRequest(action, device) {
+  let url = `http://${device.ip}:${action.port}${action.path}`;
+
+  const requestParams = {
+    query: {},
+    headers: {},
+    body: null,
+  };
+
+  for (const param of action.parameters) {
+    let value = param.value;
+
+    if (value !== null && value !== undefined) {
+      switch (param.type) {
+        case "number":
+          value = Number(value);
+          break;
+        case "boolean":
+          value = value === "true" || value === true;
+          break;
+        case "json":
+          value = typeof value === "string" ? JSON.parse(value) : value;
+          break;
+        case "array":
+          value = Array.isArray(value) ? value : [value];
+          break;
+      }
+
+      switch (param.location) {
+        case "query":
+          requestParams.query[param.key] = value;
+          break;
+        case "headers":
+          requestParams.headers[param.key] = value;
+          break;
+        case "body":
+          if (!requestParams.body) {
+            requestParams.body = {};
+            if (param.contentType) {
+              requestParams.headers["Content-Type"] =
+                param.contentType === "json"
+                  ? "application/json"
+                  : param.contentType === "formdata"
+                    ? "multipart/form-data"
+                    : param.contentType === "x-www-form-urlencoded"
+                      ? "application/x-www-form-urlencoded"
+                      : "text/plain";
+            }
+          }
+          requestParams.body[param.key] = value;
+          break;
+        case "path":
+          url = url.replace(`:${param.key}`, encodeURIComponent(value));
+          break;
+      }
+    }
+  }
+
+  return {
+    method: action.method,
+    url,
+    params: requestParams.query,
+    data: requestParams.body,
+    headers: requestParams.headers,
+    timeout: action.timeout,
+  };
 }
 
 module.exports = new ActionController();

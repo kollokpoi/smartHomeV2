@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'delete voice-command by :id'
+method: DELETE
+url: '{{base_url}}/voice-commands/:id'
+order: 5700
+pathVariables:
+  - key: id
+    value: '1'

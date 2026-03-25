@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       port: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         validate: {
           isInt: { msg: "Порт должен быть целым числом" },
           min: { args: [1], msg: "Порт должен быть от 1 до 65535" },

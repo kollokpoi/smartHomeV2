@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'register call for action :id'
+method: POST
+url: '{{base_url}}/actions/register-call/:id'
+order: 2400
+pathVariables:
+  - key: id
+    value: '1'

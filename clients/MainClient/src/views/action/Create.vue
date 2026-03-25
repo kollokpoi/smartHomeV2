@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-        <div class="text-foreground-dark">
+        <div class="text-font-primary">
             <h1 class="text-2xl font-bold mb-2">Создание действия</h1>
             <p>Заполните поля для нового действия</p>
         </div>
@@ -12,58 +12,54 @@
     </div>
 
     <div class="w-full">
-        <div class="w-full bg-background p-4 rounded-md gap-6">
+        <div class="w-full bg-back-secondary p-4 rounded-md gap-6">
             <div>
-                <dt class="text-sm text-foreground-dark">Название</dt>
                 <EditableText :isEditing="true" v-model="editData.name" :maxLength="50" required field-name="name"
-                    @validation-change="updateValidation" :validation-result="validationState.name" />
+                    placeholder="Название" @validation-change="updateValidation"
+                    :validation-result="validationState.name" />
             </div>
             <div>
-                <dt class="text-sm text-foreground-dark">Девайс</dt>
                 <EditableSelect :isEditing="true" v-model="editData.deviceId" field-name="deviceId" required
-                    :items="deviceStore.deviceOptions" :validation-result="validationState.deviceId"  placeholder="Устройство"/>
+                    :items="deviceStore.deviceOptions" :validation-result="validationState.deviceId"
+                    placeholder="Девайс" />
             </div>
             <div>
-                <dt class="text-sm text-foreground-dark">Путь</dt>
-                <EditableText :isEditing="true" v-model="editData.path" :maxLength="150" required field-name="path"
-                    @validation-change="updateValidation" :validation-result="validationState.path" />
-            </div>
-
-            <div>
-                <dt class="text-sm text-foreground-dark">Порт</dt>
-                <EditableNumber :isEditing="true" v-model="editData.port" :min="1" :max="65535" required
-                    field-name="port" @validation-change="updateValidation" :validation-result="validationState.port" />
+                <EditableText :isEditing="true" v-model="editData.path" :maxLength="150" placeholder="Путь" required
+                    field-name="path" @validation-change="updateValidation" :validation-result="validationState.path" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Метод</dt>
-                <EditableSelect :isEditing="true" v-model="editData.method" field-name="method"
+                <EditableNumber :isEditing="true" v-model="editData.port" :min="1" :max="65535"
+                    placeholder="Порт" field-name="port" @validation-change="updateValidation"
+                    :validation-result="validationState.port" />
+            </div>
+
+            <div>
+                <EditableSelect :isEditing="true" v-model="editData.method" field-name="method" placeholder="Метод"
                     :items="httpMethodHelper.getSelectOptions()" :validation-result="validationState.method" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Описание</dt>
-                <EditableText :isEditing="true" v-model="editData.description" textArea field-name="description"
-                    @validation-change="updateValidation" :validation-result="validationState.description" />
+                <EditableText :isEditing="true" v-model="editData.description" textArea placeholder="Описание"
+                    field-name="description" @validation-change="updateValidation"
+                    :validation-result="validationState.description" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Таймаут (мс)</dt>
                 <EditableNumber :isEditing="true" v-model="editData.timeout" :min="100" :max="30000"
-                    field-name="timeout" @validation-change="updateValidation"
+                    placeholder="Таймаут (мс)" field-name="timeout" @validation-change="updateValidation"
                     :validation-result="validationState.timeout" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Сортировка</dt>
-                <EditableNumber :isEditing="true" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
-                    @validation-change="updateValidation" :validation-result="validationState.sortOrder" />
+                <EditableNumber :isEditing="true" v-model="editData.sortOrder" :min="0" placeholder="Сортировка"
+                    field-name="sortOrder" @validation-change="updateValidation"
+                    :validation-result="validationState.sortOrder" />
             </div>
 
             <div>
-                <dt class="text-sm text-foreground-dark">Активно</dt>
                 <EditableSelect :isEditing="true" v-model="editData.isActive" field-name="isActive"
-                    :validationResult="validationState.isActive" :items="booleanOptions" />
+                    placeholder="Активно" :validationResult="validationState.isActive" :items="booleanOptions" />
             </div>
 
         </div>
@@ -115,7 +111,7 @@ const {
 );
 const saveAction = async () => {
     const result = await save()
-    
+
     if (result.success) {
         toast.add({
             severity: "success",
@@ -124,8 +120,8 @@ const saveAction = async () => {
             life: 3000
         })
         router.push({
-            name:'ActionDetail',
-            params:{id:result.data.id}
+            name: 'ActionDetail',
+            params: { id: result.data.id }
         })
     } else {
         toast.add({
@@ -137,7 +133,7 @@ const saveAction = async () => {
     }
 }
 
-onMounted(async()=>{
+onMounted(async () => {
     await deviceStore.fetchDevices();
 })
 </script>

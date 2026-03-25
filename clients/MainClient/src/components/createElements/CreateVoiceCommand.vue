@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full bg-background px-4 py-6 rounded-md" :class>
+    <div class="w-full bg-back-secondary px-4 py-6 rounded-md" :class>
         <div class="flex items-center gap-2 cursor-pointer" @click="toggleExpand">
             <Button :icon="isExpanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" text rounded severity="secondary"
                 size="small" @click.stop="toggleExpand" />
@@ -13,33 +13,29 @@
             leave-to-class="opacity-0 max-h-0 overflow-hidden">
             <div v-if="isExpanded" class="space-y-4">
                 <div>
-                    <label class="text-sm text-foreground-dark">Команда</label>
                     <EditableText :isEditing="true" v-model="editData.command" :maxLength="50" required
-                        field-name="command" @validation-change="updateValidation"
+                        placeholder="Команда" field-name="command" @validation-change="updateValidation"
                         :validation-result="validationState.command" text-area />
                 </div>
 
                 <div>
-                    <label class="text-sm text-foreground-dark">Язык</label>
                     <EditableSelect :items="languageHelper.getSelectOptionsWithNull()" :isEditing="true"
-                        v-model="editData.language" field-name="language" @validation-change="updateValidation"
-                        :validation-result="validationState.language" placeholder="язык"/>
+                        placeholder="Язык" v-model="editData.language" field-name="language"
+                        @validation-change="updateValidation" :validation-result="validationState.language" />
                 </div>
                 <div>
-                    <label for="sortOrder" class="text-sm text-foreground-dark">Приоритет</label>
-                    <EditableNumber :isEditing="true" v-model="editData.priority" :min="0" field-name="priority"
-                        @validation-change="updateValidation" :validation-result="validationState.priority" />
+                    <EditableNumber placeholder="Приоритет" :isEditing="true" v-model="editData.priority" :min="0"
+                        field-name="priority" @validation-change="updateValidation"
+                        :validation-result="validationState.priority" />
                 </div>
 
                 <div>
-                    <label for="sortOrder" class="text-sm text-foreground-dark">Сортировка</label>
-                    <EditableNumber :isEditing="true" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
+                    <EditableNumber placeholder="Сортировка" :isEditing="true" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
                         @validation-change="updateValidation" :validation-result="validationState.sortOrder" />
                 </div>
 
                 <div>
-                    <label class="text-sm text-foreground-dark">Активно</label>
-                    <EditableSelect :isEditing="true" v-model="editData.isActive" field-name="isActive"
+                    <EditableSelect :isEditing="true" placeholder="Активно" v-model="editData.isActive" field-name="isActive"
                         :validationResult="validationState.isActive" :items="booleanOptions" />
                 </div>
             </div>

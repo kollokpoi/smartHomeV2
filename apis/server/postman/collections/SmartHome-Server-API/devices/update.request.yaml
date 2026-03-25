@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'update device by :id'
+method: PUT
+url: '{{base_url}}/devices/:id'
+order: 1500
+pathVariables:
+  - key: id
+    value: '1'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Living Room Light",
+      "type": "light",
+      "status": "online"
+    }

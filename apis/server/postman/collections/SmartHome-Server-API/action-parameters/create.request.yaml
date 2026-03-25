@@ -1,0 +1,15 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/action-parameters'
+order: 4100
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "actionId": 1,
+      "key": "temperature",
+      "value": 22
+    }

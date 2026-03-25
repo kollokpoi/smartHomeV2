@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'update action by :id'
+method: PUT
+url: '{{base_url}}/actions/:id'
+order: 2800
+pathVariables:
+  - key: id
+    value: '1'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Rename Action"
+    }

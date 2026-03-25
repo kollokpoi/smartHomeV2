@@ -2,6 +2,8 @@
 import { defineStore } from "pinia";
 import { ref, computed, reactive } from "vue";
 import { actionService } from "@/services/action.service";
+import { DelayedTask } from "@/types/common/DelayedTask";
+
 import type {
   ActionCallResult,
   ApiPaginationResponse,
@@ -20,6 +22,9 @@ export const useActionStore = defineStore("action", () => {
   const networkStore = useNetworkStore();
   const actionParameterStore = useActionParameterStore();
   const deviceStore = useDeviceStore();
+
+  const delayedTasks = ref<DelayedTask[]>([]);
+  const delayedTasksLoading = ref(false);
   const filters = ref<ActionFilters>({});
   const pagination = reactive<Pagination>({
     page: 1,
@@ -115,9 +120,53 @@ export const useActionStore = defineStore("action", () => {
     }
   };
 
-  const callAction = async (id: string): Promise<ActionCallResult> => {
+  const fetchDelayedTasks = async (filters?: { actionId?: string; deviceId?: string }): Promise<DelayedTask[] | null> => {
+    delayedTasksLoading.value = true;
     try {
-      if (networkStore.isLocalNetwork) {
+      const response = await actionService.getDelayedActions(filters);
+      if (response.success) {
+        delayedTasks.value = response.data;
+        return response.data;
+      }
+      return null;
+    } catch (error) {
+      console.error('Ошибка загрузки отложенных задач:', error);
+      return null;
+    } finally {
+      delayedTasksLoading.value = false;
+    }
+  };
+  const cancelDelayedTask = async (taskId: string): Promise<boolean> => {
+    try {
+      const response = await actionService.cancelDelayedTask(taskId);
+      if (response.success) {
+        await fetchDelayedTasks();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Ошибка отмены задачи:', error);
+      return false;
+    }
+  };
+
+  const cancelAllDelayedByAction = async (actionId: string): Promise<boolean> => {
+    try {
+      const response = await actionService.cancelAllDelayedByAction(actionId);
+      if (response.success) {
+        await fetchDelayedTasks();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Ошибка отмены задач:', error);
+      return false;
+    }
+  };
+
+  const callAction = async (id: string, delay?: number): Promise<ActionCallResult> => {
+    try {
+      if (networkStore.isLocalNetwork && !delay) {
         const result = await callDeviceDirectly(id);
         if (result.success) {
           await actionService.registerCall(id, {
@@ -134,7 +183,7 @@ export const useActionStore = defineStore("action", () => {
         return result;
       }
 
-      const response = await actionService.callAction(id);
+      const response = await actionService.callAction(id, { data: { delay } });
 
       if (response.success) {
         await fetchActionById(id, true);
@@ -378,14 +427,18 @@ export const useActionStore = defineStore("action", () => {
     filters,
     pagination,
     actions,
+    delayedTasks,
     allActions,
     actionsOptions,
     totalActions,
     loading: computed(() => entityStore.loading),
     error: computed(() => entityStore.error),
+    cancelDelayedTask,
+    cancelAllDelayedByAction,
     getActionsByDevice,
     getActionById,
     fetchActions,
+    fetchDelayedTasks,
     updateAction,
     fetchActionById,
     callAction,

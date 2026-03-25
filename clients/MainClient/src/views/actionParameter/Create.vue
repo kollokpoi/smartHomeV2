@@ -4,7 +4,7 @@
     </div>
     <div v-else-if="action">
         <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
-            <div class="text-foreground-dark">
+            <div class="text-font-primary">
                 <h1 class="text-2xl font-bold mb-2">Параметры</h1>
                 <p>Создание параметров для {{ action.name }}</p>
             </div>
@@ -19,7 +19,7 @@
                 <template v-slot:header>
                     <div class="flex items-center justify-between w-full">
                         <div class="flex items-center gap-2">
-                            <p>{{ param.data.key || 'Новый параметр' }}</p>
+                            <p class="text-font-primary">{{ param.data.key || 'Новый параметр' }}</p>
                             <Badge v-if="!param.blockExtended" value="Свернуто" severity="secondary" size="small" />
                             <Badge v-if="hasErrors(param)" value="!" severity="danger" size="small" />
                         </div>

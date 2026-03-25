@@ -1,0 +1,16 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/actions/bulk'
+order: 2600
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    [
+      {
+        "deviceId": 1,
+        "name": "Turn Off"
+      }
+    ]

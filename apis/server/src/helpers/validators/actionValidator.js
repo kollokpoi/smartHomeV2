@@ -32,7 +32,7 @@ class ActionValidator {
     // Порт
     if (!isUpdate && !data.port && data.port !== 0) {
       errors.push({ field: 'port', message: 'Порт обязателен' });
-    } else if (data.port !== undefined) {
+    } else if (data.port !== undefined && data.port !== null) {
       if (!Number.isInteger(data.port)) {
         errors.push({ field: 'port', message: 'Порт должен быть целым числом' });
       }
