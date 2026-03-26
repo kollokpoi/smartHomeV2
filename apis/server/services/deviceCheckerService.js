@@ -49,9 +49,6 @@ class DeviceChecker {
   async checkAllDevices() {
     try {
       const devices = await Device.findAll({
-        where: {
-          is_active: true,
-        },
         attributes: ["id", "ip", "name", "status", "last_seen"],
       });
 

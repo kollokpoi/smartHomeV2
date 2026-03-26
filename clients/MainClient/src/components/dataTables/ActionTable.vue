@@ -42,8 +42,6 @@
     </DataTable>
     <ContextMenu ref="contextMenuRef" :model="menuItems" />
     <ConfirmDialog :draggable="true" />
-    <DelayDialog v-model:visible="showDelayDialog" :actionName="selectedAction?.name"
-        :deviceName="selectedAction?.device?.name" @confirm="executeWithDelay" />
 </template>
 
 <script setup lang="ts">
@@ -52,9 +50,8 @@ import { truncateString } from '@/helpers/truncateString';
 import { useActionStore } from '@/stores/modules/action.store';
 import { Action } from '@/types/dto';
 import { ContextMenu, useConfirm, useToast, type DataTableRowClickEvent, type DataTableRowContextMenuEvent } from 'primevue';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import DelayCallDialog from '../DelayCallDialog.vue';
 
 interface Props {
     actions: Action[]
@@ -63,7 +60,7 @@ interface Props {
 }
 interface Emits {
     (e: 'deleted'): void
-    (e: 'called'): void
+    (e: 'called', actionId: string): void
 }
 
 const props = defineProps<Props>()
@@ -72,10 +69,8 @@ const contextMenuRef = ref<InstanceType<typeof ContextMenu> | null>(null)
 const toast = useToast()
 const confirm = useConfirm()
 const router = useRouter();
-const showDelayDialog = ref(false)
 
 const actionStore = useActionStore();
-
 const selectedAction = ref<Action | null>(null);
 
 const rowClass = () => {
@@ -121,7 +116,7 @@ const menuItems = computed(() => {
         {
             label: 'Вызов',
             icon: 'pi pi-bolt',
-            command: () => router.push(`/action/${action.id}/edit`)
+            command: async () => emits('called', action.id)
         },
         {
             label: 'Удалить',
@@ -177,8 +172,4 @@ const confirmDelete = (action: Action) => {
     })
 }
 
-const executeWithDelay = ()=>{
-    showDelayDialog.value = false
-    emits('called')
-}
 </script>

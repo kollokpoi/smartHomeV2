@@ -8,7 +8,7 @@
             <Button @click="toggleEdit" class="text-sm sm:text-md">{{
                 isEditing ? 'Отменить' : 'Редактировать'
                 }}</Button>
-            <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success"
+            <Button @click="saveDevice" :disabled="!isFormValid" v-if="isEditing" severity="success"
                 class="text-sm sm:text-md">Сохранить</Button>
         </div>
     </div>
@@ -86,7 +86,7 @@
                     <dd class="text-font-primary">{{ device.actions.length }} действий</dd>
                 </div>
                 <div>
-                    <dt class="text-sm text-font-primary">Метаданные</dt> 
+                    <dt class="text-sm text-font-primary">Метаданные</dt>
                     <pre class="hover:bg-back-accent text-font-primary p-4 rounded text-sm overflow-auto max-h-60">{{
                         JSON.stringify(device.metadata, null, 2)
                     }}</pre>
@@ -100,6 +100,8 @@
         <div class="w-full flex justify-between items-center">
             <p class="text-xl text-font-primary font-bold mb-4">Действия</p>
             <div class="flex items-center gap-2">
+                <span class="text-font-primary">Задержка</span>
+                <ToggleSwitch v-model="isUseDelay" />
                 <span class="text-font-primary">Панель</span>
                 <ToggleSwitch v-model="panelMode" class="mr-2" />
                 <i class="pi cursor-pointer text-font-primary"
@@ -107,11 +109,11 @@
                     @click="fullWindowMode = !fullWindowMode" />
             </div>
         </div>
-        <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
+        <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh" @called="call"
             v-memo="[actions.length, loading]" />
         <div v-else>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center w-full gap-2">
-                <Button v-for="action in actions" @click="callAction(action.id)" class="text-xs md:text-sm">
+                <Button v-for="action in actions" @click="call(action.id)" class="text-xs md:text-sm">
                     {{ action.name }}
                 </Button>
             </div>
@@ -122,6 +124,7 @@
         <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
         <DelayedTasksTable :tasks="tasks" :loading="loading" @cancelled="loadTasks" @refresh="loadTasks" />
     </div>
+    <DelayCallDialog v-model:visible="isDialogVisible" @confirm="confirmDelay" />
 </template>
 
 <script setup lang="ts">
@@ -140,8 +143,10 @@ import { booleanOptions } from '@/types/constants';
 import ActionTable from '@/components/dataTables/ActionTable.vue';
 import ActionRequestResult from '@/components/ActionRequestResult.vue';
 import DelayedTasksTable from '@/components/dataTables/DelayedTasksTable.vue';
+import DelayCallDialog from '@/components/DelayCallDialog.vue';
 import { useEntityForm } from '@/composables/useEntityForm';
 import type { ActionCallResult } from '@/types/api';
+import { useDelayedCall } from '@/composables/useDelayedCall';
 
 const route = useRoute();
 const toast = useToast();
@@ -154,6 +159,21 @@ const callResponse = ref<ActionCallResult | null>(null)
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
+
+const {
+    isDialogVisible,
+    isUseDelay,
+    call,
+    confirmDelay,
+    closeDialog
+} = useDelayedCall({
+    onSuccess: (result) => {
+        loadTasks();
+    },
+    onError: (error) => {
+        console.error('Action failed:', error);
+    }
+});
 
 const {
     validationState,
@@ -187,14 +207,14 @@ const device = computed(() => {
 const actions = computed(() => actionStore.getActionsByDevice(id.value).value);
 const tasks = computed(() => actionStore.delayedTasks);
 
-const saveAction = async () => {
+const saveDevice = async () => {
     const result = await save()
 
     if (result.success) {
         toast.add({
             severity: "success",
             summary: "Успешно",
-            detail: "Действие обновлено",
+            detail: "Устройство обновлено",
             life: 3000
         })
         isEditing.value = false;
@@ -227,35 +247,6 @@ const loadDevice = async () => {
         loading.value = false;
     }
 };
-
-const callAction = async (id: string) => {
-    try {
-        const result = await actionStore.callAction(id)
-        callResponse.value = result;
-        if (result.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: `Действие "${result.data?.action.name}" выполнено`,
-                life: 3000
-            });
-        } else {
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: result.error?.message || "Не удалось выполнить действие",
-                life: 3000
-            });
-        }
-    } catch (err: any) {
-        toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: err.message || "Не удалось выполнить действие",
-            life: 3000
-        });
-    }
-}
 
 const toggleEdit = () => {
     if (isEditing.value) {

@@ -1,72 +1,24 @@
 <!-- components/delayed/DelayDialog.vue -->
 <template>
-    <Dialog 
-        v-model:visible="visible" 
-        header="Отложенный вызов" 
-        modal 
-        class="w-96"
-        :closable="false"
-    >
+    <Dialog v-model:visible="localVisible" header="Отложенный вызов" modal class="w-96" :closable="false">
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Задержка (секунды)</label>
                 <div class="flex gap-2">
-                    <InputNumber 
-                        v-model="delaySeconds" 
-                        :min="1" 
-                        :max="3600" 
-                        class="flex-1"
-                        placeholder="Введите задержку"
-                        :invalid="!!validationError"
-                    />
-                    <Button 
-                        icon="pi pi-clock" 
-                        @click="showPresets = !showPresets"
-                        text
-                        rounded
-                        severity="secondary"
-                    />
+                    <InputNumber v-model="delaySeconds" :min="1" class="flex-1" placeholder="Введите задержку"
+                        :invalid="!!validationError" />
+                    <Button icon="pi pi-clock" @click="showPresets = !showPresets" text rounded severity="secondary" />
                 </div>
                 <small v-if="validationError" class="text-red-500">{{ validationError }}</small>
             </div>
 
             <div v-if="showPresets" class="grid grid-cols-3 gap-2">
-                <Button 
-                    label="10 сек" 
-                    size="small" 
-                    outlined 
-                    @click="setDelay(10)"
-                />
-                <Button 
-                    label="30 сек" 
-                    size="small" 
-                    outlined 
-                    @click="setDelay(30)"
-                />
-                <Button 
-                    label="1 мин" 
-                    size="small" 
-                    outlined 
-                    @click="setDelay(60)"
-                />
-                <Button 
-                    label="5 мин" 
-                    size="small" 
-                    outlined 
-                    @click="setDelay(300)"
-                />
-                <Button 
-                    label="10 мин" 
-                    size="small" 
-                    outlined 
-                    @click="setDelay(600)"
-                />
-                <Button 
-                    label="30 мин" 
-                    size="small" 
-                    outlined 
-                    @click="setDelay(1800)"
-                />
+                <Button label="1 мин" size="small" outlined @click="setDelay(60)" />
+                <Button label="5 мин" size="small" outlined @click="setDelay(300)" />
+                <Button label="10 мин" size="small" outlined @click="setDelay(600)" />
+                <Button label="30 мин" size="small" outlined @click="setDelay(1800)" />
+                <Button label="60 мин" size="small" outlined @click="setDelay(1800)" />
+                <Button label="90 мин" size="small" outlined @click="setDelay(1800)" />
             </div>
 
             <div v-if="info" class="p-3 bg-blue-50 rounded-md text-sm">
@@ -78,12 +30,7 @@
         <template #footer>
             <div class="flex justify-end gap-2">
                 <Button label="Отмена" @click="close" outlined />
-                <Button 
-                    label="Запланировать" 
-                    severity="success" 
-                    @click="confirm" 
-                    :disabled="!isValid"
-                />
+                <Button label="Запланировать" severity="success" @click="confirm" :disabled="!isValid" />
             </div>
         </template>
     </Dialog>
@@ -94,8 +41,6 @@ import { ref, computed, watch } from 'vue';
 
 interface Props {
     visible: boolean;
-    actionName?: string;
-    deviceName?: string;
 }
 
 interface Emits {
@@ -106,6 +51,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
+const localVisible = ref(props.visible);
 const delaySeconds = ref<number | null>(5);
 const showPresets = ref(false);
 const validationError = ref('');
@@ -125,14 +71,8 @@ const info = computed(() => {
     const delayMs = delaySeconds.value * 1000;
     const scheduled = new Date(Date.now() + delayMs);
     const timeStr = scheduled.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    
+
     let infoText = `Запланировано на ${timeStr}`;
-    if (props.actionName) {
-        infoText += `\nДействие: ${props.actionName}`;
-    }
-    if (props.deviceName) {
-        infoText += `\nУстройство: ${props.deviceName}`;
-    }
     return infoText;
 });
 
@@ -155,8 +95,10 @@ const close = () => {
 };
 
 watch(() => props.visible, (newVal) => {
+    localVisible.value = newVal;
     if (!newVal) {
         close();
     }
 });
+
 </script>

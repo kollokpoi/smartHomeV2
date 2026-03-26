@@ -27,6 +27,7 @@ class DelayQueue {
             actionId,
             actionName: action.name,
             deviceName: device.name,
+            deviceId:device.id,
             deviceIp: device.ip,
             startTime,
             delay,
