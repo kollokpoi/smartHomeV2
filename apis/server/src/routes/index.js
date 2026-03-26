@@ -5,7 +5,9 @@ const deviceRoutes = require('./deviceRoutes');
 const actionRoutes = require('./actionRoutes');
 const actionParameterRoutes = require('./actionParameterRoutes');
 const voiceCommandRoutes = require('./voiceCommandRoutes');
+const authRoutes = require('./authRoutes');
 
+router.use('/auth', authRoutes);
 router.use('/devices', deviceRoutes);
 router.use('/actions', actionRoutes);
 router.use('/action-parameters', actionParameterRoutes);

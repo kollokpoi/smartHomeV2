@@ -96,11 +96,16 @@ class AuthController {
                 process.env.JWT_SECRET,
                 { expiresIn: process.env.JWT_ACCESS_EXPIRES || '1h' }
             );
-
+           const newRefreshToken = jwt.sign(
+                { id: user.id },
+                process.env.JWT_REFRESH_SECRET,
+                { expiresIn: process.env.JWT_REFRESH_EXPIRES || '7d' }
+            );
             res.json({
                 success: true,
                 data: {
                     accessToken: newAccessToken,
+                    refreshToken: newRefreshToken,
                     expiresIn: 3600
                 }
             });
