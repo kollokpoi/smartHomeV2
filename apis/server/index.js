@@ -7,11 +7,14 @@ const helmet = require("helmet");
 const routes = require("./src/routes");
 const logger = require("./src/utils/logger");
 const deviceChecker = require('./services/deviceCheckerService')
+const { generalLimiter, authLimiter } = require('./src/middlewares/rateLimiter');
 
 const { sequelize } = require('./src/models');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(generalLimiter);
 
 app.use(
   cors({

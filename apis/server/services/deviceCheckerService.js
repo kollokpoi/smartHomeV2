@@ -7,6 +7,7 @@ class DeviceChecker {
   constructor() {
     this.interval = null;
     this.isRunning = false;
+    this.isChecking = false;
     this.checkPeriod = parseInt(process.env.DEVICE_CHECK_PERIOD || "30000", 10);
   }
 
@@ -47,7 +48,13 @@ class DeviceChecker {
    * Проверка всех активных устройств
    */
   async checkAllDevices() {
+    if (this.isChecking) {
+      logger.debug('Device check already in progress, skipping');
+      return;
+    }
+
     try {
+      this.isChecking = true;
       const devices = await Device.findAll({
         attributes: ["id", "ip", "name", "status", "last_seen"],
       });
@@ -74,6 +81,8 @@ class DeviceChecker {
       }
     } catch (error) {
       logger.error("Error checking devices:", error);
+    } finally {
+      this.isChecking = false;
     }
   }
 
