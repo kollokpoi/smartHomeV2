@@ -6,7 +6,7 @@
         </div>
         <div class="flex gap-2">
             <Button @click="toggleEdit" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
-                }}</Button>
+            }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
         </div>
 
@@ -90,21 +90,27 @@
             </div>
         </div>
         <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
-        <div class="w-full rounded-md p-4 mt-4 bg-back-secondary flex justify-end gap-4">
-            <Button @click="callAction" severity="secondary">Вызвать</Button>
+        <div class="w-full rounded-md p-4 mt-4 bg-back-secondary flex justify-end gap-4 items-center">
+            <span class="text-font-primary">Задержка</span>
+            <ToggleSwitch v-model="isUseDelay" />
+            <Button @click="call(id)" severity="secondary">Вызвать</Button>
             <Button @click="goToActionParameters" severity="warn">Добавить параметр</Button>
             <Button @click="goToActionCommands" severity="success">Добавить голосовую команду</Button>
         </div>
-        <div class="mt-4">
+        <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="actionParams.length > 0">
+            <p class="text-xl text-font-primary font-bold mb-4">Параметры</p>
             <ActionParameterTable :action-parameters="actionParams || []" :loading />
         </div>
-        <div class="mt-4">
+        <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="voiceCommands.length > 0">
+            <p class="text-xl text-font-primary font-bold mb-4">Команды</p>
             <VoiceCommandTable :voice-commands="voiceCommands || []" :loading />
         </div>
-        <div class="mt-4" v-if="tasks.length > 0">
+        <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="tasks.length > 0">
+            <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
             <DelayedTasksTable :tasks="tasks" :loading="loading" @cancelled="loadTasks" @refresh="loadTasks" />
         </div>
     </div>
+    <DelayCallDialog v-model:visible="isDialogVisible" @confirm="confirmDelay" />
 </template>
 
 <script setup lang="ts">
@@ -127,6 +133,8 @@ import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
 import { useEntityForm } from '@/composables/useEntityForm';
 import type { ActionCallResult } from '@/types/api';
 import ActionRequestResult from '@/components/ActionRequestResult.vue';
+import DelayCallDialog from '@/components/DelayCallDialog.vue';
+import { useDelayedCall } from '@/composables/useDelayedCall';
 
 const route = useRoute();
 const router = useRouter();
@@ -138,6 +146,22 @@ const callResponse = ref<ActionCallResult | null>(null)
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
+
+const {
+    isDialogVisible,
+    isUseDelay,
+    call,
+    confirmDelay,
+    closeDialog
+} = useDelayedCall({
+    onSuccess: (result) => {
+        loadTasks();
+    },
+    onError: (error) => {
+        console.error('Action failed:', error);
+    }
+});
+
 
 const {
     validationState,
@@ -222,36 +246,6 @@ const saveAction = async () => {
         })
     }
 }
-
-const callAction = async () => {
-    try {
-        const result = await actionStore.callAction(id.value)
-        callResponse.value = result;
-        if (result.success) {
-            toast.add({
-                severity: "success",
-                summary: "Успешно",
-                detail: `Действие "${result.data?.action.name}" выполнено`,
-                life: 3000
-            });
-        } else {
-            toast.add({
-                severity: "error",
-                summary: "Ошибка",
-                detail: result.error?.message || "Не удалось выполнить действие",
-                life: 3000
-            });
-        }
-    } catch (err: any) {
-        toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: err.message || "Не удалось выполнить действие",
-            life: 3000
-        });
-    }
-}
-
 const goToActionCommands = () => {
     if (!action.value) return;
     router.push({

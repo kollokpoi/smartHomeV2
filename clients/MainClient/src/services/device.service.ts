@@ -66,7 +66,7 @@ class DeviceService extends BaseService {
   }
 
   async deleteDevice(id: string): Promise<ApiResponse<any>> {
-    const response = await this.delete(`/actions/${id}`);
+    const response = await this.delete(`/devices/${id}`);
     return response;
   }
 }

@@ -35,9 +35,11 @@ class ActionService extends BaseService {
 
   async callAction(
     id: string,
+    delay?: number,
     config?: AxiosRequestConfig,
   ): Promise<ApiResponse<ActionCallResult>> {
-    const response = await this.get<ActionCallResult>(`/actions/${id}/`, {
+    const response = await this.post<ActionCallResult>(`/actions/${id}/execute`, {
+      delay,
       ...config,
     });
     return response as ApiResponse<ActionCallResult>;

@@ -120,10 +120,10 @@ export const useActionStore = defineStore("action", () => {
     }
   };
 
-  const fetchDelayedTasks = async (filters?: { actionId?: string; deviceId?: string }): Promise<DelayedTask[] | null> => {
+  const fetchDelayedTasks = async (taskFilters?: { actionId?: string; deviceId?: string }): Promise<DelayedTask[] | null> => {
     delayedTasksLoading.value = true;
     try {
-      const response = await actionService.getDelayedActions(filters);
+      const response = await actionService.getDelayedActions(taskFilters);
       if (response.success) {
         delayedTasks.value = response.data;
         return response.data;
@@ -183,7 +183,7 @@ export const useActionStore = defineStore("action", () => {
         return result;
       }
 
-      const response = await actionService.callAction(id, { data: { delay } });
+      const response = await actionService.callAction(id, delay);
 
       if (response.success) {
         await fetchActionById(id, true);
