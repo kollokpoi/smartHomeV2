@@ -30,6 +30,7 @@ export class VoiceCommand {
   createdAt: Date;
   updatedAt: Date;
   
+  __type: string;
   // Relations
   action?: Action;
 
@@ -45,6 +46,8 @@ export class VoiceCommand {
     this.sortOrder = data.sortOrder || 0;
     this.createdAt = data.createdAt || new Date();
     this.updatedAt = data.updatedAt || new Date();
+
+    this.__type = "voiceCommand"
   }
 
   // Методы экземпляра

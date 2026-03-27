@@ -1,10 +1,12 @@
 <template>
-    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
+    <div
+        class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between flex-col items-start sm:flex-row sm:items-end">
         <div class="text-font-primary">
             <h1 class="text-2xl font-bold mb-2">{{ action ? action.name : "Действия" }}</h1>
             <p>Управление действиями</p>
         </div>
         <div class="flex gap-2">
+            <Button @click="confirmDelete" v-if="!isEditing" severity="danger">Удалить</Button>
             <Button @click="toggleEdit" :disabled="!isFormValid">{{ isEditing ? 'Отменить' : 'Редактировать'
             }}</Button>
             <Button @click="saveAction" :disabled="!isFormValid" v-if="isEditing" severity="success">Сохранить</Button>
@@ -17,7 +19,7 @@
     </div>
 
     <div class="w-full" v-else-if="action">
-        <div class="flex w-full bg-back-secondary p-4 rounded-md gap-6">
+        <div class="flex flex-col sm:flex-row w-full bg-back-secondary p-4 rounded-md gap-6">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
                     <EditableText :isEditing="isEditing" v-model="editData.name" :maxLength="50" required
@@ -83,19 +85,25 @@
                 </div>
                 <div>
                     <dt class="text-sm text-font-primary ">Метаданные</dt>
-                    <pre class="bg-back-accent text-font-primary p-4 rounded text-sm overflow-auto">{{
+                    <pre class="hover:bg-back-accent text-font-primary p-4 rounded text-sm overflow-auto">{{
                         JSON.stringify(action.metadata, null, 2)
                     }}</pre>
                 </div>
             </div>
         </div>
         <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
-        <div class="w-full rounded-md p-4 mt-4 bg-back-secondary flex justify-end gap-4 items-center">
-            <span class="text-font-primary">Задержка</span>
-            <ToggleSwitch v-model="isUseDelay" />
-            <Button @click="call(id)" severity="secondary">Вызвать</Button>
-            <Button @click="goToActionParameters" severity="warn">Добавить параметр</Button>
-            <Button @click="goToActionCommands" severity="success">Добавить голосовую команду</Button>
+        <div
+            class="w-full rounded-md p-4 mt-4 bg-back-secondary flex justify-end gap-4 items-center flex-col sm:flex-row">
+            <div class="flex items-center gap-2">
+                <span class="text-font-primary">Задержка</span>
+                <ToggleSwitch v-model="isUseDelay" />
+                <Button class="text-sm" @click="call(id)" severity="secondary">Вызвать</Button>
+            </div>
+            <div class="flex w-full sm:w-auto items-center justify-between gap-2">
+                <Button class="text-sm" @click="goToActionParameters" severity="warn">Добавить параметр</Button>
+                <Button class="text-sm" @click="goToActionCommands" severity="success">Добавить команду</Button>
+            </div>
+
         </div>
         <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="actionParams.length > 0">
             <p class="text-xl text-font-primary font-bold mb-4">Параметры</p>
@@ -111,12 +119,13 @@
         </div>
     </div>
     <DelayCallDialog v-model:visible="isDialogVisible" @confirm="confirmDelay" />
+    <ConfirmDialog :draggable="true" />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useToast } from 'primevue';
+import { useToast, useConfirm } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
@@ -131,7 +140,6 @@ import { useActionParameterStore } from '@/stores/modules/parameter.store';
 import VoiceCommandTable from '@/components/dataTables/VoiceCommandTable.vue';
 import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
 import { useEntityForm } from '@/composables/useEntityForm';
-import type { ActionCallResult } from '@/types/api';
 import ActionRequestResult from '@/components/ActionRequestResult.vue';
 import DelayCallDialog from '@/components/DelayCallDialog.vue';
 import { useDelayedCall } from '@/composables/useDelayedCall';
@@ -139,10 +147,10 @@ import { useDelayedCall } from '@/composables/useDelayedCall';
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
+const confirm = useConfirm()
 const actionStore = useActionStore();
 const actionParametersStore = useActionParameterStore();
 const voiceCommandStore = useVoiceCommandStore();
-const callResponse = ref<ActionCallResult | null>(null)
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
@@ -152,7 +160,8 @@ const {
     isUseDelay,
     call,
     confirmDelay,
-    closeDialog
+    closeDialog,
+    callResponse
 } = useDelayedCall({
     onSuccess: (result) => {
         loadTasks();
@@ -215,11 +224,11 @@ const loadAction = async () => {
 };
 
 const loadActionParameters = async () => {
-    await actionParametersStore.fetchActionParameters({ actionId: id.value, limit: 10 });
+    await actionParametersStore.fetchActionParameters({ actionId: id.value});
 };
 
 const loadVoiceCommands = async () => {
-    await voiceCommandStore.fetchVoiceCommands({ actionId: id.value, limit: 10 });
+    await voiceCommandStore.fetchVoiceCommands({ actionId: id.value});
 };
 
 const loadTasks = async () => {
@@ -246,6 +255,47 @@ const saveAction = async () => {
         })
     }
 }
+
+const confirmDelete = () => {
+    if (!action.value) return
+    confirm.require({
+        message: `Удалить действие "${action.value.name}"?`,
+        header: 'Подтверждение удаления',
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-danger',
+        acceptLabel: 'Удалить',
+        rejectLabel: 'Отмена',
+        accept: async () => {
+            try {
+                const response = await actionStore.deleteAction(id.value);
+                if (response.success) {
+                    toast.add({
+                        severity: 'success',
+                        summary: `Параметр удален`,
+                        detail: response.message,
+                        life: 3000
+                    })
+                    router.back();
+                } else {
+                    toast.add({
+                        severity: 'warn',
+                        summary: 'Не удалось удалить',
+                        detail: response.message,
+                        life: 3000
+                    })
+                }
+            } catch (ex: any) {
+                toast.add({
+                    severity: 'warn',
+                    summary: 'Не удалось удалить',
+                    detail: 'Ошибка удаления ' + ex.message || '',
+                    life: 3000
+                })
+            }
+        }
+    })
+}
+
 const goToActionCommands = () => {
     if (!action.value) return;
     router.push({

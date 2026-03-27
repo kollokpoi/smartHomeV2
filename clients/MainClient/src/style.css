@@ -42,3 +42,30 @@
   --color-back-accent: var(--color-back-accent);
   --color-back-oposit: var(--color-back-oposit);
 }
+
+
+@media (max-width: 768px) {
+    .p-toast {
+        width: calc(100% - 2rem) !important;
+        max-width: 400px !important;
+        left: 1rem !important;
+        right: auto !important;
+    }
+    
+    .p-toast-message {
+        margin: 0.5rem 0 !important;
+        padding: 0.75rem !important;
+    }
+    
+    .p-toast-message-content {
+        padding: 0.5rem !important;
+    }
+    
+    .p-toast-message-text {
+        font-size: 0.875rem !important;
+    }
+    
+    .p-toast-message-icon {
+        font-size: 1rem !important;
+    }
+}

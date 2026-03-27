@@ -49,6 +49,7 @@ export class Action {
   callCount: number;
   createdAt: Date;
   updatedAt: Date;
+  __type: string;
 
   device?: Device;
   parameters?: ActionParameter[];
@@ -72,6 +73,7 @@ export class Action {
     this.callCount = data.callCount || 0;
     this.createdAt = data.createdAt || new Date();
     this.updatedAt = data.updatedAt || new Date();
+    this.__type = "action"
 
     if (data.device) this.device = new Device(data.device);
     if (data.parameters)

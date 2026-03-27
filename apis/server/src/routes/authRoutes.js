@@ -1,7 +1,7 @@
-const constroller = require("../controllers/authController");
+const {authController} = require('../controllers')
 const router = require("express").Router();
 
-router.post("/login", constroller.login);
-router.post("/refresh-token", constroller.refreshToken);
+router.post("/login", authController.login);
+router.post("/refresh-token", authController.refreshToken);
 
 module.exports = router;

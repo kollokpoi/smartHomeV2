@@ -201,11 +201,6 @@ class ActionParameterController {
         });
       }
 
-      await ActionParameter.destroy({
-        where: { actionId },
-        transaction,
-      });
-
       const createdParams = await ActionParameter.bulkCreate(
         parameters.map((p) => ({ ...p, actionId })),
         {

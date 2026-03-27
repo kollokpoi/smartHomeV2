@@ -1,8 +1,9 @@
 const { VoiceCommand, Action, Device } = require("../models"); // 👈 ДОБАВИЛ Device!
 const { voiceCommandValidator } = require("../helpers/validators");
-const { actionController } = require("./action.controller");
+const actionController  = require("./action.controller");
 const PaginationHelper = require("../helpers/paginationHelper");
 const { Op } = require("sequelize");
+const speechRecognizer = require("../../services/speechRecognizer");
 
 class VoiceCommandController {
   async getAll(req, res, next) {
@@ -407,17 +408,22 @@ class VoiceCommandController {
 
   async process(req, res, next) {
     try {
-      const errors = voiceCommandValidator.validateProcess(req.body);
-      if (errors.length > 0) {
-        return res.status(400).json({ success: false, errors });
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          error: "No audio file provided",
+        });
       }
 
-      const { command, language = "ru-RU" } = req.body;
+      const text = await speechRecognizer.recognize(req.file.buffer);
+      const cleanText = text.toLowerCase().trim();
 
-      const voiceCommand = await VoiceCommand.findOne({
+      // Разбиваем на слова
+      const words = cleanText.split(/\s+/);
+
+      // Ищем команду, которая содержит большинство слов
+      const voiceCommands = await VoiceCommand.findAll({
         where: {
-          command: command.toLowerCase().trim(),
-          language,
           is_active: true,
         },
         include: [
@@ -429,19 +435,42 @@ class VoiceCommandController {
         ],
       });
 
-      if (!voiceCommand) {
+      // Вычисляем похожесть
+      let bestMatch = null;
+      let bestScore = 0;
+
+      for (const cmd of voiceCommands) {
+        const cmdWords = cmd.command.toLowerCase().split(/\s+/);
+        let matches = 0;
+
+        for (const word of words) {
+          if (cmdWords.some((cw) => cw.includes(word) || word.includes(cw))) {
+            matches++;
+          }
+        }
+
+        const score = matches / Math.max(words.length, cmdWords.length);
+
+        if (score > bestScore && score >= 0.5) {
+          // порог 50%
+          bestScore = score;
+          bestMatch = cmd;
+        }
+      }
+
+      if (!bestMatch) {
         return res.status(404).json({
           success: false,
-          message: "Команда не найдена",
+          message: `Команда "${text}" не найдена`,
         });
       }
 
-      await voiceCommand.registerUse();
+      await bestMatch.registerUse();
 
       let executeResult = null;
 
       const mockReq = {
-        params: { id: voiceCommand.actionId },
+        params: { id: bestMatch.actionId },
         body: {},
         query: {},
       };
@@ -468,14 +497,8 @@ class VoiceCommandController {
       res.json({
         success: true,
         data: {
-          voice_command: {
-            id: voiceCommand.id,
-            command: voiceCommand.command,
-            language: voiceCommand.language,
-            priority: voiceCommand.priority,
-          },
           action: {
-            id: executeResult?.data?.action?.id || voiceCommand.actionId,
+            id: executeResult?.data?.action?.id || bestMatch.actionId,
             name: executeResult?.data?.action?.name,
             method: executeResult?.data?.request?.method,
             url: executeResult?.data?.request?.url,

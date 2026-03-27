@@ -28,20 +28,19 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     () =>
       `voiceCommand:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
   );
-  const totalVoiceCommands = computed<number>(() => pagination.total || 0)
+  const totalVoiceCommands = computed<number>(() => pagination.total || 0);
   const voiceCommands = computed<VoiceCommand[]>(() => {
     return entityStore.getList(currentListKey.value) || [];
   });
 
   const allVoiceCommands = computed<VoiceCommand[]>(() => {
     return Object.values(entityStore.items).filter(
-      (item): item is VoiceCommand =>
-        item && item.__type === "voiceCommand",
+      (item): item is VoiceCommand => item && item.__type === "voiceCommand",
     );
   });
 
   const voiceCommandOptions = computed(() =>
-    allVoiceCommands.value.map(d => ({ value: d.id, label: d.command }))
+    allVoiceCommands.value.map((d) => ({ value: d.id, label: d.command })),
   );
 
   const getVoiceCommandsByAction = (actionId: string) =>
@@ -49,7 +48,8 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
       allVoiceCommands.value.filter((a) => a.actionId === actionId),
     );
 
-  const getVoiceCommandById = (id: string) => entityStore.getItem(id) as VoiceCommand;
+  const getVoiceCommandById = (id: string) =>
+    entityStore.getItem(id) as VoiceCommand;
 
   const fetchVoiceCommands = async (params?: any) => {
     entityStore.loading = true;
@@ -64,10 +64,7 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
 
       if (response.success) {
         response.data.forEach((voiceCommand) => {
-          entityStore.setItem(voiceCommand.id, {
-            ...voiceCommand,
-            __type: "voiceCommand",
-          });
+          entityStore.setItem(voiceCommand.id, voiceCommand);
         });
         entityStore.setList(currentListKey.value, response.data);
 
@@ -102,10 +99,7 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     try {
       const response = await voiceCommandService.getVoiceCommand(id);
       if (response.success) {
-        entityStore.setItem(id, {
-          ...response.data,
-          __type: "voiceCommand",
-        });
+        entityStore.setItem(id, response.data);
         return response.data;
       }
     } finally {
@@ -120,15 +114,9 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     data: VoiceCommandAttributes,
   ): Promise<ApiResponse<VoiceCommand>> => {
     try {
-      const response = await voiceCommandService.updateVoiceCommand(
-        id,
-        data,
-      );
+      const response = await voiceCommandService.updateVoiceCommand(id, data);
       if (response.success) {
-        entityStore.setItem(id, {
-          ...response.data,
-          __type: "voiceCommand",
-        });
+        entityStore.setItem(id, response.data);
         entityStore.invalidateListsByPrefix("voiceCommand:");
       }
       return response;
@@ -147,10 +135,7 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     try {
       const response = await voiceCommandService.createVoiceCommand(data);
       if (response.success) {
-        entityStore.setItem(response.data.id, {
-          ...response.data,
-          __type: "voiceCommand",
-        });
+        entityStore.setItem(response.data.id, response.data);
         entityStore.invalidateListsByPrefix("voiceCommand:");
       }
       return response;
@@ -167,14 +152,10 @@ export const useVoiceCommandStore = defineStore("voiceCommand", () => {
     data: BulkVoiceCommandCreate,
   ): Promise<ApiResponse<VoiceCommand[]>> => {
     try {
-      const response =
-        await voiceCommandService.bulkCreateVoiceCommand(data);
+      const response = await voiceCommandService.bulkCreateVoiceCommand(data);
       if (response.success) {
         response.data.forEach((voiceCommand) => {
-          entityStore.setItem(voiceCommand.id, {
-            ...voiceCommand,
-            __type: "voiceCommand",
-          });
+          entityStore.setItem(voiceCommand.id, voiceCommand);
         });
         entityStore.invalidateListsByPrefix("voiceCommand:");
       }

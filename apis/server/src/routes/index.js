@@ -6,12 +6,14 @@ const actionRoutes = require('./actionRoutes');
 const actionParameterRoutes = require('./actionParameterRoutes');
 const voiceCommandRoutes = require('./voiceCommandRoutes');
 const authRoutes = require('./authRoutes');
+const speechRoutes = require('./speechRoutes')
 
 router.use('/auth', authRoutes);
 router.use('/devices', deviceRoutes);
 router.use('/actions', actionRoutes);
 router.use('/action-parameters', actionParameterRoutes);
 router.use('/voice-commands', voiceCommandRoutes);
+router.use('/speech', speechRoutes);
 
 router.get('/health', (req, res) => {
   res.json({

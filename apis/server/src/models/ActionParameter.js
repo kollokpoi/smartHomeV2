@@ -81,14 +81,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       underscored: true,
 
-      indexes: [
-        {
-          unique: true,
-          fields: ["action_id", "location", "key"],
-          name: "unique_action_parameter",
-        },
-      ],
-
       hooks: {
         beforeValidate: async (param) => {
           if (param.key) {

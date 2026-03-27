@@ -13,8 +13,10 @@
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "@primeuix/themes": "^2.0.2",
+    "audiobuffer-to-wav": "^1.0.0",
     "axios": "^1.13.2",
     "lodash": "^4.17.23",
+    "opus-recorder": "^8.0.5",
     "pinia": "^3.0.4",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.4",

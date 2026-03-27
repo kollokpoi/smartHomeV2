@@ -49,6 +49,7 @@ export const useActionStore = defineStore("action", () => {
       (item): item is Action => item && item.__type === "action",
     );
   });
+
   const actionsOptions = computed(() =>
     allActions.value.map((d) => ({ value: d.id, label: d.name })),
   );
@@ -71,7 +72,7 @@ export const useActionStore = defineStore("action", () => {
 
       if (response.success) {
         response.data.forEach((action) => {
-          entityStore.setItem(action.id, { ...action, __type: "action" });
+          entityStore.setItem(action.id, action);
         });
         entityStore.setList(currentListKey.value, response.data);
 
@@ -110,7 +111,7 @@ export const useActionStore = defineStore("action", () => {
           const device = await deviceStore.fetchDeviceById(actionData.deviceId);
           actionData.device = device;
         }
-        entityStore.setItem(id, { ...actionData, __type: "action" });
+        entityStore.setItem(id, actionData);
         return actionData;
       }
     } finally {
@@ -120,7 +121,10 @@ export const useActionStore = defineStore("action", () => {
     }
   };
 
-  const fetchDelayedTasks = async (taskFilters?: { actionId?: string; deviceId?: string }): Promise<DelayedTask[] | null> => {
+  const fetchDelayedTasks = async (taskFilters?: {
+    actionId?: string;
+    deviceId?: string;
+  }): Promise<DelayedTask[] | null> => {
     delayedTasksLoading.value = true;
     try {
       const response = await actionService.getDelayedActions(taskFilters);
@@ -130,7 +134,7 @@ export const useActionStore = defineStore("action", () => {
       }
       return null;
     } catch (error) {
-      console.error('Ошибка загрузки отложенных задач:', error);
+      console.error("Ошибка загрузки отложенных задач:", error);
       return null;
     } finally {
       delayedTasksLoading.value = false;
@@ -145,12 +149,14 @@ export const useActionStore = defineStore("action", () => {
       }
       return false;
     } catch (error) {
-      console.error('Ошибка отмены задачи:', error);
+      console.error("Ошибка отмены задачи:", error);
       return false;
     }
   };
 
-  const cancelAllDelayedByAction = async (actionId: string): Promise<boolean> => {
+  const cancelAllDelayedByAction = async (
+    actionId: string,
+  ): Promise<boolean> => {
     try {
       const response = await actionService.cancelAllDelayedByAction(actionId);
       if (response.success) {
@@ -159,12 +165,15 @@ export const useActionStore = defineStore("action", () => {
       }
       return false;
     } catch (error) {
-      console.error('Ошибка отмены задач:', error);
+      console.error("Ошибка отмены задач:", error);
       return false;
     }
   };
 
-  const callAction = async (id: string, delay?: number): Promise<ActionCallResult> => {
+  const callAction = async (
+    id: string,
+    delay?: number,
+  ): Promise<ActionCallResult> => {
     try {
       if (networkStore.isLocalNetwork && !delay) {
         const result = await callDeviceDirectly(id);
@@ -261,7 +270,7 @@ export const useActionStore = defineStore("action", () => {
       let url = `http://${device.ip}:${action.port}${action.path}`;
 
       const requestParams = {
-        query: {} as Record<string, any>,
+        query: [] as Array<{ key: string; value: string }>,
         headers: {} as Record<string, string>,
         body: null as any,
       };
@@ -272,7 +281,19 @@ export const useActionStore = defineStore("action", () => {
         if (value !== null && value !== undefined) {
           switch (param.location) {
             case "query":
-              requestParams.query[param.key] = value;
+              if (Array.isArray(value)) {
+                value.forEach((v) => {
+                  requestParams.query.push({
+                    key: param.key,
+                    value: String(v),
+                  });
+                });
+              } else {
+                requestParams.query.push({
+                  key: param.key,
+                  value: String(value),
+                });
+              }
               break;
             case "headers":
               requestParams.headers[param.key] = String(value);
@@ -301,6 +322,16 @@ export const useActionStore = defineStore("action", () => {
               break;
           }
         }
+      }
+
+      if (requestParams.query.length > 0) {
+        const queryString = requestParams.query
+          .map(
+            (p) =>
+              `${encodeURIComponent(p.key)}=${encodeURIComponent(p.value)}`,
+          )
+          .join("&");
+        url += `?${queryString}`;
       }
 
       const response = await fetch(url, {
@@ -361,7 +392,7 @@ export const useActionStore = defineStore("action", () => {
     try {
       const response = await actionService.updateAction(id, data);
       if (response.success) {
-        entityStore.setItem(id, { ...response.data, __type: "action" });
+        entityStore.setItem(id, response.data);
         entityStore.invalidateListsByPrefix("action:");
       }
       return response;
@@ -380,10 +411,7 @@ export const useActionStore = defineStore("action", () => {
     try {
       const response = await actionService.createAction(data);
       if (response.success) {
-        entityStore.setItem(response.data.id, {
-          ...response.data,
-          __type: "action",
-        });
+        entityStore.setItem(response.data.id, response.data);
         entityStore.invalidateListsByPrefix("action:");
       }
       return response;

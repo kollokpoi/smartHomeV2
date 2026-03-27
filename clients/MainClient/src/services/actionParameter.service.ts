@@ -24,6 +24,10 @@ class ActionParameterService extends BaseService {
       },
     );
 
+    if (response.success) {
+      response.data = response.data.map((item) => new ActionParameter(item));
+    }
+
     return response as ApiPaginationResponse<ActionParameter[]>;
   }
 

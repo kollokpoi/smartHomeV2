@@ -1,10 +1,12 @@
 <template>
-    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
+    <div
+        class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between flex-col items-start sm:flex-row sm:items-end">
         <div class="text-font-primary">
             <h1 class="text-lg sm:text-2xl font-bold mb-2">Устройство</h1>
             <p class="text-sm">Управление устройством</p>
         </div>
         <div class="flex gap-2">
+            <Button @click="confirmDelete" v-if="!isEditing" severity="danger">Удалить</Button>
             <Button @click="toggleEdit" class="text-sm sm:text-md">{{
                 isEditing ? 'Отменить' : 'Редактировать'
                 }}</Button>
@@ -18,7 +20,7 @@
     </div>
 
     <div class="w-full mb-3" v-else-if="device">
-        <div class=" sm:flex w-full bg-back-secondary p-4 rounded-md gap-6">
+        <div class="flex flex-col sm:flex-row w-full bg-back-secondary p-4 rounded-md gap-6">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
                     <EditableText :isEditing="isEditing" v-model="editData.name" :maxLength="100" required
@@ -71,7 +73,7 @@
             <div class="flex-1 flex flex-col gap-2">
                 <div>
                     <dt class="text-sm text-font-primary">Последний раз виден</dt>
-                    <dd>{{ formatDate(device.lastSeen) || 'Никогда' }}</dd>
+                    <dd class="text-font-primary">{{ formatDate(device.lastSeen) || 'Никогда' }}</dd>
                 </div>
                 <div>
                     <dt class="text-sm text-font-primary">Дата создания</dt>
@@ -97,20 +99,24 @@
 
     <div class="bg-back-secondary w-full p-3 rounded-md" v-if="actions.length > 0"
         :class="fullWindowMode ? 'fixed inset-0 z-50 p-6' : ''">
-        <div class="w-full flex justify-between items-center">
-            <p class="text-xl text-font-primary font-bold mb-4">Действия</p>
-            <div class="flex items-center gap-2">
-                <span class="text-font-primary">Задержка</span>
-                <ToggleSwitch v-model="isUseDelay" />
-                <span class="text-font-primary">Панель</span>
-                <ToggleSwitch v-model="panelMode" class="mr-2" />
-                <i class="pi cursor-pointer text-font-primary"
-                    :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'"
-                    @click="fullWindowMode = !fullWindowMode" />
+        <div class="w-full flex justify-between items-center flex-col sm:flex-row mb-2">
+            <p class="text-xl text-font-primary font-bold">Действия</p>
+            <div class="flex items-center gap-2 justify-between w-full sm:w-auto">
+                <div class="flex items-center gap-2">
+                    <span class="text-font-primary">Задержка</span>
+                    <ToggleSwitch v-model="isUseDelay" />
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-font-primary">Панель</span>
+                    <ToggleSwitch v-model="panelMode" />
+                    <i class="pi cursor-pointer text-font-primary"
+                        :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'"
+                        @click="fullWindowMode = !fullWindowMode" />
+                </div>
             </div>
         </div>
-        <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh" @called="call"
-            v-memo="[actions.length, loading]" />
+        <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
+            @called="call" v-memo="[actions.length, loading]" />
         <div v-else>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center w-full gap-2">
                 <Button v-for="action in actions" @click="call(action.id)" class="text-xs md:text-sm">
@@ -125,12 +131,13 @@
         <DelayedTasksTable :tasks="tasks" :loading="loading" @cancelled="loadTasks" @refresh="loadTasks" />
     </div>
     <DelayCallDialog v-model:visible="isDialogVisible" @confirm="confirmDelay" />
+    <ConfirmDialog :draggable="true" />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useToast } from 'primevue';
+import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useConfirm, useToast } from 'primevue';
 import EditableText from '@/components/editableFields/EditableText.vue';
 import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
@@ -145,17 +152,17 @@ import ActionRequestResult from '@/components/ActionRequestResult.vue';
 import DelayedTasksTable from '@/components/dataTables/DelayedTasksTable.vue';
 import DelayCallDialog from '@/components/DelayCallDialog.vue';
 import { useEntityForm } from '@/composables/useEntityForm';
-import type { ActionCallResult } from '@/types/api';
 import { useDelayedCall } from '@/composables/useDelayedCall';
 
 const route = useRoute();
+const router = useRouter()
 const toast = useToast();
+const confirm = useConfirm();
 const deviceStore = useDeviceStore();
 const actionStore = useActionStore();
 
 const panelMode = ref(false)
 const fullWindowMode = ref(false)
-const callResponse = ref<ActionCallResult | null>(null)
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
@@ -165,7 +172,8 @@ const {
     isUseDelay,
     call,
     confirmDelay,
-    closeDialog
+    closeDialog,
+    callResponse
 } = useDelayedCall({
     onSuccess: (result) => {
         loadTasks();
@@ -234,7 +242,7 @@ const loadDevice = async () => {
         const data = await deviceStore.fetchDeviceById(id.value);
         if (data) {
             Object.assign(editData, data);
-            await actionStore.fetchActions({ deviceId: id.value, limit: 5 });
+            await actionStore.fetchActions({ deviceId: id.value});
         }
     } catch (error) {
         toast.add({
@@ -248,6 +256,46 @@ const loadDevice = async () => {
     }
 };
 
+const confirmDelete = () => {
+    if (!device.value) return
+    confirm.require({
+        message: `Удалить параметр "${device.value.name}"?`,
+        header: 'Подтверждение удаления',
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-danger',
+        acceptLabel: 'Удалить',
+        rejectLabel: 'Отмена',
+        accept: async () => {
+            try {
+                const response = await deviceStore.deleteDevice(id.value);
+                if (response.success) {
+                    toast.add({
+                        severity: 'success',
+                        summary: `Параметр удален`,
+                        detail: response.message,
+                        life: 3000
+                    })
+                    router.back();
+                } else {
+                    toast.add({
+                        severity: 'warn',
+                        summary: 'Не удалось удалить',
+                        detail: response.message,
+                        life: 3000
+                    })
+                }
+            } catch (ex: any) {
+                toast.add({
+                    severity: 'warn',
+                    summary: 'Не удалось удалить',
+                    detail: 'Ошибка удаления ' + ex.message || '',
+                    life: 3000
+                })
+            }
+        }
+    })
+}
+
 const toggleEdit = () => {
     if (isEditing.value) {
         validationState.value = {};
@@ -260,12 +308,25 @@ const loadTasks = async () => {
     await actionStore.fetchDelayedTasks({ deviceId: id.value });
 };
 
+watch(fullWindowMode, (newVal) => {
+    if (newVal) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+});
+
+
 onMounted(async () => {
     id.value = route.params.id as string;
 
     await Promise.all([
         loadDevice(),
-        loadTasks()
+        loadTasks(),
     ]);
+});
+
+onUnmounted(() => {
+    document.body.style.overflow = '';
 });
 </script>

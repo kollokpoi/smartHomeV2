@@ -1,6 +1,6 @@
 
 import { definePreset } from '@primeuix/themes';
-import Aura from '@primeuix/themes/aura';
+import Aura from '@primeuix/themes/lara';
 
 const MyPreset = definePreset(Aura, {
   semantic: {
@@ -36,6 +36,7 @@ const MyPreset = definePreset(Aura, {
       },
     },
   },
+  
 });
 
 export default MyPreset;

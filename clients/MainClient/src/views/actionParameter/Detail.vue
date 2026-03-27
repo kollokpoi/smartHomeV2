@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between items-end">
+    <div class="mb-6 border-b border-gray-200 pb-2 flex w-full justify-between flex-col items-start sm:flex-row sm:items-end">
         <div class="text-font-primary">
             <h1 class="text-2xl font-bold mb-2">Действия</h1>
             <p>Управление действиями</p>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="w-full" v-else-if="actionParameter">
-        <div class="flex w-full bg-back-secondary p-4 rounded-md gap-6">
+        <div class="flex flex-col sm:flex-row w-full bg-back-secondary p-4 rounded-md gap-6">
             <div class="flex-1 flex flex-col gap-2">
                 <div>
                     <label for="key" class="text-sm text-font-primary">Ключ</label>

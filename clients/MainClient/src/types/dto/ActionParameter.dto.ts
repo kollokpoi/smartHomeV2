@@ -32,6 +32,7 @@ export class ActionParameter {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+  __type: string;
   
   // Relations
   action?: Action;
@@ -49,6 +50,7 @@ export class ActionParameter {
     this.isActive = data.isActive !== undefined ? data.isActive : true;
     this.createdAt = data.createdAt || new Date();
     this.updatedAt = data.updatedAt || new Date();
+    this.__type = "actionParameter"
   }
 
   getTypedValue(): any {

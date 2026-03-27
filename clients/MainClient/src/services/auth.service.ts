@@ -4,8 +4,7 @@ import { LoginCredentials } from "@/types/User/LoginCredentials";
 import { LoginResponse } from "@/types/User/LoginResponse";
 import { TokenCredentials } from "@/types/User/TokenCredentials";
 
-
-export class AuthService extends BaseService {
+class AuthService extends BaseService {
     async login(data: LoginCredentials): Promise<ApiResponse<LoginResponse>> {
         return await this.post("/auth/login", data);
     }
@@ -13,3 +12,5 @@ export class AuthService extends BaseService {
         return await this.post("/auth/refresh-token",{refreshToken});
     }
 }
+
+export const authService = new AuthService();

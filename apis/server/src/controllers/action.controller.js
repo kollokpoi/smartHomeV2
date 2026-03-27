@@ -4,7 +4,7 @@ const {
   actionValidator,
   parameterValidator,
 } = require("../helpers/validators");
-const { delayQueue } = require('../../services/delayQueue');
+const { delayQueue } = require("../../services/delayQueue");
 const axios = require("axios");
 const PaginationHelper = require("../helpers/paginationHelper");
 const { Op } = require("sequelize");
@@ -134,10 +134,10 @@ class ActionController {
               successRate:
                 action.call_count > 0
                   ? (
-                    ((action.call_count - (action.last_error ? 1 : 0)) /
-                      action.call_count) *
-                    100
-                  ).toFixed(2)
+                      ((action.call_count - (action.last_error ? 1 : 0)) /
+                        action.call_count) *
+                      100
+                    ).toFixed(2)
                   : 0,
             },
           };
@@ -261,6 +261,9 @@ class ActionController {
 
       const errors = [];
       for (const action of actions) {
+        if (!action.port) {
+          action.port = device.port;
+        }
         const actionErrors = actionValidator.validate({
           ...action,
           deviceId,
@@ -368,14 +371,19 @@ class ActionController {
       const action = await Action.findByPk(req.params.id, {
         include: [
           { association: "device", required: true },
-          { association: "parameters", where: { is_active: true }, required: false }
-        ]
+          {
+            association: "parameters",
+            where: { is_active: true },
+            required: false,
+          },
+        ],
+        order: [[{ model: ActionParameter, as: 'parameters' }, 'sort_order', 'ASC']],
       });
 
       if (!action) {
         return res.status(404).json({
           success: false,
-          message: "Действие не найдено"
+          message: "Действие не найдено",
         });
       }
 
@@ -383,13 +391,7 @@ class ActionController {
       const request = buildRequest(action, device);
 
       if (delay && delay > 0) {
-        const task = delayQueue.add(
-          action.id,
-          action,
-          device,
-          request,
-          delay
-        );
+        const task = delayQueue.add(action.id, action, device, request, delay);
 
         return res.json({
           success: true,
@@ -400,37 +402,70 @@ class ActionController {
             deviceName: device.name,
             delay: task.delay,
             scheduledTime: task.scheduledTime,
-            message: `Действие запланировано через ${delay}мс`
-          }
+            message: `Действие запланировано через ${delay}мс`,
+          },
         });
       }
 
-      const response = await axios(request);
-      await action.registerCall(response.status);
+      // Создаем AbortController для таймаута
+      const controller = new AbortController();
+      const timeoutId = setTimeout(
+        () => controller.abort(),
+        action.timeout || 5000,
+      );
 
-      res.json({
-        success: true,
-        data: {
-          action: {
-            id: action.id,
-            name: action.name,
-          },
-          device: {
-            id: device.id,
-            name: device.name,
-          },
-          request: {
-            method: request.method,
-            url: request.url,
-            params: request.params,
-          },
-          response: {
-            status: response.status,
-            data: response.data,
-          },
-        },
-      });
+      try {
+        const response = await fetch(request.url, {
+          method: request.method,
+          headers: request.headers,
+          body: request.body ? JSON.stringify(request.body) : undefined,
+          signal: controller.signal,
+        });
 
+        clearTimeout(timeoutId);
+        const responseData = await response.json();
+
+        await action.registerCall(response.status);
+
+        res.json({
+          success: true,
+          data: {
+            action: {
+              id: action.id,
+              name: action.name,
+            },
+            device: {
+              id: device.id,
+              name: device.name,
+            },
+            request: {
+              method: request.method,
+              url: request.url,
+              params: request.params,
+            },
+            response: {
+              status: response.status,
+              data: responseData,
+            },
+          },
+        });
+      } catch (error) {
+        clearTimeout(timeoutId);
+
+        if (error.name === "AbortError") {
+          await action.registerCall(
+            408,
+            `Request timeout after ${action.timeout || 5000}ms`,
+          );
+          return res.status(408).json({
+            success: false,
+            message: `Таймаут выполнения действия (${action.timeout || 5000}мс)`,
+          });
+        }
+
+        await action.registerCall(error.response?.status || 500, error.message);
+        throw error;
+      }
     } catch (error) {
       next(error);
     }
@@ -443,8 +478,7 @@ class ActionController {
 
       if (deviceId) {
         tasks = delayQueue.getByDeviceId(deviceId);
-      }
-      else if (actionId) {
+      } else if (actionId) {
         tasks = delayQueue.getByActionId(actionId);
       } else {
         tasks = delayQueue.getAll();
@@ -452,7 +486,7 @@ class ActionController {
 
       res.json({
         success: true,
-        data: tasks
+        data: tasks,
       });
     } catch (error) {
       next(error);
@@ -467,13 +501,13 @@ class ActionController {
       if (!cancelled) {
         return res.status(404).json({
           success: false,
-          message: "Отложенная задача не найдена"
+          message: "Отложенная задача не найдена",
         });
       }
 
       res.json({
         success: true,
-        message: "Задача отменена"
+        message: "Задача отменена",
       });
     } catch (error) {
       next(error);
@@ -488,13 +522,13 @@ class ActionController {
       if (!cancelled) {
         return res.status(404).json({
           success: false,
-          message: "Нет отложенных задач для этого действия"
+          message: "Нет отложенных задач для этого действия",
         });
       }
 
       res.json({
         success: true,
-        message: "Все задачи для действия отменены"
+        message: "Все задачи для действия отменены",
       });
     } catch (error) {
       next(error);
@@ -568,7 +602,6 @@ class ActionController {
       delete updateData.deviceId;
       delete updateData.parameters;
 
-
       await action.update(updateData, { transaction });
 
       if (req.body.parameters) {
@@ -636,7 +669,7 @@ function buildRequest(action, device) {
   let url = `http://${device.ip}:${action.port}${action.path}`;
 
   const requestParams = {
-    query: {},
+    query: [],
     headers: {},
     body: null,
   };
@@ -662,7 +695,19 @@ function buildRequest(action, device) {
 
       switch (param.location) {
         case "query":
-          requestParams.query[param.key] = value;
+          if (Array.isArray(value)) {
+            value.forEach((v) => {
+              requestParams.query.push({
+                key: param.key,
+                value: String(v),
+              });
+            });
+          } else {
+            requestParams.query.push({
+              key: param.key,
+              value: String(value),
+            });
+          }
           break;
         case "headers":
           requestParams.headers[param.key] = value;
@@ -688,6 +733,13 @@ function buildRequest(action, device) {
           break;
       }
     }
+  }
+
+  if (requestParams.query.length > 0) {
+    const queryString = requestParams.query
+      .map((p) => `${encodeURIComponent(p.key)}=${encodeURIComponent(p.value)}`)
+      .join("&");
+    url += `?${queryString}`;
   }
 
   return {

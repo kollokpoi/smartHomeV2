@@ -30,6 +30,7 @@ export class Device {
   createdAt: Date;
   updatedAt: Date;
   port?: number;
+  __type: string;
 
   actions?: Action[];
 
@@ -49,6 +50,7 @@ export class Device {
     this.createdAt = data.createdAt || new Date();
     this.port = data.port;
     this.updatedAt = data.updatedAt || new Date();
+    this.__type = "device"
   }
 
   updateLastSeen(): void {

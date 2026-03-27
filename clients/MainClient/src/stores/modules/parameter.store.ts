@@ -10,7 +10,7 @@ import type {
 } from "@/types/api";
 import type { ActionParameterFilters } from "@/types/searchParams";
 import { useEntityStore } from "../base/entity.store";
-import type { ActionParameter, ActionParameterAttributes } from "@/types/dto";
+import { ActionParameter, ActionParameterAttributes } from "@/types/dto";
 
 export const useActionParameterStore = defineStore("actionParameter", () => {
   const entityStore = useEntityStore();
@@ -29,7 +29,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     () =>
       `actionParameter:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
   );
-  const totalActionParameters = computed<number>(() => pagination.total || 0)
+  const totalActionParameters = computed<number>(() => pagination.total || 0);
   const actionParameters = computed<ActionParameter[]>(() => {
     return entityStore.getList(currentListKey.value) || [];
   });
@@ -42,15 +42,16 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
   });
 
   const actionParameterOptions = computed(() =>
-    allActionParameters.value.map(d => ({ value: d.id, label: d.key }))
+    allActionParameters.value.map((d) => ({ value: d.id, label: d.key })),
   );
 
   const getParametersByAction = (actionId: string) =>
-    computed(() =>
+    computed<ActionParameter[]>(() =>
       allActionParameters.value.filter((a) => a.actionId === actionId),
     );
 
-  const getActionParameterById = (id: string) => entityStore.getItem(id) as ActionParameter;
+  const getActionParameterById = (id: string) =>
+    entityStore.getItem(id) as ActionParameter;
 
   const fetchActionParameters = async (params?: any) => {
     entityStore.loading = true;
@@ -65,10 +66,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
 
       if (response.success) {
         response.data.forEach((actionParameter) => {
-          entityStore.setItem(actionParameter.id, {
-            ...actionParameter,
-            __type: "actionParameter",
-          });
+          entityStore.setItem(actionParameter.id, actionParameter);
         });
         entityStore.setList(currentListKey.value, response.data);
 
@@ -103,10 +101,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     try {
       const response = await actionParameterService.getActionParameter(id);
       if (response.success) {
-        entityStore.setItem(id, {
-          ...response.data,
-          __type: "actionParameter",
-        });
+        entityStore.setItem(id, response.data);
         return response.data;
       }
     } finally {
@@ -126,10 +121,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
         data,
       );
       if (response.success) {
-        entityStore.setItem(id, {
-          ...response.data,
-          __type: "actionParameter",
-        });
+        entityStore.setItem(id, response.data);
         entityStore.invalidateListsByPrefix("actionParameter:");
       }
       return response;
@@ -148,10 +140,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     try {
       const response = await actionParameterService.createActionParameter(data);
       if (response.success) {
-        entityStore.setItem(response.data.id, {
-          ...response.data,
-          __type: "actionParameter",
-        });
+        entityStore.setItem(response.data.id, response.data);
         entityStore.invalidateListsByPrefix("actionParameter:");
       }
       return response;
@@ -172,10 +161,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
         await actionParameterService.bulkCreateActionParameter(data);
       if (response.success) {
         response.data.forEach((actionParameter) => {
-          entityStore.setItem(actionParameter.id, {
-            ...actionParameter,
-            __type: "actionParameter",
-          });
+          entityStore.setItem(actionParameter.id, actionParameter);
         });
         entityStore.invalidateListsByPrefix("actionParameter:");
       }
@@ -223,7 +209,7 @@ export const useActionParameterStore = defineStore("actionParameter", () => {
     allActionParameters,
     totalActionParameters,
     actionParameterOptions,
-    
+
     loading: computed(() => entityStore.loading),
     error: computed(() => entityStore.error),
     getParametersByAction,

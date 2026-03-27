@@ -9,9 +9,8 @@ export class ApiService {
   private axiosInstance: AxiosInstance;
 
   constructor() {
-    const networkStore = useNetworkStore();
     this.axiosInstance = axios.create({
-      baseURL: networkStore.apiUrl,
+      baseURL: '',
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
@@ -24,6 +23,9 @@ export class ApiService {
   private setupInterceptors() {
     this.axiosInstance.interceptors.request.use(
       (config) => {
+        const networkStore = useNetworkStore();
+        config.baseURL = networkStore.apiUrl;
+
         const authStore = useAuthStore();
         const token = authStore.token;
 

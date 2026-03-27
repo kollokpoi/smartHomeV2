@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <label :for="fieldName" class="text-sm text-font-primary">{{placeholder}}</label>
+        <label :for="fieldName" class="text-sm text-font-primary font-bold">{{placeholder}}</label>
         <dd v-if="!isEditing" class="cursor-pointer hover:bg-back-accent p-1 rounded text-font-primary" @dblclick="startEditing">
             <Badge :severity="getSeverity(localValue)">{{ displayValue }}</Badge>
         </dd>

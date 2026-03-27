@@ -6,7 +6,7 @@
 
     <div class="flex w-full mb-3">
         <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
-        <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter" class="text-sm md:text-normal"
+        <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter" size="small" class=" text-xs md:text-normal"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
     </div>
@@ -51,7 +51,7 @@
     </div>
 
     <!-- Диалог фильтров -->
-    <Dialog :visible="showFilter" class="w-3/4 lg:w-1/2" modal :closable="false" header="Фильтры">
+    <Dialog :visible="showFilter" class="w-6/7 lg:w-1/2" modal :closable="false" header="Фильтры">
         <div class="flex flex-col gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2">Статус</label>
@@ -81,9 +81,9 @@
         </div>
 
         <template #footer>
-            <div class="flex justify-between w-full">
+            <div class="flex justify-between w-full flex-col sm:flex-row gap-2">
                 <Button label="Сбросить" icon="pi pi-filter-slash" @click="resetFilter" outlined severity="secondary" />
-                <div class="flex gap-2">
+                <div class="flex gap-2 justify-between w-full sm:w-auto">
                     <Button label="Отмена" @click="showFilter = false" outlined />
                     <Button label="Применить" @click="applyFilters" icon="pi pi-check" />
                 </div>

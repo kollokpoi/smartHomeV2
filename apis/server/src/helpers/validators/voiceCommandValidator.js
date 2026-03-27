@@ -93,22 +93,6 @@ class VoiceCommandValidator {
     const validLanguages = ["ru-RU", "en-US", "uk-UA", "tr-TR", "kk-KZ"];
     return validLanguages.includes(lang);
   }
-
-  static validateProcess(data) {
-    const errors = [];
-
-    if (!data.command) {
-      errors.push({ field: "command", message: "Команда не передана" });
-    } else if (typeof data.command !== "string") {
-      errors.push({ field: "command", message: "Команда должна быть строкой" });
-    }
-
-    if (data.language && !VoiceCommandValidator.isValidLanguage(data.language)) {
-      errors.push({ field: "language", message: "Неподдерживаемый язык" });
-    }
-
-    return errors;
-  }
 }
 
 module.exports = VoiceCommandValidator;

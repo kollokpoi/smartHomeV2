@@ -6,55 +6,39 @@
         :class="[
           panelExpanded ? 'lg:w-64' : 'lg:w-20'
         ]">
-        <div class="flex flex-col h-full"
-        :class="panelExpanded?'':'items-center'">
+        <div class="flex flex-col h-full" :class="panelExpanded ? '' : 'items-center'">
           <div class="flex w-full justify-between border-b items-center p-6">
             <div class="shrink-0" v-if="panelExpanded">
               <router-link to="/">
                 <span class="text-xl font-bold text-font-primary whitespace-nowrap">AdminPanel</span>
               </router-link>
             </div>
-            <ArrowRightCircleIcon 
-              class="text-font-primary h-7 cursor-pointer transition-all" 
-              :class="panelExpanded ? 'rotate-180' : 'rotate-0'"
-              @click="panelExpanded = !panelExpanded" 
-            />
+            <ArrowRightCircleIcon class="text-font-primary h-7 cursor-pointer transition-all"
+              :class="panelExpanded ? 'rotate-180' : 'rotate-0'" @click="panelExpanded = !panelExpanded" />
           </div>
 
           <nav class="flex-1 overflow-y-auto py-4 px-3">
             <div class="space-y-1">
-              <router-link 
-                v-for="item in navigation" 
-                :key="item.name" 
-                :to="item.to" 
-                :class="[
-                  'group flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
-                  isActive(item.to)
-                    ? 'bg-back-primary text-font-primary'
-                    : 'text-font-secondary hover:bg-back-accent hover:text-font-primary'
-                ]"
-                :title="!panelExpanded ? item.name : ''"
-              >
-                <component 
-                  :is="item.icon" 
-                  :class="[
-                    'h-5 w-5 shrink-0',
-                    isActive(item.to) ? 'text-primary-600' : 'text-gray-400 group-hover:text-font-primary'
-                  ]" 
-                />
-                <span 
-                  v-if="panelExpanded" 
-                  class="ml-3 truncate"
-                >
+              <router-link v-for="item in navigation" :key="item.name" :to="item.to" :class="[
+                'group flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                isActive(item.to)
+                  ? 'bg-back-primary text-font-primary'
+                  : 'text-font-secondary hover:bg-back-accent hover:text-font-primary'
+              ]" :title="!panelExpanded ? item.name : ''">
+                <component :is="item.icon" :class="[
+                  'h-5 w-5 shrink-0',
+                  isActive(item.to) ? 'text-primary-600' : 'text-gray-400 group-hover:text-font-primary'
+                ]" />
+                <span v-if="panelExpanded" class="ml-3 truncate">
                   {{ item.name }}
                 </span>
               </router-link>
             </div>
           </nav>
 
-            <div class="flex items-center justify-center border-t border-gray-200 px-4 py-4">
-              <ThemeSwitcher />
-            </div>
+          <div class="flex items-center justify-center border-t border-gray-200 px-4 py-4">
+            <ThemeSwitcher />
+          </div>
         </div>
       </aside>
 
@@ -72,24 +56,18 @@
               </div>
               <span class="text-lg font-bold text-font-primary">Admin</span>
             </router-link>
-            <div class="h-8 w-8"></div>
+            <VoiceRecognitionButton @success="onVoiceRecordedCall" @start="onRecordingStart" @stop="onRecordingStop" label="" button-class="rounded-2xl bg-back-opposit"/>
           </div>
 
           <!-- Мобильное меню -->
           <div v-if="mobileMenuOpen" class="bg-back-secondary shadow-lg">
             <div class="space-y-1 px-2 pb-3 pt-2">
-              <router-link 
-                v-for="item in navigation" 
-                :key="item.name" 
-                :to="item.to" 
-                :class="[
-                  'block rounded-lg px-3 py-2 text-base font-medium',
-                  isActive(item.to)
-                    ? 'bg-back-primary text-font-primary'
-                    : 'text-font-secondary hover:bg-back-accent hover:text-font-primary'
-                ]" 
-                @click="mobileMenuOpen = false"
-              >
+              <router-link v-for="item in navigation" :key="item.name" :to="item.to" :class="[
+                'block rounded-lg px-3 py-2 text-base font-medium',
+                isActive(item.to)
+                  ? 'bg-back-primary text-font-primary'
+                  : 'text-font-secondary hover:bg-back-accent hover:text-font-primary'
+              ]" @click="mobileMenuOpen = false">
                 <div class="flex items-center">
                   <component :is="item.icon" :class="[
                     'mr-3 h-5 w-5',
@@ -130,6 +108,10 @@ import {
   CubeIcon,
   Bars3Icon,
 } from '@heroicons/vue/24/outline'
+import VoiceRecognitionButton from '@/components/VoiceRecognitionButton.vue';
+import { voiceCommandService } from '@/services'
+import { useToast } from 'primevue'
+const toast = useToast()
 
 const route = useRoute()
 const mobileMenuOpen = ref(false)
@@ -149,6 +131,45 @@ const isActive = (path: string) => {
   return false
 }
 
+const onVoiceRecordedCall = async (audioBlob: Blob) => {
+
+  const result = await voiceCommandService.callVoiceCommand(audioBlob);
+
+  if (result.success) {
+    toast.add({
+      severity: 'info',
+      summary: 'Голосовая команда',
+      detail: "Действие запущено",
+      life: 3000
+    });
+  } else {
+    toast.add({
+      severity: 'warn',
+      summary: 'Голосовая команда',
+      detail: result.message || "Не получилось",
+      life: 3000
+    });
+  }
+};
+
+const onRecordingStart = () => {
+    toast.add({
+        severity: 'info',
+        summary: 'Запись',
+        detail: 'Говорите...',
+        life: 2000
+    });
+};
+
+const onRecordingStop = () => {
+    toast.add({
+        severity: 'info',
+        summary: 'Обработка',
+        detail: 'Распознаю...',
+        life: 1000
+    });
+};
+
 watch(
   () => route.path,
   () => {
@@ -159,7 +180,8 @@ watch(
 
 <style scoped>
 /* Плавное изменение ширины */
-.lg\:w-64, .lg\:w-20 {
+.lg\:w-64,
+.lg\:w-20 {
   transition: width 0.3s ease-in-out;
 }
 

@@ -24,9 +24,10 @@ export const useDeviceStore = defineStore("device", () => {
     hasPrev: false,
   });
 
-  const totalDevices = computed<number>(() => pagination.total || 0)
-  const currentListKey = computed(() =>
-    `device:${JSON.stringify({ ...filters.value, page: pagination.page })}`
+  const totalDevices = computed<number>(() => pagination.total || 0);
+  const currentListKey = computed(
+    () =>
+      `device:${JSON.stringify({ ...filters.value, page: pagination.page })}`,
   );
 
   const currentDevicesList = computed<Device[]>(() => {
@@ -35,23 +36,23 @@ export const useDeviceStore = defineStore("device", () => {
 
   const allDevices = computed<Device[]>(() => {
     return Object.values(entityStore.items).filter(
-      (item): item is Device => item && item.__type === 'device'
+      (item): item is Device => item && item.__type === "device",
     );
   });
 
-  const activeDevices = computed(() =>
-    allDevices.value.filter((d) => d.isActive)
+  const activeDevices = computed<Device[]>(() =>
+    allDevices.value.filter((d) => d.isActive),
   );
 
-  const onlineDevices = computed(() =>
+  const onlineDevices = computed<Device[]>(() =>
     allDevices.value.filter((d) => d.status === "online"),
   );
 
   const deviceOptions = computed(() =>
-    allDevices.value.map(d => ({ value: d.id, label: d.name }))
+    allDevices.value.map((d) => ({ value: d.id, label: d.name })),
   );
 
-  const getDeviceById = (id: string) => entityStore.getItem(id);
+  const getDeviceById = (id: string): Device => entityStore.getItem(id);
 
   const fetchDevices = async (params?: any) => {
     entityStore.loading = true;
@@ -66,7 +67,7 @@ export const useDeviceStore = defineStore("device", () => {
 
       if (response.success) {
         response.data.forEach((device) => {
-          entityStore.setItem(device.id, { ...device, __type: 'device' });
+          entityStore.setItem(device.id, device);
         });
 
         entityStore.setList(currentListKey.value, response.data);
@@ -96,7 +97,7 @@ export const useDeviceStore = defineStore("device", () => {
     try {
       const response = await deviceService.getDevice(id);
       if (response.success) {
-        entityStore.setItem(id, { ...response.data, __type: 'device' });
+        entityStore.setItem(id, response.data);
         return response.data;
       }
     } finally {
@@ -110,11 +111,8 @@ export const useDeviceStore = defineStore("device", () => {
     try {
       const response = await deviceService.createDevice(data);
       if (response.success) {
-        entityStore.setItem(response.data.id, {
-          ...response.data,
-          __type: 'device'
-        });
-        entityStore.invalidateListsByPrefix('device:');
+        entityStore.setItem(response.data.id, response.data);
+        entityStore.invalidateListsByPrefix("device:");
       }
       return response;
     } catch (err: any) {
@@ -133,15 +131,15 @@ export const useDeviceStore = defineStore("device", () => {
     try {
       const response = await deviceService.updateDevice(id, data);
       if (response.success) {
-        entityStore.setItem(id, { ...response.data, __type: 'device' });
-        entityStore.invalidateListsByPrefix('device:');
+        entityStore.setItem(id, response.data);
+        entityStore.invalidateListsByPrefix("device:");
       }
       return response;
     } catch (err: any) {
       entityStore.error = err.message;
       return {
         success: false,
-        message: err.message
+        message: err.message,
       };
     }
   };
@@ -153,7 +151,7 @@ export const useDeviceStore = defineStore("device", () => {
       const response = await deviceService.deleteDevice(id);
       if (response.success) {
         entityStore.clearItem(id);
-        entityStore.invalidateListsByPrefix('device:');
+        entityStore.invalidateListsByPrefix("device:");
         return {
           success: true,
           message: response.message || "Устройство успешно удалено",
@@ -179,9 +177,9 @@ export const useDeviceStore = defineStore("device", () => {
 
   // Метод для поиска устройств по критериям
   const findDevices = (criteria: Partial<Device>) => {
-    return allDevices.value.filter(device => {
-      return Object.entries(criteria).every(([key, value]) =>
-        device[key as keyof Device] === value
+    return allDevices.value.filter((device) => {
+      return Object.entries(criteria).every(
+        ([key, value]) => device[key as keyof Device] === value,
       );
     });
   };

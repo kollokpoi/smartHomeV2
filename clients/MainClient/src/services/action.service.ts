@@ -77,7 +77,7 @@ class ActionService extends BaseService {
     id: string,
     data: { responseStatus?: number; errorMessage?: string },
   ): Promise<ApiResponse<any>> {
-    const response = await this.post(`/actions/register-call/${id}`, data);
+    const response = await this.post(`/actions/${id}/register-call/`, data);
     return response;
   }
   async deleteAction(id: string): Promise<ApiResponse<any>> {
