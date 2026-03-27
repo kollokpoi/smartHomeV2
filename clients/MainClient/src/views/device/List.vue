@@ -4,8 +4,9 @@
         <p class="text-font-secondary">Управление устройствами</p>
     </div>
 
-    <div class="flex w-full mb-3">
-        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
+    <div class="flex w-full mb-3 gap-2">
+        <InputText class="flex-1" placeholder="Поиск" v-model="searchText" />
+        <VoiceRecognitionTextButton @result="(r)=>searchText = r" label=""/>
         <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter" size="small" class=" text-xs md:text-normal"
             :badge="hasActiveFilters ? '!' : undefined" :severity="hasActiveFilters ? 'warning' : 'secondary'"
             :badgeClass="hasActiveFilters ? 'p-badge-danger' : ''" />
@@ -100,6 +101,7 @@ import { DeviceStatusHelper } from '@/helpers/deviceStatusHelper';
 import type { DeviceFilters } from '@/types/searchParams';
 import { useDeviceStore } from '@/stores/modules/device.store';
 import router from '@/router';
+import VoiceRecognitionTextButton from '@/components/VoiceRecognitionTextButton.vue';
 
 const deviceStore = useDeviceStore();
 

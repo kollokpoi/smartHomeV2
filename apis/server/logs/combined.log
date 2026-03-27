@@ -399,3 +399,21 @@
 {"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 18:16:51"}
 {"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 18:17:07"}
 {"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-27 18:19:47"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-27 18:19:50"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 18:27:56"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 18:28:11"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 18:38:56"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 18:39:11"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-27 18:48:28"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-27 18:48:31"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 18:55:56"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 18:56:11"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-27 18:56:31"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-27 18:56:33"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 18:57:39"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 18:57:54"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 18:59:19"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 18:59:34"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 19:04:59"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:05:15"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-27 19:10:18"}

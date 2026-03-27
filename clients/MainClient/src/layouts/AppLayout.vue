@@ -36,8 +36,9 @@
             </div>
           </nav>
 
-          <div class="flex items-center justify-center border-t border-gray-200 px-4 py-4">
+          <div class="flex items-center justify-center border-t border-gray-200 px-4 py-4 gap-6" :class="!panelExpanded?'flex-col':''">
             <ThemeSwitcher />
+            <VoiceRecognitionButton @success="onVoiceRecordedCall" @start="onRecordingStart" @stop="onRecordingStop" label="" button-class="rounded-full bg-back-opposit"/>
           </div>
         </div>
       </aside>

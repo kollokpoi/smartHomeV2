@@ -463,6 +463,7 @@ export const useActionStore = defineStore("action", () => {
     error: computed(() => entityStore.error),
     cancelDelayedTask,
     cancelAllDelayedByAction,
+    delayedTasksLoading,
     getActionsByDevice,
     getActionById,
     fetchActions,

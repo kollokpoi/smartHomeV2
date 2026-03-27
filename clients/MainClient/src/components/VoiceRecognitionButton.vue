@@ -1,6 +1,6 @@
 <!-- components/VoiceRecognitionButton.vue -->
 <template>
-    <div :class>
+    <div class="relative inline-block">
         <Button 
             :icon="isRecording ? 'pi pi-stop' : 'pi pi-microphone'" 
             :label="label" 
@@ -33,7 +33,6 @@ const props = withDefaults(defineProps<Props>(), {
     label: 'Записать',
     buttonClass: '',
     severity: 'secondary',
-    class:'relative inline-block',
     autoStopDelay: 5000
 });
 

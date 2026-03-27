@@ -3,7 +3,7 @@ const rateLimit = require('express-rate-limit');
 // Общий лимитер для всех запросов
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 минут
-  max: 100, // максимум 100 запросов с одного IP
+  max: 1000, // максимум 100 запросов с одного IP
   message: {
     success: false,
     message: 'Слишком много запросов, попробуйте позже'

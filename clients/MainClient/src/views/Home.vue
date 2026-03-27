@@ -1,20 +1,24 @@
 <template>
-    <p>Действий{{ actionStore.totalActions }}</p>
-    <p>Устройств{{ deviceStore.totalDevices }}</p>
-    <p>Команд{{ voiceCommandStore.totalVoiceCommands }}</p>
-    <p>Параметров{{ actionParameterStore.totalActionParameters }}</p>
-    <p>{{ networkStore.apiUrl }}</p>
+    <p></p>
 
-    <div class="p-4">
-        <VoiceRecognitionButton @success="onVoiceRecorded" @start="onRecordingStart" @stop="onRecordingStop" />
-
-        <div v-if="recognizedText" class="mt-4 p-3 bg-gray-100 rounded-lg">
-            <p class="text-sm text-gray-500">Распознанный текст:</p>
-            <p class="text-lg font-medium">{{ recognizedText }}</p>
-        </div>
+    <div class="flex w-full justify-end mb-2 gap-3">
+        <Button @click="router.push('action')">
+            Действий: {{ actionStore.totalActions }}
+        </Button>
+        <Button @click="router.push('device')">
+            Устройств: {{ deviceStore.totalDevices }}
+        </Button>
+        <Button @click="router.push('action-parameter')">
+            Команд: {{ voiceCommandStore.totalVoiceCommands }}
+        </Button>
+        <Button @click="router.push('voice-command')">
+            Параметров: {{ actionParameterStore.totalActionParameters }}
+        </Button>
     </div>
-    <div class="p-4">
-        <VoiceRecognitionButton @success="onVoiceRecordedCall" @start="onRecordingStart" @stop="onRecordingStop" />
+    <Badge class="mx-auto flex">Текущий адрес: {{ networkStore.apiUrl }}</Badge>
+    <div class="bg-back-secondary w-full p-3 rounded-md mt-4">
+        <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
+        <DelayedTasksTable :tasks="tasks" :loading="actionStore.delayedTasksLoading" @cancelled="loadTasks" @refresh="loadTasks" />
     </div>
 </template>
 <script setup lang="ts">
@@ -25,11 +29,9 @@ import { useDeviceStore } from '@/stores/modules/device.store';
 import { useVoiceCommandStore } from '@/stores/modules/voiceCommand.store';
 import { useActionParameterStore } from '@/stores/modules/parameter.store';
 import { useNetworkStore } from '@/stores/modules/network.store';
-import { onMounted, ref } from 'vue';
-import { useToast } from 'primevue';
-
-import VoiceRecognitionButton from '@/components/VoiceRecognitionButton.vue';
-import { speechService, voiceCommandService } from '@/services';
+import { computed, onMounted } from 'vue';
+import DelayedTasksTable from '@/components/dataTables/DelayedTasksTable.vue';
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const networkStore = useNetworkStore();
@@ -39,81 +41,22 @@ const deviceStore = useDeviceStore();
 const voiceCommandStore = useVoiceCommandStore();
 const actionParameterStore = useActionParameterStore();
 
-const toast = useToast();
-const recognizedText = ref('');
+const router = useRouter()
 
-const onVoiceRecorded = async (audioBlob: Blob) => {
+const tasks = computed(() => actionStore.delayedTasks);
 
-    const result = await speechService.recognize(audioBlob);
-
-    if (result.success) {
-        recognizedText.value = result.data
-        toast.add({
-            severity: 'info',
-            summary: 'Голосовая команда',
-            detail: result.data,
-            life: 3000
-        });
-    } else {
-        toast.add({
-            severity: 'warn',
-            summary: 'Голосовая команда',
-            detail: result.message || "Не получилось",
-            life: 3000
-        });
-    }
+const loadTasks = async () => {
+    await actionStore.fetchDelayedTasks();
 };
 
-const onVoiceRecordedCall = async (audioBlob: Blob) => {
-
-    const result = await voiceCommandService.callVoiceCommand(audioBlob);
-
-    if (result.success) {
-        toast.add({
-            severity: 'info',
-            summary: 'Голосовая команда',
-            detail: result.data,
-            life: 3000
-        });
-    } else {
-        toast.add({
-            severity: 'warn',
-            summary: 'Голосовая команда',
-            detail: result.message || "Не получилось",
-            life: 3000
-        });
-    }
-};
-
-const onRecordingStart = () => {
-    toast.add({
-        severity: 'info',
-        summary: 'Запись',
-        detail: 'Говорите...',
-        life: 2000
-    });
-};
-
-const onRecordingStop = () => {
-    toast.add({
-        severity: 'info',
-        summary: 'Обработка',
-        detail: 'Распознаю...',
-        life: 1000
-    });
-};
-
-const executeCommand = (text: string) => {
-    // Логика выполнения команды
-    console.log('Execute command:', text);
-};
 
 onMounted(() => {
     Promise.all([
         actionStore.fetchActions(),
         deviceStore.fetchDevices(),
         voiceCommandStore.fetchVoiceCommands(),
-        actionParameterStore.fetchActionParameters()
+        actionParameterStore.fetchActionParameters(),
+        loadTasks()
     ])
 })
 </script>

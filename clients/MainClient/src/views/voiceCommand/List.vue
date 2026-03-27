@@ -4,8 +4,9 @@
         <p class="text-font-secondary">Управление командами действий</p>
     </div>
 
-    <div class="flex w-full mb-3">
-        <InputText class="flex-1 mr-2" placeholder="Поиск" v-model="searchText" />
+    <div class="flex w-full mb-3 gap-2">
+        <InputText class="flex-1" placeholder="Поиск" v-model="searchText" />
+        <VoiceRecognitionTextButton @result="(r)=>searchText = r" label=""/>
         <Button label="Фильтры" icon="pi pi-filter" @click="showFilter = !showFilter" size="small"
             class=" text-xs md:text-normal" :badge="hasActiveFilters ? '!' : undefined"
             :severity="hasActiveFilters ? 'warning' : 'secondary'"
@@ -103,6 +104,7 @@
 
 <script setup lang="ts">
 import VoiceCommandTable from '@/components/dataTables/VoiceCommandTable.vue';
+import VoiceRecognitionTextButton from '@/components/VoiceRecognitionTextButton.vue';
 import debounce from 'lodash/debounce';
 import { ref, computed, onMounted, reactive, watch, onUnmounted } from 'vue';
 import { useToast } from 'primevue';
