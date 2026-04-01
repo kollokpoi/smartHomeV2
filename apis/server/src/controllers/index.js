@@ -5,4 +5,5 @@ module.exports = {
   authController: require("./auth.controller"),
   voiceCommandController: require("./voiceCommand.controller"),
   speechController: require("./speechController"),
+  userController: require("./user.controller"),
 };

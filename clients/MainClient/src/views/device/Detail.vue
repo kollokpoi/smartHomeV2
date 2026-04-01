@@ -19,117 +19,146 @@
         <ProgressSpinner />
     </div>
 
-    <div class="w-full mb-3" v-else-if="device">
-        <div class="flex flex-col sm:flex-row w-full bg-back-secondary p-4 rounded-md gap-6">
-            <div class="flex-1 flex flex-col gap-2">
-                <div>
-                    <EditableText :isEditing="isEditing" v-model="editData.name" :maxLength="100" required
-                        placeholder="Название" :validationResult="validationState.name" field-name="name"
-                        @edit-start="isEditing = true" @validation-change="updateValidation" />
-                </div>
+    <template v-else-if="device">
+        <div class="w-full mb-3 p-4 bg-back-secondary">
+            <div class="w-full min-h-40 flex  justify-center bg-back-primary">
+                <div class="flex flex-col items-center justify-between h-block py-2">
+                    <img v-if="previewUrl" :src="previewUrl" alt="Icon"
+                        class="w-full max-h-90 object-contain rounded-lg" />
+                    <img v-else-if="device.icon" :src="device.iconPath" alt="Icon"
+                        class="w-full max-h-90 object-contain rounded-lg" />
+                    <i v-else class="pi pi-image text-4xl text-gray-400"></i>
 
-                <div>
-                    <EditableText :isEditing="isEditing" v-model="editData.ip" :maxLength="45" required field-name="ip"
-                        :validationResult="validationState.ip" @edit-start="isEditing = true" placeholder='IP адреc'
-                        @validation-change="updateValidation" />
-                </div>
-                <div>
-                    <EditableNumber :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.port"
-                        :min="1" :max="65535" placeholder="Базовый порт" field-name="port"
-                        @validation-change="updateValidation" :validation-result="validationState.port" />
-                </div>
-                <div>
-                    <EditableText :isEditing="isEditing" v-model="editData.handlerPath" :maxLength="255" required
-                        :validationResult="validationState.handlerPath" field-name="handlerPath"
-                        placeholder="Путь обработчика" @edit-start="isEditing = true"
-                        @validation-change="updateValidation" />
-                </div>
+                    <div class="flex gap-2 mt-2">
+                        <Button icon="pi pi-upload" label="Загрузить иконку" severity="secondary" outlined
+                            @click="triggerFileInput" :disabled="isEditing === false" />
+                        <Button v-if="previewUrl || editData.icon" icon="pi pi-refresh" label="Заменить"
+                            severity="secondary" text @click="triggerFileInput" :disabled="isEditing === false" />
+                    </div>
 
-                <div>
-                    <EditableText :isEditing="isEditing" v-model="editData.description" textArea
-                        :validationResult="validationState.description" field-name="description" placeholder="Описание"
-                        @edit-start="isEditing = true" @validation-change="updateValidation" />
-                </div>
+                    <div class="text-xs text-gray-500 text-center">
+                        <p v-if="!previewUrl && !editData.icon" class="text-primary-500">
+                        </p>
+                    </div>
 
-                <div>
-                    <EditableSelect :isEditing="isEditing" v-model="editData.status" field-name="status"
-                        :validationResult="validationState.status" :items="DeviceStatusHelper.getSelectOptions()"
-                        placeholder="Статус" @edit-start="isEditing = true" />
-                </div>
-
-                <div>
-                    <EditableNumber :isEditing="isEditing" v-model="editData.sortOrder" :min="0" field-name="sortOrder"
-                        :validationResult="validationState.sortOrder" @edit-start="isEditing = true"
-                        placeholder="Сортировка" @validation-change="updateValidation" />
-                </div>
-
-                <div>
-                    <EditableSelect :isEditing="isEditing" v-model="editData.isActive" field-name="isActive"
-                        :validationResult="validationState.isActive" :items="booleanOptions" placeholder="Активно"
-                        @edit-start="isEditing = true" />
+                    <input ref="fileInput" type="file" @change="onFileSelect"
+                        accept="image/jpeg,image/png,image/gif,image/svg+xml,image/webp" class="hidden" />
                 </div>
             </div>
+            <div class="flex flex-col sm:flex-row w-full  rounded-md gap-6">
+                <div class="flex-1 flex flex-col gap-2">
+                    <div>
+                        <EditableText :isEditing="isEditing" v-model="editData.name" :maxLength="100" required
+                            placeholder="Название" :validationResult="validationState.name" field-name="name"
+                            @edit-start="isEditing = true" @validation-change="updateValidation" />
+                    </div>
 
-            <div class="flex-1 flex flex-col gap-2">
-                <div>
-                    <dt class="text-sm text-font-primary">Последний раз виден</dt>
-                    <dd class="text-font-primary">{{ formatDate(device.lastSeen) || 'Никогда' }}</dd>
+                    <div>
+                        <EditableText :isEditing="isEditing" v-model="editData.ip" :maxLength="45" required
+                            field-name="ip" :validationResult="validationState.ip" @edit-start="isEditing = true"
+                            placeholder='IP адреc' @validation-change="updateValidation" />
+                    </div>
+                    <div>
+                        <EditableNumber :isEditing="isEditing" @edit-start="isEditing = true" v-model="editData.port"
+                            :min="1" :max="65535" placeholder="Базовый порт" field-name="port"
+                            @validation-change="updateValidation" :validation-result="validationState.port" />
+                    </div>
+                    <div>
+                        <EditableText :isEditing="isEditing" v-model="editData.handlerPath" :maxLength="255" required
+                            :validationResult="validationState.handlerPath" field-name="handlerPath"
+                            placeholder="Путь обработчика" @edit-start="isEditing = true"
+                            @validation-change="updateValidation" />
+                    </div>
+
+                    <div>
+                        <EditableText :isEditing="isEditing" v-model="editData.description" textArea
+                            :validationResult="validationState.description" field-name="description"
+                            placeholder="Описание" @edit-start="isEditing = true"
+                            @validation-change="updateValidation" />
+                    </div>
+
+                    <div>
+                        <EditableSelect :isEditing="isEditing" v-model="editData.status" field-name="status"
+                            :validationResult="validationState.status" :items="DeviceStatusHelper.getSelectOptions()"
+                            placeholder="Статус" @edit-start="isEditing = true" />
+                    </div>
+
+                    <div>
+                        <EditableNumber :isEditing="isEditing" v-model="editData.sortOrder" :min="0"
+                            field-name="sortOrder" :validationResult="validationState.sortOrder"
+                            @edit-start="isEditing = true" placeholder="Сортировка"
+                            @validation-change="updateValidation" />
+                    </div>
+
+                    <div>
+                        <EditableSelect :isEditing="isEditing" v-model="editData.isActive" field-name="isActive"
+                            :validationResult="validationState.isActive" :items="booleanOptions" placeholder="Активно"
+                            @edit-start="isEditing = true" />
+                    </div>
                 </div>
-                <div>
-                    <dt class="text-sm text-font-primary">Дата создания</dt>
-                    <dd class="text-font-primary">{{ formatDate(device.createdAt) }}</dd>
-                </div>
-                <div>
-                    <dt class="text-sm text-font-primary">Дата обновления</dt>
-                    <dd class="text-font-primary">{{ formatDate(device.updatedAt) }}</dd>
-                </div>
-                <div v-if="device.actions && device.actions.length > 0">
-                    <dt class="text-sm text-font-primary">Действия</dt>
-                    <dd class="text-font-primary">{{ device.actions.length }} действий</dd>
-                </div>
-                <div>
-                    <dt class="text-sm text-font-primary">Метаданные</dt>
-                    <pre class="hover:bg-back-accent text-font-primary p-4 rounded text-sm overflow-auto max-h-60">{{
-                        JSON.stringify(device.metadata, null, 2)
-                    }}</pre>
+
+                <div class="flex-1 flex flex-col gap-2">
+                    <div>
+                        <dt class="text-sm text-font-primary">Последний раз виден</dt>
+                        <dd class="text-font-primary">{{ formatDate(device.lastSeen) || 'Никогда' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm text-font-primary">Дата создания</dt>
+                        <dd class="text-font-primary">{{ formatDate(device.createdAt) }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm text-font-primary">Дата обновления</dt>
+                        <dd class="text-font-primary">{{ formatDate(device.updatedAt) }}</dd>
+                    </div>
+                    <div v-if="device.actions && device.actions.length > 0">
+                        <dt class="text-sm text-font-primary">Действия</dt>
+                        <dd class="text-font-primary">{{ device.actions.length }} действий</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm text-font-primary">Метаданные</dt>
+                        <pre class="hover:bg-back-accent text-font-primary p-4 rounded text-sm overflow-auto max-h-60">{{
+                            JSON.stringify(device.metadata, null, 2)
+                        }}</pre>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="bg-back-secondary w-full p-3 rounded-md" v-if="actions.length > 0"
-        :class="fullWindowMode ? 'fixed inset-0 z-50 p-6' : ''">
-        <div class="w-full flex justify-between items-center flex-col sm:flex-row mb-2">
-            <p class="text-xl text-font-primary font-bold">Действия</p>
-            <div class="flex items-center gap-2 justify-between w-full sm:w-auto">
-                <div class="flex items-center gap-2">
-                    <span class="text-font-primary">Задержка</span>
-                    <ToggleSwitch v-model="isUseDelay" />
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-font-primary">Панель</span>
-                    <ToggleSwitch v-model="panelMode" />
-                    <i class="pi cursor-pointer text-font-primary"
-                        :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'"
-                        @click="fullWindowMode = !fullWindowMode" />
+        <div class="bg-back-secondary w-full p-3 rounded-md" v-if="actions.length > 0"
+            :class="fullWindowMode ? 'fixed inset-0 z-50 p-6' : ''">
+            <div class="w-full flex justify-between items-center flex-col sm:flex-row mb-2">
+                <p class="text-xl text-font-primary font-bold">Действия</p>
+                <div class="flex items-center gap-2 justify-between w-full sm:w-auto">
+                    <div class="flex items-center gap-2">
+                        <span class="text-font-primary">Задержка</span>
+                        <ToggleSwitch v-model="isUseDelay" />
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-font-primary">Панель</span>
+                        <ToggleSwitch v-model="panelMode" />
+                        <i class="pi cursor-pointer text-font-primary"
+                            :class="fullWindowMode ? 'pi-window-minimize' : 'pi-arrow-up-right'"
+                            @click="fullWindowMode = !fullWindowMode" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
-            @called="call" v-memo="[actions.length, loading]" />
-        <div v-else>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center w-full gap-2">
-                <Button v-for="action in actions" @click="call(action.id)" class="text-xs md:text-sm">
-                    {{ action.name }}
-                </Button>
+            <ActionTable v-if="!panelMode" :actions="actions" :loading="actionStore.loading" scroll-height="40vh"
+                @called="call" v-memo="[actions.length, loading]" />
+            <div v-else>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center w-full gap-2">
+                    <Button v-for="action in actions" @click="call(action.id)" class="text-xs md:text-sm">
+                        {{ action.name }}
+                    </Button>
+                </div>
+                <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
             </div>
-            <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
         </div>
-    </div>
-    <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="tasks.length > 0">
-        <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
-        <DelayedTasksTable :tasks="tasks" :loading="loading" @cancelled="loadTasks" @refresh="loadTasks" />
-    </div>
+        <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="tasks.length > 0">
+            <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
+            <DelayedTasksTable :tasks="tasks" :loading="loading" @cancelled="loadTasks" @refresh="loadTasks" />
+        </div>
+    </template>
+
     <DelayCallDialog v-model:visible="isDialogVisible" @confirm="confirmDelay" />
     <ConfirmDialog :draggable="true" />
 </template>
@@ -161,11 +190,20 @@ const confirm = useConfirm();
 const deviceStore = useDeviceStore();
 const actionStore = useActionStore();
 
-const panelMode = ref(false)
+const panelMode = ref(true)
 const fullWindowMode = ref(false)
 
 const id = ref<string>('');
 const loading = ref<boolean>(false);
+
+const fileInput = ref<HTMLInputElement | null>(null);
+const previewUrl = ref<string>('');
+const selectedIconFile = ref<File | null>(null);
+
+const triggerFileInput = () => {
+    if (!isEditing.value) return;
+    fileInput.value?.click();
+};
 
 const {
     isDialogVisible,
@@ -188,6 +226,7 @@ const {
     editData,
     isFormValid,
     isEditing,
+    setFile,
     updateValidation,
     save,
 } = useEntityForm(
@@ -203,8 +242,8 @@ const {
         lastSeen: undefined,
         metadata: {}
     } as DeviceAttributes,
-    async (data: DeviceAttributes) => {
-        return await deviceStore.updateDevice(id.value, data);
+    async (data: DeviceAttributes, iconFile?: File) => {
+        return await deviceStore.updateDevice(id.value, data, iconFile);
     },
 );
 
@@ -242,7 +281,7 @@ const loadDevice = async () => {
         const data = await deviceStore.fetchDeviceById(id.value);
         if (data) {
             Object.assign(editData, data);
-            await actionStore.fetchActions({ deviceId: id.value});
+            await actionStore.fetchActions({ deviceId: id.value });
         }
     } catch (error) {
         toast.add({
@@ -308,6 +347,16 @@ const loadTasks = async () => {
     await actionStore.fetchDelayedTasks({ deviceId: id.value });
 };
 
+const onFileSelect = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (file) {
+        selectedIconFile.value = file;
+        previewUrl.value = URL.createObjectURL(file);
+        setFile(file);
+    }
+};
+
 watch(fullWindowMode, (newVal) => {
     if (newVal) {
         document.body.style.overflow = 'hidden';
@@ -316,6 +365,11 @@ watch(fullWindowMode, (newVal) => {
     }
 });
 
+watch(previewUrl, (newUrl, oldUrl) => {
+    if (oldUrl) {
+        URL.revokeObjectURL(oldUrl);
+    }
+});
 
 onMounted(async () => {
     id.value = route.params.id as string;

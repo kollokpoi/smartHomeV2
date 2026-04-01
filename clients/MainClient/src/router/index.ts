@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
+import { useAuthStore } from "@/stores/modules/auth.store";
 
 import Layout from "@/layouts/AppLayout.vue";
 
@@ -12,14 +13,18 @@ const ActionDetail = () => import("@/views/action/Detail.vue");
 const ActionCreate = () => import("@/views/action/Create.vue");
 
 const ActionParameterList = () => import("@/views/actionParameter/List.vue");
-const ActionParameterDetail = () => import("@/views/actionParameter/Detail.vue");
-const ActionParameterCreate = () => import("@/views/actionParameter/Create.vue");
+const ActionParameterDetail = () =>
+  import("@/views/actionParameter/Detail.vue");
+const ActionParameterCreate = () =>
+  import("@/views/actionParameter/Create.vue");
 
 const VoiceCommandList = () => import("@/views/voiceCommand/List.vue");
 const VoiceCommandDetail = () => import("@/views/voiceCommand/Detail.vue");
 const VoiceCommandCreate = () => import("@/views/voiceCommand/Create.vue");
 
 const Home = () => import("@/views/Home.vue");
+const Login = () => import("@/views/Login.vue");
+const NotFoundPage = () => import("@/views/NotFoundPage.vue");
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -31,8 +36,6 @@ declare module "vue-router" {
   }
 }
 
-const NotFoundPage = () => import("@/views/NotFoundPage.vue");
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -41,6 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Домашняя",
       layout: Layout,
+      requiresAuth: true,
     },
   },
   {
@@ -48,6 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "devices",
     meta: {
       layout: Layout,
+      requiresAuth: true,
     },
     children: [
       {
@@ -151,7 +156,6 @@ const routes: Array<RouteRecordRaw> = [
           requiresAuth: false,
         },
       },
-
     ],
   },
   {
@@ -191,6 +195,14 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/login",
+    name: "login",
+    component: Login,
+    meta: {
+      title: "Авторизация",
+    },
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "not-found",
     component: NotFoundPage,
@@ -212,9 +224,17 @@ const router = createRouter({
   },
 });
 
+router.beforeEach((to) => {
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    return { name: "login" };
+  }
+});
+
 router.afterEach((to) => {
-  document.title = `Умный дом | ${to.meta.title || 'Главная'}`
-})
+  document.title = `Умный дом | ${to.meta.title || "Главная"}`;
+});
 
 router.onError((error) => {
   console.error("Router navigation error:", error);

@@ -37,13 +37,9 @@ class DeviceService extends BaseService {
     data: DeviceAttributes,
     config?: AxiosRequestConfig,
   ): Promise<ApiResponse<Device>> {
-    const response = await this.post<DeviceAttributes>(
-      "/devices/",
-      data,
-      {
-        ...config,
-      },
-    );
+    const response = await this.post<DeviceAttributes>("/devices/", data, {
+      ...config,
+    });
     if (response.success) {
       response.data = new Device(response.data);
     }
@@ -53,11 +49,30 @@ class DeviceService extends BaseService {
   async updateDevice(
     id: string,
     data: DeviceAttributes,
+    iconFile?: File,
     config?: AxiosRequestConfig,
   ): Promise<ApiResponse<Device>> {
-    const response = await this.put<DeviceAttributes>(`/devices/${id}`, data, {
-      ...config,
-    });
+    let response;
+
+    if (iconFile) {
+      const formData = new FormData();
+      formData.append("device", JSON.stringify(data));
+      formData.append("icon", iconFile);
+
+      response = await this.put<DeviceAttributes>(`/devices/${id}`, formData, {
+        ...config,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else {
+      response = await this.put<DeviceAttributes>(
+        `/devices/${id}`,
+        data,
+        config,
+      );
+    }
+
     if (response.success) {
       response.data = new Device(response.data);
     }

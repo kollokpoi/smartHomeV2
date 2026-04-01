@@ -1,5 +1,6 @@
 import type { LoginCredentials } from "@/types/User/LoginCredentials";
 import type { User } from "@/types/User/User";
+import { authService } from "@/services";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 

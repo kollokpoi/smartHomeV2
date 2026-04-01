@@ -18,6 +18,7 @@ import { ToggleSwitch } from "primevue";
 import Textarea from "primevue/textarea";
 import Tag from "primevue/tag";
 import Badge from "primevue/badge";
+import FileUpload from "primevue/fileupload";
 
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
@@ -59,5 +60,6 @@ export default {
     app.component("Tag", Tag)
     app.component("Badge", Badge)
     app.component('ToggleSwitch', ToggleSwitch)
+    app.component('FileUpload', FileUpload)
   },
 };

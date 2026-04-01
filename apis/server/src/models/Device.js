@@ -6,24 +6,24 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        primaryKey: true
+        primaryKey: true,
       },
       ip: {
         type: DataTypes.STRING(45),
-        allowNull: false
+        allowNull: false,
       },
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true
+        unique: true,
       },
       handlerPath: {
         type: DataTypes.STRING(255),
-        field: "handler_path"
+        field: "handler_path",
       },
       description: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
       metadata: {
         type: DataTypes.JSON,
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         set(value) {
           this.setDataValue("metadata", JSON.stringify(value || {}));
-        }
+        },
       },
       port: {
         type: DataTypes.INTEGER,
@@ -46,24 +46,38 @@ module.exports = (sequelize, DataTypes) => {
           max: { args: [65535], msg: "Порт должен быть от 1 до 65535" },
         },
       },
+      icon: {
+        type: DataTypes.STRING(255),
+        defaultValue: "/icons/default-device.svg",
+        comment: "Путь к иконке устройства",
+        validate: {
+          len: [1, 255],
+        },
+      },
+      iconType: {
+        type: DataTypes.ENUM("url", "local", "emoji"),
+        defaultValue: "local",
+        comment:
+          "Тип иконки: url - внешняя ссылка, local - локальный файл, emoji - эмодзи",
+      },
       status: {
         type: DataTypes.ENUM("online", "offline", "maintenance"),
-        defaultValue: "offline"
+        defaultValue: "offline",
       },
       sortOrder: {
         type: DataTypes.INTEGER,
         field: "sort_order",
-        defaultValue: 0
+        defaultValue: 0,
       },
       isActive: {
         type: DataTypes.BOOLEAN,
         field: "is_active",
-        defaultValue: true
+        defaultValue: true,
       },
       lastSeen: {
         type: DataTypes.DATE,
-        field: "last_seen"
-      }
+        field: "last_seen",
+      },
     },
     {
       tableName: "devices",
@@ -94,39 +108,39 @@ module.exports = (sequelize, DataTypes) => {
 
         beforeDestroy: async (device) => {
           console.log(`[DEVICE DELETED] ${device.name}`);
-        }
+        },
       },
 
       scopes: {
         online: {
-          where: { status: "online" }
+          where: { status: "online" },
         },
         offline: {
-          where: { status: "offline" }
+          where: { status: "offline" },
         },
         withActions: {
-          include: [{ association: "actions" }]
+          include: [{ association: "actions" }],
         },
         active: {
-          where: { is_active: true }
+          where: { is_active: true },
         },
         ordered: {
           order: [
             ["sort_order", "ASC"],
-            ["name", "ASC"]
-          ]
+            ["name", "ASC"],
+          ],
         },
         recentlyActive: {
           where: {
             lastSeen: {
               [sequelize.Sequelize.Op.gte]: sequelize.Sequelize.literal(
-                "DATE_SUB(NOW(), INTERVAL 1 HOUR)"
-              )
-            }
-          }
-        }
-      }
-    }
+                "DATE_SUB(NOW(), INTERVAL 1 HOUR)",
+              ),
+            },
+          },
+        },
+      },
+    },
   );
 
   Device.prototype.updateLastSeen = async function () {
@@ -144,7 +158,7 @@ module.exports = (sequelize, DataTypes) => {
       total,
       online,
       offline: total - online - maintenance,
-      maintenance
+      maintenance,
     };
   };
 

@@ -127,9 +127,10 @@ export const useDeviceStore = defineStore("device", () => {
   const updateDevice = async (
     id: string,
     data: DeviceAttributes,
+    iconFile?: File,
   ): Promise<ApiResponse<Device>> => {
     try {
-      const response = await deviceService.updateDevice(id, data);
+      const response = await deviceService.updateDevice(id, data, iconFile);
       if (response.success) {
         entityStore.setItem(id, response.data);
         entityStore.invalidateListsByPrefix("device:");

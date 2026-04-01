@@ -3,7 +3,7 @@ import { ref, reactive, computed, toRaw } from 'vue'
 import type { ValidationResult } from '@/types/editableFields'
 import type { ApiErrorResponse, ApiResponse } from '@/types/api'
 
-type SaveFunction<T, R> = (data: T) => Promise<ApiResponse<R>>
+type SaveFunction<T, R> = (data: T, file?: File) => Promise<ApiResponse<R>>
 
 export function useEntityForm<T extends Record<string, any>, R = any>(
     initialData: T,
@@ -13,6 +13,7 @@ export function useEntityForm<T extends Record<string, any>, R = any>(
     const validationState = ref<Record<string, ValidationResult>>({})
     const editData = reactive<T>({ ...initialData })
     const isSaving = ref(false)
+    const pendingFile = ref<File | null>(null)
 
     const isFormValid = computed(() => {
         return Object.values(validationState.value).every(v => v.isValid)
@@ -27,6 +28,11 @@ export function useEntityForm<T extends Record<string, any>, R = any>(
     const resetForm = () => {
         Object.assign(editData, initialData)
         validationState.value = {}
+        pendingFile.value = null
+    }
+
+    const setFile = (file: File | null) => {
+        pendingFile.value = file
     }
 
     const save = async (): Promise<ApiResponse<R>> => {
@@ -40,7 +46,7 @@ export function useEntityForm<T extends Record<string, any>, R = any>(
         isSaving.value = true
         try {
             const rawData = toRaw(editData) as T
-            const response = await onSave(rawData)
+            const response = await onSave(rawData, pendingFile.value || undefined)
             
             if (response.success) {
                 isEditing.value = false
@@ -85,6 +91,7 @@ export function useEntityForm<T extends Record<string, any>, R = any>(
         isFormValid,
         isSaving,
         updateValidation,
+        setFile,
         save,
         toggleEdit,
         resetForm

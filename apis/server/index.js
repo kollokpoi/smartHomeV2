@@ -8,6 +8,7 @@ const routes = require("./src/routes");
 const logger = require("./src/utils/logger");
 const deviceChecker = require('./services/deviceCheckerService')
 const { generalLimiter, authLimiter } = require('./src/middlewares/rateLimiter');
+const path = require('path');
 
 const { sequelize } = require('./src/models');
 
@@ -43,6 +44,9 @@ app.use(
     crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/icons/defaults', express.static(path.join(__dirname, 'public/icons/defaults')));
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -85,7 +89,7 @@ async function startServer() {
     await sequelize.authenticate();
     console.log("✅ База данных подключена");
     
-    await sequelize.sync({ alter: process.env.NODE_ENV === "development" });
+    await sequelize.sync({ alter: true });
     
     await deviceChecker.start();
     

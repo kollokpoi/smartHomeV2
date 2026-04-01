@@ -8,6 +8,7 @@ const {
 const { deviceValidator } = require("../helpers/validators");
 const PaginationHelper = require("../helpers/paginationHelper");
 const { Op } = require("sequelize");
+const iconService = require("../../services/iconService");
 
 class DeviceController {
   async getAll(req, res, next) {
@@ -151,6 +152,18 @@ class DeviceController {
         });
       }
 
+      let iconPath = null;
+      if (req.file) {
+        iconPath = await iconService.saveIcon(req.file);
+      } else {
+        iconPath = iconService.getDefaultIcon(deviceData.name, deviceData.type);
+      }
+
+      const deviceData = {
+        ...req.body,
+        icon: iconPath,
+      };
+
       const device = await Device.create(req.body, { transaction });
       await transaction.commit();
 
@@ -209,6 +222,14 @@ class DeviceController {
         });
       }
 
+      let updateData = {};
+
+      if (req.body.device) {
+        updateData = JSON.parse(req.body.device);
+      } else {
+        updateData = req.body;
+      }
+
       const errors = deviceValidator.validate(req.body, true);
       if (errors.length > 0) {
         await transaction.rollback();
@@ -218,7 +239,18 @@ class DeviceController {
         });
       }
 
-      await device.update(req.body, { transaction });
+      if (req.file) {
+        if (device.icon && !device.icon.startsWith("/icons/defaults/")) {
+          await iconService.deleteIcon(device.icon);
+        }
+        updateData.icon = await iconService.saveIcon(req.file);
+      } else if (updateData.icon === undefined && !device.icon) {
+        updateData.icon = iconService.getDefaultIcon(
+          updateData.name || device.name,
+        );
+      }
+
+      await device.update(updateData, { transaction });
       await transaction.commit();
 
       res.json({

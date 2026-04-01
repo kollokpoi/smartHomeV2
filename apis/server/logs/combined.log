@@ -417,3 +417,885 @@
 {"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 19:04:59"}
 {"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:05:15"}
 {"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-27 19:10:18"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-27 19:10:21"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: online -> offline","service":"bitrix-admin-api","timestamp":"2026-03-27 19:35:26"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:35:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:38:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:38:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:38:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:38:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:39:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:40:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:41:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:41:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:41:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:41:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:42:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:43:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:43:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:43:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:43:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:44:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:45:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:46:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:47:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:48:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:49:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:50:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:51:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:52:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:53:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:54:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:55:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:56:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:57:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:58:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 19:59:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:00:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:01:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:02:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:03:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:04:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:05:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:42"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:06:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:22"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:22"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:42"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:42"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:07:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:02"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:02"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:02"}
+{"level":"info","message":"Device Умная лампа в спальне v22 (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:22"}
+{"level":"info","message":"Device тг бот (192.168.0.1) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:22"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:23"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-27 20:08:23"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-31 14:06:31"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:06:31"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:06:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:07:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:08:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:08:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:09:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:10:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:10:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:11:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:12:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:12:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:13:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:14:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:14:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:15:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:16:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:16:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:17:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:18:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:18:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:19:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:20:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:20:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:21:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:22:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:22:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:23:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:24:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:24:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:25:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:26:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:26:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:27:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:28:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:28:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:29:35"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:30:15"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:30:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:31:35"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:32:15"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:32:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:33:35"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:34:15"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:34:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:35:35"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:36:15"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:36:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:37:35"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:38:15"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:38:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:39:35"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-31 14:39:44"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-31 14:39:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:40:16"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:40:56"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:41:36"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:42:16"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:42:56"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:43:36"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:44:16"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:44:56"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:45:36"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:46:16"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:46:56"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:47:36"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:48:16"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:48:56"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-31 14:49:31"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-31 14:50:59"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:50:59"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:51:20"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:51:40"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:52:00"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:52:20"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:52:40"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:00"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:17"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:32"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:32"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:40"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:49"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:53:49"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:54:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:54:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:55:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:56:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:56:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:57:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:58:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:58:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 14:59:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:00:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:00:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:01:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:02:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:02:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:03:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:04:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:04:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:05:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:06:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:06:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:07:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:08:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:08:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:09:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:10:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:10:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:11:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:12:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:12:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:13:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:14:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:14:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:15:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:16:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:16:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:17:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:18:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:18:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:19:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:20:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:20:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:21:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:22:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:22:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:23:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:24:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:24:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:25:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:26:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:26:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:27:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:28:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:28:57"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:29:37"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:30:17"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:30:57"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-03-31 15:31:31"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-03-31 15:31:31"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-04-01 11:37:50"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:37:50"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:38:12"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:38:32"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:38:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:39:13"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:39:33"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:39:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:40:13"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:40:33"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:40:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:41:13"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:41:33"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:41:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:42:13"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:42:33"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:42:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:43:13"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:43:33"}
+{"level":"error","message":"Unknown column 'icon' in 'field list'","method":"GET","path":"/api/devices/","service":"bitrix-admin-api","stack":"Error\n    at Query.run (H:\\projects\\smartHomeV2\\apis\\server\\node_modules\\sequelize\\lib\\dialects\\mysql\\query.js:52:25)\n    at H:\\projects\\smartHomeV2\\apis\\server\\node_modules\\sequelize\\lib\\sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async MySQLQueryInterface.select (H:\\projects\\smartHomeV2\\apis\\server\\node_modules\\sequelize\\lib\\dialects\\abstract\\query-interface.js:407:12)\n    at async Device.findAll (H:\\projects\\smartHomeV2\\apis\\server\\node_modules\\sequelize\\lib\\model.js:1140:21)\n    at async Promise.all (index 1)\n    at async Device.findAndCountAll (H:\\projects\\smartHomeV2\\apis\\server\\node_modules\\sequelize\\lib\\model.js:1322:27)\n    at async getAll (H:\\projects\\smartHomeV2\\apis\\server\\src\\controllers\\device.controller.js:94:31)","timestamp":"2026-04-01 11:43:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:43:53"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:44:13"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-04-01 11:44:25"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-04-01 11:44:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:44:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:45:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:45:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:46:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:47:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:47:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:48:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:49:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:49:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:50:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:51:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:51:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:52:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:53:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:53:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:54:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:55:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:55:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:56:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:57:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:57:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:58:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:59:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 11:59:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:00:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:01:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:01:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:02:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:03:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:03:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:04:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:05:01"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:05:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:06:21"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:07:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:07:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:08:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:09:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:09:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:10:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:11:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:11:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:12:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:13:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:13:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:14:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:15:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:15:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:16:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:17:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:17:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:18:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:19:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:19:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:20:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:21:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:21:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:22:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:23:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:23:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:24:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:25:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:25:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:26:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:27:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:27:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:28:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:29:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:29:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:30:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:31:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:31:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:32:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:33:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:33:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:34:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:35:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:35:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:36:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:37:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:37:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:38:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:39:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:39:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:40:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:41:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:41:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:42:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:43:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:43:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:44:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:45:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:45:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:46:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:47:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:47:42"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:48:22"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:49:02"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:49:43"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:50:08"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:50:28"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:50:48"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:51:08"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:51:28"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-04-01 12:51:42"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-04-01 12:51:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:51:55"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:52:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:52:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:53:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:53:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:53:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:54:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:54:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:54:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:55:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:55:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:55:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:56:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:56:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:56:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:57:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:57:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:57:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:58:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:58:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:58:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:59:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:59:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 12:59:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:00:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:00:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:00:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:01:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:01:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:01:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:02:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:02:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:02:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:03:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:03:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:03:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:04:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:04:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:04:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:05:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:05:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:05:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:06:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:06:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:06:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:07:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:07:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:07:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:08:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:08:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:08:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:09:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:09:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:09:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:10:18"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-04-01 13:10:27"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-04-01 13:10:40"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:10:41"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:11:24"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:12:04"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:12:44"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:13:24"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:14:04"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:14:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:15:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:15:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:15:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:16:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:16:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:16:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:17:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:17:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:17:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:18:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:18:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:18:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:19:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:19:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:19:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:20:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:20:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:20:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:21:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:21:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:21:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:22:05"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:22:25"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:22:45"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:23:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:23:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:23:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:24:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:24:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:24:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:25:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:25:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:25:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:26:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:26:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:26:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:27:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:27:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:27:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:28:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:28:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:28:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:29:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:29:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:29:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:30:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:30:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:30:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:31:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:31:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:31:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:32:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:32:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:32:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:33:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:33:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:33:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:34:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:34:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:34:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:35:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:35:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:35:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:36:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:36:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:36:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:37:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:37:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:37:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:38:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:38:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:38:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:39:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:39:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:39:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:40:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:40:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:40:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:41:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:41:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:41:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:42:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:42:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:42:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:43:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:43:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:43:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:44:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:44:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:44:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:45:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:45:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:45:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:46:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:46:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:46:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:47:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:47:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:47:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:48:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:48:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:48:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:49:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:49:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:49:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:50:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:50:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:50:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:51:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:51:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:51:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:52:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:52:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:52:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:53:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:53:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:53:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:54:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:54:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:54:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:55:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:55:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:55:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:56:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:56:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:56:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:57:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:57:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:57:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:58:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:58:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:58:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:59:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:59:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 13:59:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:00:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:00:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:00:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:01:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:01:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:01:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:02:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:02:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:02:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:03:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:03:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:03:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:04:06"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:04:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:04:46"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:05:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:05:26"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:05:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:06:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:06:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:06:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:07:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:07:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:07:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:08:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:08:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:08:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:09:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:09:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:09:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:10:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:10:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:10:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:11:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:11:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:11:47"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:12:07"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:12:27"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 14:12:47"}
+{"level":"info","message":"Device checker started with interval 20000ms","service":"bitrix-admin-api","timestamp":"2026-04-01 15:34:11"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:34:11"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:34:33"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:34:53"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:34:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:35:13"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:35:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:35:34"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:35:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:35:54"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:35:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:36:14"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:36:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:36:34"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:36:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:36:54"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:36:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:37:14"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:37:14"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:37:34"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:37:34"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:37:54"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:37:54"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:38:14"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:38:14"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:38:40"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:38:40"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:38:58"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:38:58"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:39:18"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:39:18"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:39:38"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:39:38"}
+{"level":"info","message":"Device Телик в комнате (192.168.0.3) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:39:58"}
+{"level":"info","message":"Device Проектор кухня (192.168.0.4) status changed: offline -> online","service":"bitrix-admin-api","timestamp":"2026-04-01 15:39:58"}
+{"level":"info","message":"Device checker stopped","service":"bitrix-admin-api","timestamp":"2026-04-01 15:40:10"}

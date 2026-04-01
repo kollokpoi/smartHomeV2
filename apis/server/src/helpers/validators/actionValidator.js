@@ -29,18 +29,6 @@ class ActionValidator {
       }
     }
 
-    // Порт
-    if (!isUpdate && !data.port && data.port !== 0) {
-      errors.push({ field: 'port', message: 'Порт обязателен' });
-    } else if (data.port !== undefined && data.port !== null) {
-      if (!Number.isInteger(data.port)) {
-        errors.push({ field: 'port', message: 'Порт должен быть целым числом' });
-      }
-      if (data.port < 1 || data.port > 65535) {
-        errors.push({ field: 'port', message: 'Порт должен быть от 1 до 65535' });
-      }
-    }
-
     // ВСЕ ОСТАЛЬНЫЕ ПОЛЯ - проверяем только если они переданы
     // HTTP метод
     if (data.method && !['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'].includes(data.method)) {

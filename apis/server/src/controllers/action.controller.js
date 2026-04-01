@@ -377,7 +377,9 @@ class ActionController {
             required: false,
           },
         ],
-        order: [[{ model: ActionParameter, as: 'parameters' }, 'sort_order', 'ASC']],
+        order: [
+          [{ model: ActionParameter, as: "parameters" }, "sort_order", "ASC"],
+        ],
       });
 
       if (!action) {
@@ -601,6 +603,17 @@ class ActionController {
       const updateData = { ...req.body };
       delete updateData.deviceId;
       delete updateData.parameters;
+
+      if (!req.body.port) {
+        const device = await Device.findByPk(action.deviceId);
+        if (!device) {
+          return res.status(404).json({
+            success: false,
+            message: "Устройство не найдено",
+          });
+        }
+        req.body.port = device.port;
+      }
 
       await action.update(updateData, { transaction });
 
