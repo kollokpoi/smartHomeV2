@@ -35,11 +35,25 @@ class DeviceService extends BaseService {
 
   async createDevice(
     data: DeviceAttributes,
+    iconFile?: File,
     config?: AxiosRequestConfig,
   ): Promise<ApiResponse<Device>> {
-    const response = await this.post<DeviceAttributes>("/devices/", data, {
-      ...config,
-    });
+    let response;
+
+    if (iconFile) {
+      const formData = new FormData();
+      formData.append("device", JSON.stringify(data));
+      formData.append("icon", iconFile);
+
+      response = await this.post<DeviceAttributes>(`/devices/`, formData, {
+        ...config,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else {
+      response = await this.post<DeviceAttributes>(`/devices/`, data, config);
+    }
     if (response.success) {
       response.data = new Device(response.data);
     }

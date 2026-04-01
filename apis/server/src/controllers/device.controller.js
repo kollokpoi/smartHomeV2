@@ -144,7 +144,15 @@ class DeviceController {
     const transaction = await Device.sequelize.transaction();
 
     try {
-      const errors = deviceValidator.validate(req.body);
+      let deviceData = {};
+
+      if (req.body.device) {
+        deviceData = JSON.parse(req.body.device);
+      } else {
+        deviceData = req.body;
+      }
+
+      const errors = deviceValidator.validate(deviceData);
       if (errors.length > 0) {
         return res.status(400).json({
           success: false,
@@ -152,19 +160,15 @@ class DeviceController {
         });
       }
 
-      let iconPath = null;
       if (req.file) {
-        iconPath = await iconService.saveIcon(req.file);
-      } else {
-        iconPath = iconService.getDefaultIcon(deviceData.name, deviceData.type);
+        deviceData.icon = await iconService.saveIcon(req.file);
+      } else if (deviceData.icon === undefined && !device.icon) {
+        deviceData.icon = iconService.getDefaultIcon(
+          deviceData.name || device.name,
+        );
       }
 
-      const deviceData = {
-        ...req.body,
-        icon: iconPath,
-      };
-
-      const device = await Device.create(req.body, { transaction });
+      const device = await Device.create(deviceData, { transaction });
       await transaction.commit();
 
       res.status(201).json({
@@ -230,7 +234,7 @@ class DeviceController {
         updateData = req.body;
       }
 
-      const errors = deviceValidator.validate(req.body, true);
+      const errors = deviceValidator.validate(updateData, true);
       if (errors.length > 0) {
         await transaction.rollback();
         return res.status(400).json({

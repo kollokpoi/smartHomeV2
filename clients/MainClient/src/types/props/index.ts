@@ -1,2 +1,2 @@
 export * from './actionParameter/CreateProps'
-export * from './voiceCommand/createProps'
+export * from './voiceCommand/CreateProps'

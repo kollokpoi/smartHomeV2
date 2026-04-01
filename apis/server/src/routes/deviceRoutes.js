@@ -12,13 +12,11 @@ router.get("/:id", deviceController.getById);
 router.post(
   "/",
   upload.single("icon"),
-  validate(deviceValidator.validate),
   deviceController.create,
 );
 router.put(
   "/:id",
   upload.single("icon"),
-  validate(deviceValidator.validate, true),
   deviceController.update,
 );
 router.delete("/:id", deviceController.delete);
