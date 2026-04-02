@@ -38,6 +38,7 @@
     "path": "^0.12.7",
     "ping": "^1.0.0",
     "sequelize": "^6.37.7",
+    "socket.io": "^4.8.3",
     "winston": "^3.19.0"
   },
   "devDependencies": {

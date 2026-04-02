@@ -8,17 +8,25 @@ export const useNetworkStore = defineStore("network", () => {
 
   const LOCAL_URL = import.meta.env.VITE_LOCAL_API_URL;
   const PUBLIC_URL = import.meta.env.VITE_PUBLIC_API_URL;
+  const API_PORT = import.meta.env.VITE_API_PORT;
+  const STREAM_PORT = import.meta.env.VITE_STREAM_PORT;
 
   const apiUrl = computed(() => {
-    if (isLocalNetwork.value === true) return LOCAL_URL + "/api";
-    if (isLocalNetwork.value === false) return PUBLIC_URL + "/api";
-    return PUBLIC_URL + "/api"; // fallback
+    if (isLocalNetwork.value === true) return `${LOCAL_URL}:${API_PORT}/api`;
+    if (isLocalNetwork.value === false) return `${PUBLIC_URL}/api`;
+    return `${PUBLIC_URL}/api`;
   });
 
   const fileUrl = computed(() => {
-    if (isLocalNetwork.value === true) return LOCAL_URL;
+    if (isLocalNetwork.value === true) return `${LOCAL_URL}:${API_PORT}`;
     if (isLocalNetwork.value === false) return PUBLIC_URL;
-    return PUBLIC_URL; // fallback
+    return PUBLIC_URL; 
+  });
+
+  const streamUrl = computed(() => {
+    if (isLocalNetwork.value === true) return `${LOCAL_URL}:${STREAM_PORT}`;
+    if (isLocalNetwork.value === false) return `${PUBLIC_URL}/ws`;
+    return `${PUBLIC_URL}/ws`; 
   });
 
   const checkLocalNetwork = async (): Promise<boolean> => {
@@ -26,7 +34,7 @@ export const useNetworkStore = defineStore("network", () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-      const response = await fetch(`${LOCAL_URL}/api/health`, {
+      const response = await fetch(`${LOCAL_URL}:${API_PORT}/api/health`, {
         signal: controller.signal,
       });
 
@@ -54,6 +62,7 @@ export const useNetworkStore = defineStore("network", () => {
     isChecking,
     apiUrl,
     fileUrl,
+    streamUrl,
     init,
     checkLocalNetwork,
   };

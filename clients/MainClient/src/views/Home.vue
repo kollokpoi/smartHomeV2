@@ -16,28 +16,26 @@
     <Badge class="mx-auto flex">Текущий адрес: {{ networkStore.apiUrl }}</Badge>
 
     <p class="text-xl text-font-primary font-bold mb-4">Девайсы</p>
-    <div class="w-full overflow-x-auto mb-3">
-        <div class="flex flex-wrap gap-4">
-            <div v-for="device in devices" :key="device.id"
-                class="relative w-32 h-32 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer group bg-back-secondary"
-                @click="selectedDeviceId = device.id" @dblclick="goToDevice(device.id)"
-                :class="selectedDeviceId === device.id ? 'border-red-300 border-2' : ''">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <img v-if="device.icon" :src="device.iconPath" class="object-cover h-full" alt="" />
-                    <i v-else class="pi pi-server text-5xl text-gray-500"></i>
-                </div>
+    <div class="w-full overflow-x-auto mb-3 flex gap-3">
+        <div v-for="device in devices" :key="device.id"
+            class="relative min-w-32 min-h-32 w-32 h-32 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer group bg-back-secondary"
+            @click="selectedDevice = device" @dblclick="goToDevice(device.id)"
+            :class="selectedDevice === device ? 'border-red-300 border-2' : ''">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <img v-if="device.icon" :src="device.iconPath" class="object-cover h-full" alt="" />
+                <i v-else class="pi pi-server text-5xl text-gray-500"></i>
+            </div>
 
-                <div
-                    class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <span class="text-white font-medium text-center text-sm px-2 transition-opacity">
-                        {{ device.name }}
-                    </span>
-                </div>
+            <div
+                class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span class="text-white font-medium text-center text-sm px-2 transition-opacity">
+                    {{ device.name }}
+                </span>
             </div>
         </div>
     </div>
 
-    <div>
+    <div class="mb-3 p-2 bg-back-secondary rounded-lg">
         <div class="flex items-center gap-2 mb-2">
             <span class="text-font-primary">Задержка</span>
             <ToggleSwitch v-model="isUseDelay" />
@@ -50,7 +48,8 @@
         <ActionRequestResult v-if="callResponse" v-bind="callResponse" />
     </div>
 
-    <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="tasks.length>0">
+    <StreamParent v-if="selectedDevice?.id && selectedDevice.isStream" :device-id="selectedDevice.id" />
+    <div class="bg-back-secondary w-full p-3 rounded-md mt-4" v-if="tasks.length > 0">
         <p class="text-xl text-font-primary font-bold mb-4">Отложенные вызовы</p>
         <DelayedTasksTable :tasks="tasks" :loading="actionStore.delayedTasksLoading" @cancelled="loadTasks"
             @refresh="loadTasks" />
@@ -71,6 +70,8 @@ import DelayCallDialog from '@/components/DelayCallDialog.vue';
 import ActionRequestResult from '@/components/ActionRequestResult.vue';
 import { useRouter } from 'vue-router';
 import { useDelayedCall } from '@/composables/useDelayedCall';
+import StreamParent from '@/components/streamBlocks/StreamParent.vue';
+import { Device } from '@/types/dto';
 
 const authStore = useAuthStore();
 const networkStore = useNetworkStore();
@@ -82,13 +83,13 @@ const actionParameterStore = useActionParameterStore();
 
 const router = useRouter()
 
-const selectedDeviceId = ref<string>();
+const selectedDevice = ref<Device>();
 
 const tasks = computed(() => actionStore.delayedTasks);
 const devices = computed(() => deviceStore.devices);
 const actions = computed(() => {
-    if (selectedDeviceId.value)
-        return actionStore.getActionsByDevice(selectedDeviceId.value).value
+    if (selectedDevice.value)
+        return actionStore.getActionsByDevice(selectedDevice.value.id).value
     else return []
 });
 
@@ -117,8 +118,8 @@ const goToDevice = (id: string) => {
 }
 
 watch(devices, (newVal) => {
-    if (newVal.length > 0 && !selectedDeviceId.value)
-        selectedDeviceId.value = newVal[0].id
+    if (newVal.length > 0 && !selectedDevice.value)
+        selectedDevice.value = newVal[0]
 });
 
 onMounted(() => {

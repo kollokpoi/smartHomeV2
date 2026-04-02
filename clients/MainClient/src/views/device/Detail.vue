@@ -9,7 +9,7 @@
             <Button @click="confirmDelete" v-if="!isEditing" severity="danger">Удалить</Button>
             <Button @click="toggleEdit" class="text-sm sm:text-md">{{
                 isEditing ? 'Отменить' : 'Редактировать'
-                }}</Button>
+            }}</Button>
             <Button @click="saveDevice" :disabled="!isFormValid" v-if="isEditing" severity="success"
                 class="text-sm sm:text-md">Сохранить</Button>
         </div>
@@ -95,6 +95,16 @@
                             :validationResult="validationState.isActive" :items="booleanOptions" placeholder="Активно"
                             @edit-start="isEditing = true" />
                     </div>
+
+                    <div>
+                        <EditableSelect :isEditing="isEditing" v-model="editData.isStream" field-name="isStream"
+                            placeholder="Поток" :validationResult="validationState.isStream" :items="booleanOptions" @edit-start="isEditing = true"/>
+                    </div>
+                    <div>
+                        <EditableSelect v-if="editData.isStream" :isEditing="isEditing" v-model="editData.category"
+                            field-name="category" placeholder="Категория" :validationResult="validationState.category"
+                            :items="DeviceCategoryHelper.getDeviceCategoryOptions()" @edit-start="isEditing = true"/>
+                    </div>
                 </div>
 
                 <div class="flex-1 flex flex-col gap-2">
@@ -122,6 +132,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div v-if="device.isStream" class="bg-back-secondary w-full p-3 rounded-md">
+            <StreamParent :device-id="id" />
         </div>
 
         <div class="bg-back-secondary w-full p-3 rounded-md" v-if="actions.length > 0"
@@ -182,6 +196,8 @@ import DelayedTasksTable from '@/components/dataTables/DelayedTasksTable.vue';
 import DelayCallDialog from '@/components/DelayCallDialog.vue';
 import { useEntityForm } from '@/composables/useEntityForm';
 import { useDelayedCall } from '@/composables/useDelayedCall';
+import StreamParent from '@/components/streamBlocks/StreamParent.vue';
+import { DeviceCategoryHelper } from '@/helpers/deviceCategoryHelper';
 
 const route = useRoute();
 const router = useRouter()

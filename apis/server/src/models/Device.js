@@ -74,6 +74,15 @@ module.exports = (sequelize, DataTypes) => {
         field: "is_active",
         defaultValue: true,
       },
+      isStream: {
+        type: DataTypes.BOOLEAN,
+        field: "is_stream",
+        defaultValue: false,
+      },
+      category: {
+        type: DataTypes.ENUM("camera", "sensor", "light","controller","other"),
+        defaultValue: "other",
+      },
       lastSeen: {
         type: DataTypes.DATE,
         field: "last_seen",

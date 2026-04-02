@@ -82,6 +82,15 @@
                     <EditableSelect :isEditing="true" v-model="editData.isActive" field-name="isActive"
                         placeholder="Активно" :validationResult="validationState.isActive" :items="booleanOptions" />
                 </div>
+
+                <div>
+                    <EditableSelect :isEditing="true" v-model="editData.isStream" field-name="isStream"
+                        placeholder="Поток" :validationResult="validationState.isStream" :items="booleanOptions" />
+                </div>
+                <div>
+                    <EditableSelect v-if="editData.isStream" :isEditing="true" v-model="editData.category" field-name="category"
+                        placeholder="Категория" :validationResult="validationState.category" :items="DeviceCategoryHelper.getDeviceCategoryOptions()" />
+                </div>
             </div>
         </div>
     </template>
@@ -96,10 +105,11 @@ import EditableNumber from '@/components/editableFields/EditableNumber.vue';
 import EditableSelect from '@/components/editableFields/EditableSelect.vue';
 import { useDeviceStore } from '@/stores/modules/device.store';
 import type { DeviceAttributes } from '@/types/dto';
-import { booleanOptions } from '@/types/constants';
+import { booleanOptions, DEVICE_CATEGORY_ARRAY } from '@/types/constants';
 import { DeviceStatusHelper } from '@/helpers/deviceStatusHelper';
 import { useEntityForm } from '@/composables/useEntityForm';
 import router from '@/router';
+import { DeviceCategoryHelper } from '@/helpers/deviceCategoryHelper';
 
 const toast = useToast();
 const deviceStore = useDeviceStore();

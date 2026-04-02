@@ -24,6 +24,7 @@ class DeviceController {
         maxLastSeen,
         ip,
         metadata,
+        category,
       } = filters;
 
       const where = {};
@@ -31,6 +32,10 @@ class DeviceController {
       // Фильтр по статусу
       if (status) {
         where.status = status;
+      }
+
+      if (category) {
+        where.category = category;
       }
 
       // Фильтр по активности

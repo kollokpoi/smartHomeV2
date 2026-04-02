@@ -1,11 +1,12 @@
 import type { Action, BaseAttributes, Metadata } from ".";
 import type { ActionAttributes } from ".";
-import type { DeviceStatus } from "../constants";
+import type { DeviceCategory, DeviceStatus } from "../constants";
 import { useNetworkStore } from "@/stores/modules/network.store";
 
 export interface DeviceAttributes extends BaseAttributes {
   ip: string;
   name: string;
+  isStream: boolean;
   handlerPath?: string;
   description?: string;
   metadata?: Metadata;
@@ -14,6 +15,7 @@ export interface DeviceAttributes extends BaseAttributes {
   isActive?: boolean;
   lastSeen?: Date;
   port?: number;
+  category?: DeviceCategory;
   actions?: ActionAttributes[];
   icon?: string;
 }
@@ -22,6 +24,7 @@ export class Device {
   id: string;
   ip: string;
   name: string;
+  isStream: boolean;
   handlerPath?: string;
   description?: string;
   metadata: Metadata;
@@ -32,6 +35,7 @@ export class Device {
   createdAt: Date;
   updatedAt: Date;
   port?: number;
+  category?: DeviceCategory;  
   icon?: string;
   __type: string;
 
@@ -56,6 +60,8 @@ export class Device {
     this.port = data.port;
     this.updatedAt = data.updatedAt || new Date();
     this.icon = data.icon;
+    this.isStream = data.isStream;
+    this.category = data.category;
     this.__type = "device";
   }
 
@@ -79,7 +85,7 @@ export class Device {
   get iconPath() {
     const networkStore = useNetworkStore();
     const result = networkStore.fileUrl + this.icon;
-    return result
+    return result;
   }
 
   get selectOption() {
