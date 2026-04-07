@@ -1,10 +1,18 @@
 // device-camera.js (эмулятор камеры)
 const io = require("socket.io-client");
-const socket = io("http://192.168.0.3:3333");
 const cameraService = require("./cameraService");
 
+// Проверяем доступность FFmpeg при запуске
+if (!cameraService.checkFFmpegAvailability()) {
+  console.error("❌ FFmpeg не доступен. Сервис камеры не может быть запущен.");
+  process.exit(1);
+}
+
+const socket = io(process.env.SERVER_URL || "http://localhost:3333");
+const port = process.env.CAMERA_PORT || 3005;
+
 let deviceId;
-const port = 3005
+
 socket.emit("register-device", {
   port: port,
   category: "camera",
@@ -14,8 +22,11 @@ socket.emit("register-device", {
 
 socket.on("device-registered", (data) => {
   console.log("✅ Устройство зарегистрировано:", data);
-  deviceId = data.deviceId
-  cameraService.startProcess();
+  deviceId = data.deviceId;
+  
+  if (!cameraService.startProcess()) {
+    console.error("❌ Не удалось запустить процесс камеры");
+  }
 
   let frameCount = 0;
   cameraService.handler = (frame) => {
@@ -65,5 +76,18 @@ socket.on("connect", () => {
 
 socket.on("disconnect", () => {
   console.log("🔌 Отключено от сервера");
-  cameraService.cleanup();
+  cameraService.stop();
+});
+
+// Обработка завершения процесса
+process.on("SIGTERM", () => {
+  console.log("🛑 Получен сигнал SIGTERM, остановка камеры...");
+  cameraService.stop();
+  process.exit(0);
+});
+
+process.on("SIGINT", () => {
+  console.log("🛑 Получен сигнал SIGINT, остановка камеры...");
+  cameraService.stop();
+  process.exit(0);
 });

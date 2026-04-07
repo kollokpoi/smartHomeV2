@@ -1,15 +1,33 @@
 const { spawn } = require("child_process");
+const { execSync } = require("child_process");
+const logger = require("../../apis/server/src/utils/logger");
 
 class CameraService {
   constructor() {
     this.ffmpegProcess = null;
-    this.frameBuffer = null;      // Буфер для сборки текущего кадра
+    this.frameBuffer = null;
     this.handler = null;
     this.settings = {
-      framerate: "15",
-      height: "720",
-      width: "1280",
+      framerate: process.env.CAMERA_FRAMERATE || "15",
+      height: process.env.CAMERA_HEIGHT || "720",
+      width: process.env.CAMERA_WIDTH || "1280",
+      device: process.env.CAMERA_DEVICE || "/dev/video0",
+      inputFormat: process.env.CAMERA_INPUT_FORMAT || "mjpeg",
     };
+    this.isFFmpegAvailable = false;
+  }
+
+  checkFFmpegAvailability() {
+    try {
+      execSync("ffmpeg -version", { stdio: "ignore" });
+      this.isFFmpegAvailable = true;
+      logger.info("FFmpeg доступен");
+      return true;
+    } catch (error) {
+      this.isFFmpegAvailable = false;
+      logger.error("FFmpeg не найден. Установите FFmpeg для работы камеры.");
+      return false;
+    }
   }
 
   async getFrame() {
@@ -17,8 +35,14 @@ class CameraService {
   }
 
   async startProcess() {
+    // Проверяем доступность FFmpeg перед запуском
+    if (!this.isFFmpegAvailable && !this.checkFFmpegAvailability()) {
+      logger.error("Невозможно запустить камеру: FFmpeg не доступен");
+      return false;
+    }
+
     try {
-      console.log("Starting FFmpeg process with MJPG input...");
+      logger.info("Запуск процесса FFmpeg с MJPG входом...");
 
       this.ffmpegProcess = spawn(
         "ffmpeg",
@@ -26,13 +50,13 @@ class CameraService {
           "-f",
           "v4l2",
           "-input_format",
-          "mjpeg",
+          this.settings.inputFormat,
           "-framerate",
           this.settings.framerate,
           "-video_size",
           `${this.settings.width}x${this.settings.height}`,
           "-i",
-          "/dev/video0",
+          this.settings.device,
           "-c:v",
           "copy",
           "-f",
@@ -51,15 +75,13 @@ class CameraService {
           output.includes("Error") ||
           output.includes("warning")
         ) {
-          console.log("FFmpeg:", output.trim());
+          logger.debug(`FFmpeg: ${output.trim()}`);
         }
       });
 
       // Буфер для накопления данных
       let buffer = Buffer.alloc(0);
-      let inFrame = false;
-      let frameStart = 0;
-
+      
       this.ffmpegProcess.stdout.on("data", (chunk) => {
         // Добавляем новые данные в буфер
         buffer = Buffer.concat([buffer, chunk]);
@@ -94,20 +116,20 @@ class CameraService {
       });
 
       this.ffmpegProcess.on("error", (error) => {
-        console.error("FFmpeg process error:", error);
+        logger.error(`Ошибка процесса FFmpeg: ${error.message}`);
         this.cleanup();
       });
 
       this.ffmpegProcess.on("close", (code) => {
-        console.log("FFmpeg process exited with code:", code);
+        logger.info(`Процесс FFmpeg завершился с кодом: ${code}`);
         this.cleanup();
         setTimeout(() => this.startProcess(), 2000);
       });
 
-      console.log("FFmpeg MJPEG process started successfully");
+      logger.info("Процесс FFmpeg MJPEG успешно запущен");
       return true;
     } catch (error) {
-      console.error("Error starting process:", error);
+      logger.error(`Ошибка запуска процесса: ${error.message}`);
       this.cleanup();
       setTimeout(() => this.startProcess(), 2000);
       return false;
@@ -115,7 +137,7 @@ class CameraService {
   }
 
   cleanup() {
-    console.log("Cleaning up...");
+    logger.info("Очистка ресурсов камеры...");
 
     if (this.ffmpegProcess) {
       this.ffmpegProcess.kill("SIGTERM");
@@ -123,6 +145,14 @@ class CameraService {
     }
     
     this.frameBuffer = null;
+  }
+
+  stop() {
+    logger.info("Остановка сервиса камеры");
+    this.cleanup();
+    if (this.handler) {
+      this.handler = null;
+    }
   }
 }
 

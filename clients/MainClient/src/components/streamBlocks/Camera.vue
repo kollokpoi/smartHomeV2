@@ -73,17 +73,20 @@ const openStoryItem = (frameUrl: string) => {
 
 const saveToHistory = (blobUrl: string) => {
     // Создаем копию через fetch, чтобы сохранить независимый URL
+    // Ограничиваем историю 20 кадрами для предотвращения утечек памяти
+    if (oldFrames.value.length >= 20) {
+        const removed = oldFrames.value.pop();
+        if (removed) URL.revokeObjectURL(removed);
+    }
+    
     fetch(blobUrl)
         .then(res => res.blob())
         .then(blob => {
             const newUrl = URL.createObjectURL(blob);
             oldFrames.value.unshift(newUrl);
-
-            // Очищаем старые URL
-            if (oldFrames.value.length > 50) {
-                const removed = oldFrames.value.pop();
-                if (removed) URL.revokeObjectURL(removed);
-            }
+        })
+        .catch(err => {
+            console.error('Ошибка сохранения кадра в историю:', err);
         });
 };
 
