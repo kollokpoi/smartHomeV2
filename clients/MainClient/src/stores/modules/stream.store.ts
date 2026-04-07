@@ -53,13 +53,17 @@ export const useStreamStore = defineStore("stream", () => {
 
     // ВАЖНО: обработка бинарных данных
     socket.value.on("device-data", (data: StreamData | ArrayBuffer) => {
-      console.log("data")
       if (data instanceof ArrayBuffer) {
         console.warn("Received raw buffer without deviceId");
         return;
       }
 
       const { deviceId, data: payload, timestamp } = data;
+
+      if (!deviceId || !payload) {
+        console.warn("Invalid device-data received:", { deviceId, hasPayload: !!payload });
+        return;
+      }
 
       if (!deviceData.value[deviceId]) {
         deviceData.value[deviceId] = [];
@@ -71,6 +75,7 @@ export const useStreamStore = defineStore("stream", () => {
         timestamp: timestamp || Date.now(),
       });
 
+      // Ограничиваем буфер до 100 кадров на устройство для предотвращения утечек памяти
       if (deviceData.value[deviceId].length > 100) {
         deviceData.value[deviceId].shift();
       }
