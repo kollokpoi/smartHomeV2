@@ -69,6 +69,7 @@ const sendCommand = (command: string, params?: any) => {
 };
 
 onMounted(() => {
+  console.log("deviceId"+props.deviceId)
   if (device.value) {
     streamStore.subscribeDevices([props.deviceId]);
   }

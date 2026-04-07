@@ -9,7 +9,6 @@ export const useNetworkStore = defineStore("network", () => {
   const LOCAL_URL = import.meta.env.VITE_LOCAL_API_URL;
   const PUBLIC_URL = import.meta.env.VITE_PUBLIC_API_URL;
   const API_PORT = import.meta.env.VITE_API_PORT;
-  const STREAM_PORT = import.meta.env.VITE_STREAM_PORT;
 
   const apiUrl = computed(() => {
     if (isLocalNetwork.value === true) return `${LOCAL_URL}:${API_PORT}/api`;
@@ -24,9 +23,7 @@ export const useNetworkStore = defineStore("network", () => {
   });
 
   const streamUrl = computed(() => {
-    if (isLocalNetwork.value === true) return `${LOCAL_URL}:${STREAM_PORT}`;
-    if (isLocalNetwork.value === false) return `${PUBLIC_URL}/ws`;
-    return `${PUBLIC_URL}/ws`; 
+    return PUBLIC_URL; 
   });
 
   const checkLocalNetwork = async (): Promise<boolean> => {

@@ -26,13 +26,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useStreamStore } from '@/stores/modules/stream.store';
 
 const props = defineProps<{
     deviceId: string;
     device: any;
 }>();
+
+let historyInterval: ReturnType<typeof setInterval> | null = null;
 
 const streamStore = useStreamStore();
 const currentFrame = ref<string | null>(null);
@@ -105,19 +107,24 @@ watch(lastFrame, (frameData) => {
     }
 });
 
-setInterval(() => {
-    if (currentFrame.value) {
-        saveToHistory(currentFrame.value);
-    }
-}, 1000);
+onMounted(() => {
+    historyInterval = setInterval(() => {
+        if (currentFrame.value && !stopped.value) {
+            saveToHistory(currentFrame.value);
+        }
+    }, 1000);
+});
 
 onUnmounted(() => {
+    if (historyInterval) {
+        clearInterval(historyInterval);
+        historyInterval = null;
+    }
+    
     if (currentFrame.value) {
         URL.revokeObjectURL(currentFrame.value);
     }
-    // Очищаем все URL в истории
+    
     oldFrames.value.forEach(url => URL.revokeObjectURL(url));
-
-
 });
 </script>

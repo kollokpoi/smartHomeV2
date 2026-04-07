@@ -1,15 +1,15 @@
 <template>
     <div class="flex w-full justify-end mb-2 gap-3">
-        <Button @click="router.push('action')">
+        <Button class="bg-back-accent border-back-accent hover:bg-back-hover" @click="router.push('action')">
             Действий: {{ actionStore.totalActions }}
         </Button>
-        <Button @click="router.push('device')">
+        <Button class="bg-back-accent border-back-accent hover:bg-back-hover" @click="router.push('device')">
             Устройств: {{ deviceStore.totalDevices }}
         </Button>
-        <Button @click="router.push('action-parameter')">
+        <Button class="bg-back-accent border-back-accent hover:bg-back-hover" @click="router.push('action-parameter')">
             Команд: {{ voiceCommandStore.totalVoiceCommands }}
         </Button>
-        <Button @click="router.push('voice-command')">
+        <Button class="bg-back-accent border-back-accent hover:bg-back-hover" @click="router.push('voice-command')">
             Параметров: {{ actionParameterStore.totalActionParameters }}
         </Button>
     </div>
@@ -41,7 +41,7 @@
             <ToggleSwitch v-model="isUseDelay" />
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center w-full gap-2">
-            <Button v-for="action in actions" @click="call(action.id)" class="text-xs md:text-sm">
+            <Button v-for="action in actions" @click="call(action.id)" class="bg-back-accent border-back-accent hover:bg-back-hover text-xs md:text-sm">
                 {{ action.name }}
             </Button>
         </div>
