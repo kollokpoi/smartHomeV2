@@ -2,6 +2,7 @@
 const { spawn } = require("child_process");
 const path = require("path");
 const EventEmitter = require("events");
+const logger = require("../src/utils/logger");
 
 class SpeechRecognizer extends EventEmitter {
   constructor() {
@@ -9,11 +10,44 @@ class SpeechRecognizer extends EventEmitter {
     this.process = null;
     this.ready = false;
     this.pendingRequest = null;
+    this.pythonAvailable = false;
 
-    this.start();
+    // Проверяем доступность Python перед запуском
+    this.checkPythonAvailability().then((available) => {
+      if (available) {
+        this.start();
+      } else {
+        logger.warn('Python environment not available, speech recognition disabled');
+        this.emit('unavailable');
+      }
+    });
+  }
+
+  async checkPythonAvailability() {
+    const venvPath = path.join(__dirname, "./voiceListener/venv");
+    const pythonPath =
+      process.platform === "win32"
+        ? path.join(venvPath, "Scripts", "python.exe")
+        : path.join(venvPath, "bin", "python");
+
+    try {
+      const fs = require('fs');
+      if (fs.existsSync(pythonPath)) {
+        this.pythonAvailable = true;
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
   }
 
   start() {
+    if (!this.pythonAvailable) {
+      logger.warn('Cannot start speech recognizer: Python not available');
+      return;
+    }
+
     const venvPath = path.join(__dirname, "./voiceListener/venv");
     const pythonPath =
       process.platform === "win32"
@@ -25,38 +59,54 @@ class SpeechRecognizer extends EventEmitter {
       "./voiceListener/recognizer.py",
     );
 
-    this.process = spawn(pythonPath, [scriptPath], {
-      stdio: ["pipe", "pipe", "pipe"],
-    });
-    
-    this.process.stdout.setEncoding("utf8");
-    this.process.stderr.setEncoding("utf8");
+    try {
+      this.process = spawn(pythonPath, [scriptPath], {
+        stdio: ["pipe", "pipe", "pipe"],
+      });
+      
+      this.process.stdout.setEncoding("utf8");
+      this.process.stderr.setEncoding("utf8");
 
-    this.process.stdout.on("data", (data) => {
-      const text = data.toString().trim();
-      if (this.pendingRequest) {
-        this.pendingRequest.resolve(text);
-        this.pendingRequest = null;
-      }
-    });
+      this.process.stdout.on("data", (data) => {
+        const text = data.toString().trim();
+        if (this.pendingRequest) {
+          this.pendingRequest.resolve(text);
+          this.pendingRequest = null;
+        }
+      });
 
-    this.process.stderr.on("data", (data) => {
-      const message = data.toString().trim();
-      console.log("[Python]", message);
-      if (message.includes("ready")) {
-        this.ready = true;
-        this.emit("ready");
-      }
-    });
+      this.process.stderr.on("data", (data) => {
+        const message = data.toString().trim();
+        logger.debug(`[Python] ${message}`);
+        if (message.includes("ready")) {
+          this.ready = true;
+          this.emit("ready");
+        }
+      });
 
-    this.process.on("close", (code) => {
-      console.log(`Python process exited with code ${code}`);
+      this.process.on("close", (code) => {
+        logger.info(`Python process exited with code ${code}`);
+        this.ready = false;
+        setTimeout(() => this.start(), 5000);
+      });
+
+      this.process.on("error", (error) => {
+        logger.error(`Failed to start Python process: ${error.message}`);
+        this.ready = false;
+        this.emit('error', error);
+      });
+    } catch (error) {
+      logger.error(`Error spawning Python process: ${error.message}`);
       this.ready = false;
-      setTimeout(() => this.start(), 5000);
-    });
+      this.emit('error', error);
+    }
   }
 
   async recognize(audioBuffer) {
+    if (!this.pythonAvailable) {
+      throw new Error('Speech recognition is not available - Python environment not found');
+    }
+
     if (!this.ready) {
       await new Promise((resolve) => this.once("ready", resolve));
     }
@@ -73,6 +123,10 @@ class SpeechRecognizer extends EventEmitter {
         }
       }, 30000);
     });
+  }
+
+  isAvailable() {
+    return this.pythonAvailable;
   }
 }
 
